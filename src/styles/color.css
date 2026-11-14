@@ -1,0 +1,35 @@
+:root {
+  --page-background: #ffffff;
+  --shade-background: rgba(0, 0, 0, 0.2);
+}
+
+.theme-spring-dark,
+.theme-summer-dark,
+.theme-autumn-dark {
+  --page-background: #000000;
+  --shade-background: rgba(0, 0, 0, 0.6);
+}
+
+@utility text-default {
+  color: var(--color-ink);
+}
+
+@utility text-strong {
+  color: var(--color-ink-strong);
+}
+
+@utility text-subtle {
+  color: color-mix(in oklab, var(--color-ink) var(--opacity-weak), transparent);
+}
+
+@utility bg-default {
+  background-color: var(--color-ink-surface);
+}
+
+@utility bg-page {
+  background-color: var(--page-background);
+}
+
+@utility bg-shade {
+  background-color: var(--shade-background);
+}

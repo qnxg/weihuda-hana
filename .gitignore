@@ -23,3 +23,6 @@ npm-debug.log*
 .DS_Store
 
 project.private.config.json
+
+# 由 pnpm run tune 生成
+src/app.css

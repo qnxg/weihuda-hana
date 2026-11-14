@@ -1,5 +1,34 @@
+import type { Compiler } from "webpack"
+import path from "node:path"
 import { defineConfig } from "@tarojs/cli"
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
+import { WeappTailwindcss } from "weapp-tailwindcss/webpack"
+import { reportTuneDiagnostics, tune } from "./tune"
+
+const projectRoot = path.resolve(__dirname, "..")
+
+const weappTailwindcssOptions = {
+  cssOptions: {
+    rem2rpx: true,
+  },
+  tailwindcssBasedir: projectRoot,
+  cssEntries: [
+    path.resolve(projectRoot, "src/app.css"),
+  ],
+  postcssOptions: {
+    plugins: [
+      tune(),
+    ],
+  },
+}
+
+class TuneReport {
+  apply(compiler: Compiler): void {
+    compiler.hooks.done.tap("tune-report", () => {
+      reportTuneDiagnostics()
+    })
+  }
+}
 
 export default defineConfig<"webpack5">({
   projectName: "weihuda-hana",
@@ -41,35 +70,15 @@ export default defineConfig<"webpack5">({
     },
     webpackChain(chain) {
       chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin)
-    },
-  },
-  h5: {
-    publicPath: "/",
-    staticDirectory: "static",
-    output: {
-      filename: "js/[name].[hash:8].js",
-      chunkFilename: "js/[name].[chunkhash:8].js",
-    },
-    miniCssExtractPluginOption: {
-      ignoreOrder: true,
-      filename: "css/[name].[hash].css",
-      chunkFilename: "css/[name].[chunkhash].css",
-    },
-    postcss: {
-      autoprefixer: {
-        enable: true,
-        config: {},
-      },
-      cssModules: {
-        enable: false,
-        config: {
-          namingPattern: "module",
-          generateScopedName: "[name]__[local]___[hash:base64:5]",
+      chain.plugin("tune-report").use(TuneReport)
+      chain.merge({
+        plugin: {
+          install: {
+            plugin: WeappTailwindcss,
+            args: [weappTailwindcssOptions],
+          },
         },
-      },
-    },
-    webpackChain(chain) {
-      chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin)
+      })
     },
   },
 })
