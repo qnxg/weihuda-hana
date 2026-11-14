@@ -1,0 +1,77 @@
+{
+  "name": "weihuda-hana",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.24.0",
+  "description": "湖南大学微生活新前端 Hana 版",
+  "author": "",
+  "engines": {
+    "node": ">=24"
+  },
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "None",
+    "framework": "Preact"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "new": "taro new",
+    "dev": "taro build --type weapp --watch",
+    "build": "taro build --type weapp",
+    "check": "tsc --noEmit",
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
+    "commitlint": "commitlint --edit"
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.24.4",
+    "@tarojs/components": "4.1.11",
+    "@tarojs/helper": "4.1.11",
+    "@tarojs/plugin-framework-react": "4.1.11",
+    "@tarojs/plugin-platform-alipay": "4.1.11",
+    "@tarojs/plugin-platform-h5": "4.1.11",
+    "@tarojs/plugin-platform-harmony-hybrid": "4.1.11",
+    "@tarojs/plugin-platform-jd": "4.1.11",
+    "@tarojs/plugin-platform-qq": "4.1.11",
+    "@tarojs/plugin-platform-swan": "4.1.11",
+    "@tarojs/plugin-platform-tt": "4.1.11",
+    "@tarojs/plugin-platform-weapp": "4.1.11",
+    "@tarojs/runtime": "4.1.11",
+    "@tarojs/shared": "4.1.11",
+    "@tarojs/taro": "4.1.11",
+    "preact": "~10.23.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^10.0.0",
+    "@babel/core": "^7.24.4",
+    "@babel/plugin-transform-class-properties": "7.25.9",
+    "@babel/preset-react": "^7.24.1",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@prefresh/babel-plugin": "^0.5.1",
+    "@prefresh/core": "^1.5.2",
+    "@prefresh/webpack": "^4",
+    "@tarojs/cli": "4.1.11",
+    "@tarojs/plugin-generator": "4.1.11",
+    "@tarojs/taro-loader": "4.1.11",
+    "@tarojs/webpack5-runner": "4.1.11",
+    "@types/minimatch": "^5",
+    "@types/node": "^18",
+    "@types/react": "^18.0.0",
+    "@types/webpack-env": "^1.13.6",
+    "babel-preset-taro": "4.1.11",
+    "eslint": "10.14.0",
+    "eslint-plugin-format": "^2.0.1",
+    "husky": "^9.1.7",
+    "postcss": "^8.5.6",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.4.5",
+    "webpack": "5.91.0"
+  }
+}

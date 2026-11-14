@@ -1,0 +1,17 @@
+minimumReleaseAgeExcludePrune: true
+
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - detect-port@1.6.1
+  - rollup@3.30.0
+
+shellEmulator: true
+
+allowBuilds:
+  "@parcel/watcher": true
+  "@swc/core": true
+  "@tarojs/binding": true
+  "@tarojs/cli": true
+  core-js: false
+  core-js-pure: false
+  esbuild: true
