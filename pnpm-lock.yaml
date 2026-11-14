@@ -53,6 +53,9 @@ importers:
       '@tarojs/taro':
         specifier: 4.1.11
         version: 4.1.11(727d4cb1fc15c8dc4dc8ea2adfd7921d)
+      '@xtwis/ohnet':
+        specifier: ^2.0.1
+        version: 2.0.1
       preact:
         specifier: ~10.23.2
         version: 10.23.2
@@ -3350,6 +3353,9 @@ packages:
 
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
+
+  '@xtwis/ohnet@2.0.1':
+    resolution: {integrity: sha512-v06Tg239jjI49feidq/aSRx31Ocjve79DFhIjznJy65y2/gnhuIUeCExlzrZ/roKNXK3vV3hcKMcezBUBbgWYw==}
 
   abortcontroller-polyfill@1.7.8:
     resolution: {integrity: sha512-9f1iZ2uWh92VcrU9Y8x+LdM4DLj75VE0MJB8zuF1iUnroEptStw+DQ8EQPMUdfe5k+PkB1uUfDQfWbhstH8LrQ==}
@@ -11509,6 +11515,8 @@ snapshots:
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
+
+  '@xtwis/ohnet@2.0.1': {}
 
   abortcontroller-polyfill@1.7.8: {}
 
