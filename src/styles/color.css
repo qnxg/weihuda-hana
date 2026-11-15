@@ -1,35 +1,151 @@
-:root {
-  --page-background: #ffffff;
-  --shade-background: rgba(0, 0, 0, 0.2);
-}
-
-.theme-spring-dark,
-.theme-summer-dark,
-.theme-autumn-dark {
-  --page-background: #000000;
-  --shade-background: rgba(0, 0, 0, 0.6);
-}
-
+/* #region default */
 @utility text-default {
-  color: var(--color-ink);
+  color: var(--color-ink-fg);
+}
+
+@utility text-soft {
+  color: var(--color-ink-fgsoft);
 }
 
 @utility text-strong {
-  color: var(--color-ink-strong);
+  color: var(--color-ink-fgstrong);
 }
 
-@utility text-subtle {
-  color: color-mix(in oklab, var(--color-ink) var(--opacity-weak), transparent);
+@utility text-invert {
+  color: var(--color-ink-fginvert);
 }
 
 @utility bg-default {
-  background-color: var(--color-ink-surface);
+  background-color: var(--color-ink-bg);
 }
 
-@utility bg-page {
-  background-color: var(--page-background);
+@utility bg-strong {
+  background-color: var(--color-ink-bgstrong);
 }
 
-@utility bg-shade {
-  background-color: var(--shade-background);
+@utility bg-invert {
+  background-color: var(--color-ink-bginvert);
 }
+
+@utility border-default {
+  border-color: var(--color-ink-line);
+}
+
+@utility border-invert {
+  border-color: var(--color-ink-lineinvert);
+}
+/* #endregion */
+
+/* #region primary */
+@utility text-primary {
+  color: var(--color-primary-fg);
+}
+
+@utility text-primary-soft {
+  color: var(--color-primary-fgsoft);
+}
+
+@utility text-primary-strong {
+  color: var(--color-primary-fgstrong);
+}
+
+@utility text-primary-invert {
+  color: var(--color-primary-fginvert);
+}
+
+@utility bg-primary {
+  background-color: var(--color-primary-bg);
+}
+
+@utility bg-primary-strong {
+  background-color: var(--color-primary-bgstrong);
+}
+
+@utility bg-primary-invert {
+  background-color: var(--color-primary-bginvert);
+}
+
+@utility border-primary {
+  border-color: var(--color-primary-line);
+}
+
+@utility border-primary-invert {
+  border-color: var(--color-primary-lineinvert);
+}
+/* #endregion */
+
+/* #region error */
+@utility text-error {
+  color: var(--color-error-fg);
+}
+
+@utility text-error-soft {
+  color: var(--color-error-fgsoft);
+}
+
+@utility text-error-strong {
+  color: var(--color-error-fgstrong);
+}
+
+@utility text-error-invert {
+  color: var(--color-error-fginvert);
+}
+
+@utility bg-error {
+  background-color: var(--color-error-bg);
+}
+
+@utility bg-error-strong {
+  background-color: var(--color-error-bgstrong);
+}
+
+@utility bg-error-invert {
+  background-color: var(--color-error-bginvert);
+}
+
+@utility border-error {
+  border-color: var(--color-error-line);
+}
+
+@utility border-error-invert {
+  border-color: var(--color-error-lineinvert);
+}
+/* #endregion */
+
+/* #region ink */
+@utility text-ink {
+  color: var(--color-ink-fg);
+}
+
+@utility text-ink-soft {
+  color: var(--color-ink-fgsoft);
+}
+
+@utility text-ink-strong {
+  color: var(--color-ink-fgstrong);
+}
+
+@utility text-ink-invert {
+  color: var(--color-ink-fginvert);
+}
+
+@utility bg-ink {
+  background-color: var(--color-ink-bg);
+}
+
+@utility bg-ink-strong {
+  background-color: var(--color-ink-bgstrong);
+}
+
+@utility bg-ink-invert {
+  background-color: var(--color-ink-bginvert);
+}
+
+@utility border-ink {
+  border-color: var(--color-ink-line);
+}
+
+@utility border-ink-invert {
+  border-color: var(--color-ink-lineinvert);
+}
+/* #endregion */

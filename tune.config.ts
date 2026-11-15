@@ -3,6 +3,33 @@ import { defineConfig } from "tunewind"
 
 type Scheme = NonNullable<NonNullable<TuneConfig["theme"]>["schemes"]>[string]
 type Primary = NonNullable<Scheme["palette"]>[string]
+type Shade = NonNullable<Scheme["shade"]>
+
+/** 浅色方案的语义色阶 */
+const light: Shade = {
+  fg: 600,
+  fgsoft: 400,
+  fgstrong: 800,
+  fginvert: 50,
+  bg: 50,
+  bgstrong: 100,
+  bginvert: 900,
+  line: 200,
+  lineinvert: 900,
+}
+
+/** 深色方案的语义色阶 */
+const dark: Shade = {
+  fg: 300,
+  fgsoft: 400,
+  fgstrong: 200,
+  fginvert: 950,
+  bg: 950,
+  bgstrong: 900,
+  bginvert: 50,
+  line: 800,
+  lineinvert: 100,
+}
 
 /** 按主题名生成浅色或深色的一个方案 */
 function createTheme(name: string, primary: Primary, isDark = false): Record<string, Scheme> {
@@ -12,11 +39,7 @@ function createTheme(name: string, primary: Primary, isDark = false): Record<str
 
   if (isDark) {
     scheme.prefix = name.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
-    scheme.shade = {
-      default: 300,
-      strong: 200,
-      surface: 700,
-    }
+    scheme.shade = dark
   }
 
   return { [name]: scheme }
@@ -29,11 +52,7 @@ export default defineConfig({
       error: "rose",
       ink: "slate",
     },
-    shade: {
-      default: 600,
-      strong: 800,
-      surface: 200,
-    },
+    shade: light,
     opacity: {
       default: 100,
       weak: 90,
