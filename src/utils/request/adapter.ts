@@ -8,9 +8,13 @@ import {
   subscribeAbort,
 } from "@xtwis/ohnet"
 import { env } from "@/config/env"
+import { METHOD_CODE } from "@/config/request"
 
 /** 支持的请求方法 */
 const METHODS: readonly string[] = ["GET", "POST", "PUT", "DELETE"]
+
+/** 可重试的传输层错误码 */
+const RETRYABLE: readonly string[] = [OHNET_ADAPTER_ERROR_CODE.NETWORK, OHNET_ADAPTER_ERROR_CODE.TIMEOUT]
 
 /** 复制请求头并按需补充 content-type */
 function prepareHeaders(context: OhNetContext) {
@@ -40,6 +44,12 @@ function send(context: OhNetContext): Promise<OhNetResponse> {
       timeout,
       dataType: "json",
       success: (response) => {
+        // 只有 200 视为传输成功, 其余状态码视为服务器没有给出有效响应
+        if (response.statusCode !== 200) {
+          reject(new OhNetAdapterError(String(response.statusCode), "adapter: http error", response.data))
+          return
+        }
+
         resolve(createResponse({
           status: response.statusCode,
           statusText: response.errMsg,
@@ -54,9 +64,10 @@ function send(context: OhNetContext): Promise<OhNetResponse> {
           return
         }
 
+        const timedOut = error.errMsg.includes("timeout")
         reject(new OhNetAdapterError(
-          OHNET_ADAPTER_ERROR_CODE.NETWORK,
-          OHNET_ADAPTER_ERROR_MESSAGE.NETWORK,
+          timedOut ? OHNET_ADAPTER_ERROR_CODE.TIMEOUT : OHNET_ADAPTER_ERROR_CODE.NETWORK,
+          timedOut ? OHNET_ADAPTER_ERROR_MESSAGE.TIMEOUT : OHNET_ADAPTER_ERROR_MESSAGE.NETWORK,
           error.errMsg,
           error,
         ))
@@ -67,12 +78,12 @@ function send(context: OhNetContext): Promise<OhNetResponse> {
   })
 }
 
-/** 基于 Taro.request 的 ohnet 适配器 */
+/** 基于 Taro.request 的 ohnet 适配器, 传输失败时按 env.attempts 重试 */
 export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNetResponse> => {
-  const { method, signal } = context.request
+  const { method } = context.request
 
   if (!METHODS.includes(method))
-    throw new OhNetAdapterError("OHNET_UNSUPPORTED_METHOD", `adapter: unsupported method: ${method}`)
+    throw new OhNetAdapterError(METHOD_CODE, `adapter: unsupported method: ${method}`)
 
   let last: unknown
 
@@ -81,7 +92,7 @@ export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNe
       return await send(context)
     }
     catch (error) {
-      if (signal?.aborted)
+      if (!(error instanceof OhNetAdapterError && RETRYABLE.includes(error.code)))
         throw error
 
       last = error
