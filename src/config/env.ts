@@ -7,12 +7,15 @@ export interface Env {
   mock: boolean
   /** 传输层失败的最大尝试次数 */
   attempts: number
+  /** 日志级别, 0: 错误, 1: 信息, 2: 调试, -1: 关闭 */
+  logLevel: number
 }
 
 const schema = z.object({
   baseUrl: z.url(),
   mock: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
   attempts: z.coerce.number().int().min(1).default(3),
+  logLevel: z.coerce.number().int().min(-1).max(2).default(1),
 })
 
 /* eslint-disable node/prefer-global/process */
@@ -22,6 +25,7 @@ const raw = typeof process === "undefined"
       baseUrl: process.env.TARO_APP_BASE_URL,
       mock: process.env.TARO_APP_MOCK,
       attempts: process.env.TARO_APP_ATTEMPTS,
+      logLevel: process.env.TARO_APP_LOG_LEVEL,
     }
 /* eslint-enable node/prefer-global/process */
 
