@@ -7,6 +7,7 @@ import {
   OhNetAdapterError,
   subscribeAbort,
 } from "@xtwis/ohnet"
+import { env } from "@/config/env"
 
 /** 支持的请求方法 */
 const METHODS: readonly string[] = ["GET", "POST", "PUT", "DELETE"]
@@ -21,12 +22,9 @@ function prepareHeaders(context: OhNetContext) {
   return headers
 }
 
-/** 基于 Taro.request 的 ohnet 适配器 */
-export const adapter: OhNetAdapter = (context: OhNetContext): Promise<OhNetResponse> => {
+/** 单次请求, 不含重试 */
+function send(context: OhNetContext): Promise<OhNetResponse> {
   const { url, method, data, signal, timeout } = context.request
-
-  if (!METHODS.includes(method))
-    throw new OhNetAdapterError("OHNET_UNSUPPORTED_METHOD", `adapter: unsupported method: ${method}`)
 
   return new Promise<OhNetResponse>((resolve, reject) => {
     if (signal?.aborted) {
@@ -67,4 +65,28 @@ export const adapter: OhNetAdapter = (context: OhNetContext): Promise<OhNetRespo
 
     subscribeAbort(signal, () => task.abort())
   })
+}
+
+/** 基于 Taro.request 的 ohnet 适配器 */
+export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNetResponse> => {
+  const { method, signal } = context.request
+
+  if (!METHODS.includes(method))
+    throw new OhNetAdapterError("OHNET_UNSUPPORTED_METHOD", `adapter: unsupported method: ${method}`)
+
+  let last: unknown
+
+  for (let attempt = 1; attempt <= env.attempts; attempt++) {
+    try {
+      return await send(context)
+    }
+    catch (error) {
+      if (signal?.aborted)
+        throw error
+
+      last = error
+    }
+  }
+
+  throw last
 }
