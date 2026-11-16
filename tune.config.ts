@@ -56,10 +56,12 @@ export default defineConfig({
   },
   size: {
     max: 8,
-    step: 0.5,
+    // wxss 不支持类名里的 `.` 转义, 小数阶会生成 `.h-5\.5` 直接编译失败, 所以 step 只取整数
+    step: 1,
     units: {
       default: "4px",
       x: "1px",
+      h: "0.5rem",
       r: "1rem",
     },
   },
