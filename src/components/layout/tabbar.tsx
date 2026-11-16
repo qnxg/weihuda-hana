@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
 import { getCurrentPages } from "@tarojs/taro"
-import { tabbar, tabbarColor } from "@/config/tabbar"
+import Icon from "@/components/common/icon"
+import { tabbar } from "@/config/tabbar"
 import { navigate } from "@/utils/navigate"
 
 /** 当前页面路径, 与 app.config 的 pages 一致 */
@@ -15,7 +16,7 @@ export default function Tabbar(): ReactNode {
 
   return (
     <View className="h-4r shrink-0 flex border-t border-default bg-default">
-      {tabbar.map(({ path, text, icon: Icon }) => {
+      {tabbar.map(({ path, text, icon }) => {
         const selected = path === active
 
         return (
@@ -27,9 +28,11 @@ export default function Tabbar(): ReactNode {
                 navigate(`/${path}`)
             }}
           >
-            <View className="h-3h w-3h">
-              <Icon size="100%" color={selected ? tabbarColor.active : tabbarColor.inactive} />
-            </View>
+            <Icon
+              icon={icon}
+              color={selected ? "primary" : "ink"}
+              className="h-3h w-3h"
+            />
             <Text className={`text-xs ${selected ? "text-primary" : "text-soft"}`}>{text}</Text>
           </View>
         )
