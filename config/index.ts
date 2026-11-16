@@ -3,6 +3,7 @@ import path from "node:path"
 import { defineConfig } from "@tarojs/cli"
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin"
 import { WeappTailwindcss } from "weapp-tailwindcss/webpack"
+import { MockServer } from "./mock"
 import { reportTuneDiagnostics, tune } from "./tune"
 
 const projectRoot = path.resolve(__dirname, "..")
@@ -71,6 +72,7 @@ export default defineConfig<"webpack5">({
     webpackChain(chain) {
       chain.resolve.plugin("tsconfig-paths").use(TsconfigPathsPlugin)
       chain.plugin("tune-report").use(TuneReport)
+      chain.plugin("mock-server").use(MockServer)
       chain.merge({
         plugin: {
           install: {

@@ -1,4 +1,5 @@
 import type { OhNetAdapter, OhNetContext, OhNetResponse } from "@xtwis/ohnet"
+import { env } from "@shared/env"
 import { request } from "@tarojs/taro"
 import {
   createResponse,
@@ -7,7 +8,6 @@ import {
   OhNetAdapterError,
   subscribeAbort,
 } from "@xtwis/ohnet"
-import { env } from "@/config/env"
 import { METHOD_CODE } from "@/config/request"
 
 /** 支持的请求方法 */

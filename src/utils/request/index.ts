@@ -1,6 +1,6 @@
 import type { OhNetClient as OhNetClientType } from "@xtwis/ohnet"
+import { env } from "@shared/env"
 import { OhNetClient } from "@xtwis/ohnet"
-import { env } from "@/config/env"
 import { adapter } from "@/utils/request/adapter"
 import { normalize } from "@/utils/request/middleware/normalize"
 import { notice } from "@/utils/request/middleware/notice"
@@ -10,8 +10,15 @@ type RequestClient = Omit<OhNetClientType, "get"> & {
   get: <T>(path?: string, params?: unknown) => Promise<T>
 }
 
+/** 解析请求地址, mock 开启时直连本地 mock 服务 */
+function resolveBaseUrl() {
+  return env.mock
+    ? `http://localhost:${env.mockPort}`
+    : env.baseUrl
+}
+
 const client = OhNetClient.create({
-  url: env.baseUrl,
+  url: resolveBaseUrl(),
   adapter,
 })
   .with(notice)

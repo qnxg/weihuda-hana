@@ -1,4 +1,4 @@
-import { env } from "@/config/env"
+import { env } from "@shared/env"
 
 const LEVEL = {
   error: 0,

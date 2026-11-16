@@ -1,11 +1,6 @@
 import { OhNetError } from "@xtwis/ohnet"
 
-/** 服务端统一响应 */
-export interface ApiResponse<T> {
-  code: number
-  data: T
-  message: string
-}
+export type { ApiResponse } from "@contract/types"
 
 /** 请求层错误 */
 export class ApiError extends OhNetError {

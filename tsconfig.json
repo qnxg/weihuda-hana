@@ -7,12 +7,17 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@contract": ["./contract"],
+      "@contract/*": ["./contract/*"],
+      "@server/*": ["./server/*"],
+      "@shared/*": ["./shared/*"]
     },
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types"
     ],
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "strictNullChecks": true,
     "noImplicitAny": false,
@@ -23,6 +28,6 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true
   },
-  "include": ["./src", "./types", "./config", "./scripts", "./tune.config.ts"],
+  "include": ["./src", "./types", "./config", "./scripts", "./contract", "./server", "./shared", "./tune.config.ts"],
   "compileOnSave": false
 }
