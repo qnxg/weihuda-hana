@@ -1,3 +1,18 @@
 page {
   background-color: var(--color-ink-bgstrong);
 }
+
+@keyframes tune-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 20%;
+  }
+  40% {
+    opacity: 100%;
+  }
+}
+
+@utility dot-loading {
+  animation: tune-dot 1.2s infinite;
+}

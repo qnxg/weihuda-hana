@@ -1,20 +1,31 @@
 import type { ReactNode } from "react"
-import { ScrollView, Text, View } from "@tarojs/components"
+import { Text, View } from "@tarojs/components"
 import { House, Settings } from "lucide-react-taro"
+import { useState } from "react"
 import Button from "@/components/common/button"
 import Cell from "@/components/common/cell"
 import Icon from "@/components/common/icon"
+import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import { sleep } from "@/utils/sleep"
 
 /** 按钮的通用尺寸 */
 const buttonClass = "px-3 py-2 text-sm"
 
 export default function CompDebug(): ReactNode {
+  const [refreshing, setRefreshing] = useState(false)
+
+  const refresh = async () => {
+    setRefreshing(true)
+    await sleep(1000)
+    setRefreshing(false)
+  }
+
   return (
     <Page>
       <Main className="p-4">
-        <ScrollView scrollY className="flex-1">
+        <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
           <View className="flex flex-col gap-3">
             <View className="flex flex-col gap-3">
               <Text className="text-strong">按钮</Text>
@@ -82,7 +93,7 @@ export default function CompDebug(): ReactNode {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </Scroll>
       </Main>
     </Page>
   )
