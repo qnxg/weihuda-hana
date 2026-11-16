@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { ModeChoice, ThemeChoice } from "@/types/theme"
 import { Text, View } from "@tarojs/components"
+import Button from "@/components/common/button"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import { useTheme } from "@/hooks/theme"
@@ -22,12 +23,14 @@ const modes: { label: string, value: ModeChoice }[] = [
 
 function Choice({ label, active, onTap }: Readonly<{ label: string, active: boolean, onTap: () => void }>): ReactNode {
   return (
-    <View
-      className={`flex-1 p-2 border ${active ? "border-primary bg-primary" : "border-default"}`}
+    <Button
+      variant={active ? "solid" : "outline"}
+      color={active ? "primary" : "ink"}
+      className="flex-1 p-2 text-xs"
       onClick={onTap}
     >
-      <Text className={`text-xs ${active ? "text-primary-strong" : "text-soft"}`}>{label}</Text>
-    </View>
+      <Text>{label}</Text>
+    </Button>
   )
 }
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
 import { getCurrentPages } from "@tarojs/taro"
+import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
 import { tabbar } from "@/config/tabbar"
 import { navigate } from "@/utils/navigate"
@@ -20,21 +21,19 @@ export default function Tabbar(): ReactNode {
         const selected = path === active
 
         return (
-          <View
+          <Button
             key={path}
-            className="flex-1 flex flex-col items-center justify-center gap-1"
+            variant="ghost"
+            color={selected ? "primary" : "ink"}
+            className="flex-1 flex-col gap-1"
             onClick={() => {
               if (!selected)
                 navigate(`/${path}`)
             }}
           >
-            <Icon
-              icon={icon}
-              color={selected ? "primary" : "ink"}
-              className="h-3h w-3h"
-            />
-            <Text className={`text-xs ${selected ? "text-primary" : "text-soft"}`}>{text}</Text>
-          </View>
+            <Icon icon={icon} color={selected ? "primary" : "ink"} className="h-3h w-3h" />
+            <Text className="text-xs">{text}</Text>
+          </Button>
         )
       })}
     </View>

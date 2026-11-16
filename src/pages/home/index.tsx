@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
+import Button from "@/components/common/button"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Tabbar from "@/components/layout/tabbar"
@@ -11,12 +12,14 @@ export default function Home(): ReactNode {
       <Main>
         <View className="flex-1 flex flex-col items-center justify-center gap-2">
           <Text className="text-soft">home</Text>
-          <View
-            className="p-2 border border-primary"
+          <Button
+            variant="outline"
+            color="primary"
+            className="px-2h py-1h"
             onClick={() => navigate("/packages/debug/pages/theme/index")}
           >
-            <Text className="text-primary text-xs">主题调试</Text>
-          </View>
+            <Text>主题调试</Text>
+          </Button>
         </View>
       </Main>
       <Tabbar />
