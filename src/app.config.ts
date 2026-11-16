@@ -11,6 +11,7 @@ export default defineAppConfig({
       root: "packages/debug",
       pages: [
         "pages/theme/index",
+        "pages/comp/index",
       ],
     },
   ],

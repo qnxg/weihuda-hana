@@ -1,9 +1,13 @@
 import type { ComponentProps, ReactNode } from "react"
 import { View } from "@tarojs/components"
+import { cn } from "@/utils/cn"
 
-export default function Main({ children }: Readonly<ComponentProps<typeof View>>): ReactNode {
+export default function Main({
+  className,
+  children,
+}: Readonly<ComponentProps<typeof View>>): ReactNode {
   return (
-    <View className="flex-1 flex flex-col overflow-hidden">
+    <View className={cn("flex-1 flex flex-col overflow-hidden", className)}>
       {children}
     </View>
   )

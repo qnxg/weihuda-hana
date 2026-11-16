@@ -20,6 +20,13 @@ export default function Home(): ReactNode {
           >
             <Text>主题调试</Text>
           </Button>
+          <Button
+            variant="outline"
+            className="px-2h py-1h"
+            onClick={() => navigate("/packages/debug/pages/comp/index")}
+          >
+            <Text>组件调试</Text>
+          </Button>
         </View>
       </Main>
       <Tabbar />

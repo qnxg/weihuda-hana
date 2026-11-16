@@ -2,6 +2,7 @@ import type { ComponentProps, ReactElement, ReactNode } from "react"
 import type { IconProps } from "@/components/common/icon"
 import { View } from "@tarojs/components"
 import { LoaderCircle } from "lucide-react-taro"
+import { cloneElement } from "react"
 import Icon from "@/components/common/icon"
 import { cn } from "@/utils/cn"
 
@@ -61,6 +62,7 @@ export default function Button({
 }: Readonly<ButtonProps>): ReactNode {
   const inert = disabled || loading
   const iconClassName = icon?.props.className ?? "h-1r w-1r"
+  const iconColor = icon?.props.color ?? color
 
   return (
     <View
@@ -73,8 +75,8 @@ export default function Button({
       onClick={inert ? undefined : onClick}
     >
       {loading && icon
-        ? <Icon icon={LoaderCircle} color={color} className={cn(iconClassName, "animate-spin")} />
-        : icon}
+        ? <Icon icon={LoaderCircle} color={iconColor} className={cn(iconClassName, "animate-spin")} />
+        : icon && cloneElement(icon, { color: iconColor })}
       {children}
     </View>
   )
