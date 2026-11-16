@@ -2,47 +2,37 @@ import type { TuneConfig } from "tunewind"
 import { defineConfig } from "tunewind"
 
 type Scheme = NonNullable<NonNullable<TuneConfig["theme"]>["schemes"]>[string]
-type Primary = NonNullable<Scheme["palette"]>[string]
-type Shade = NonNullable<Scheme["shade"]>
+type Palette = NonNullable<Scheme["palette"]>
+type Shades = NonNullable<Scheme["shade"]>
 
-/** 浅色方案的语义色阶 */
-const light: Shade = {
-  fg: 600,
-  fgsoft: 400,
-  fgstrong: 800,
-  fginvert: 50,
-  bg: 50,
-  bgstrong: 100,
-  bginvert: 900,
-  line: 200,
-  lineinvert: 900,
+/** 语义色阶, 深色侧反向取值 */
+const shade: Shades = {
+  fg: { light: 600, dark: 300 },
+  fgsoft: { light: 400, dark: 400 },
+  fgstrong: { light: 800, dark: 200 },
+  fginvert: { light: 50, dark: 950 },
+  bg: { light: 50, dark: 950 },
+  bgstrong: { light: 100, dark: 900 },
+  bginvert: { light: 900, dark: 50 },
+  line: { light: 200, dark: 800 },
+  lineinvert: { light: 900, dark: 100 },
 }
 
-/** 深色方案的语义色阶 */
-const dark: Shade = {
-  fg: 300,
-  fgsoft: 400,
-  fgstrong: 200,
-  fginvert: 950,
-  bg: 950,
-  bgstrong: 900,
-  bginvert: 50,
-  line: 800,
-  lineinvert: 100,
+/** 同一色系在两种模式下保持一致 */
+function pair(family: string): Palette[string] {
+  return {
+    light: family,
+    dark: family,
+  }
 }
 
-/** 按主题名生成浅色或深色的一个方案 */
-function createTheme(name: string, primary: Primary, isDark = false): Record<string, Scheme> {
-  const scheme: Scheme = {
-    palette: { primary },
+/** 按主题名生成只覆盖主色的方案, 其余色与色阶继承默认主题 */
+function createScheme(primary: string): Scheme {
+  return {
+    palette: {
+      primary: pair(primary),
+    },
   }
-
-  if (isDark) {
-    scheme.prefix = name.replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`)
-    scheme.shade = dark
-  }
-
-  return { [name]: scheme }
 }
 
 export default defineConfig({
@@ -52,7 +42,7 @@ export default defineConfig({
       error: "rose",
       ink: "slate",
     },
-    shade: light,
+    shade,
     opacity: {
       default: 100,
       weak: 90,
@@ -60,12 +50,8 @@ export default defineConfig({
       ghost: 20,
     },
     schemes: {
-      ...createTheme("spring", "emerald"),
-      ...createTheme("springDark", "emerald", true),
-      ...createTheme("summer", "sky"),
-      ...createTheme("summerDark", "sky", true),
-      ...createTheme("autumn", "amber"),
-      ...createTheme("autumnDark", "amber", true),
+      spring: createScheme("emerald"),
+      summer: createScheme("sky"),
     },
   },
   size: {

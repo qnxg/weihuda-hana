@@ -154,8 +154,8 @@ importers:
         specifier: ^4.23.15
         version: 4.23.15
       tunewind:
-        specifier: ^0.1.0
-        version: 0.1.0(postcss@8.5.32)
+        specifier: ^0.2.0
+        version: 0.2.0(postcss@8.5.32)
       typescript:
         specifier: ^5.4.5
         version: 5.9.3
@@ -7829,8 +7829,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  tunewind@0.1.0:
-    resolution: {integrity: sha512-MCBURX1olChoDbxmp44QCc3pqXL7nY1wox8uCBLK9DAvDcl1pk7YBU32eNK4/whFsiO11ZkwGCa4y2ThkNagYA==}
+  tunewind@0.2.0:
+    resolution: {integrity: sha512-o/KJ6ygpfNx3qToTX86mceCg22OYeZ6w6cb4o1J6/b8QKqGS+05jI4KtQXYPyNGw/CPA0BNFi9U1ENFOeGty1A==}
     engines: {node: '>=22'}
     peerDependencies:
       postcss: ^8.4.0
@@ -16561,7 +16561,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  tunewind@0.1.0(postcss@8.5.32):
+  tunewind@0.2.0(postcss@8.5.32):
     dependencies:
       jiti: 2.7.0
       postcss: 8.5.32

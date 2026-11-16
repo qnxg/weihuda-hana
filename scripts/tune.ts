@@ -31,6 +31,74 @@ async function readSources(): Promise<string[]> {
   return sources.filter(Boolean)
 }
 
+const DARK_QUERY = "prefers-color-scheme: dark"
+const DARK_CLASS = "mode-dark"
+const THEME_PATTERN = /\[data-theme="([\w-]+)"\]/g
+
+/** 主题属性选择器换成 class */
+function toThemeClass(selector: string): string {
+  return selector.replace(THEME_PATTERN, ".theme-$1")
+}
+
+/** 深色媒体查询折成 class 作用域: wxss 不认 prefers-color-scheme */
+function foldDark(root: postcss.Root): void {
+  // 方案块只保留与默认深色不同的声明, 其余从相邻块继承
+  const base = new Map<string, string>()
+
+  root.walkAtRules("media", (atRule) => {
+    if (!atRule.params.includes(DARK_QUERY))
+      return
+
+    const rules: postcss.Rule[] = []
+
+    for (const node of [
+      ...(atRule.nodes ?? []),
+    ]) {
+      if (node.type !== "rule")
+        continue
+
+      node.selectors = [
+        ...new Set(node.selectors.flatMap((selector) => {
+          const themed = toThemeClass(selector)
+          return themed === selector
+            ? [`.${DARK_CLASS}`]
+            : [
+                `.${DARK_CLASS}${themed}`,
+                `.${DARK_CLASS} ${themed}`,
+              ]
+        })),
+      ]
+
+      node.raws.before = "\n"
+      node.raws.after = "\n"
+      node.walkDecls((decl) => {
+        decl.raws.before = "\n  "
+      })
+
+      node.remove()
+      rules.push(node)
+    }
+
+    for (const rule of rules) {
+      const isBase = rule.selectors.every(selector => selector === `.${DARK_CLASS}`)
+
+      rule.walkDecls((decl) => {
+        if (isBase) {
+          base.set(decl.prop, decl.value)
+          return
+        }
+
+        if (base.get(decl.prop) === decl.value)
+          decl.remove()
+      })
+
+      atRule.before(rule)
+    }
+
+    atRule.remove()
+  })
+}
+
 function adaptSchemes(css: string): string {
   const root = postcss.parse(css)
 
@@ -40,11 +108,11 @@ function adaptSchemes(css: string): string {
       rule.remove()
   })
 
+  foldDark(root)
+
   // 主题块改为 class 作用域: wxss 稳定支持的只有 class 选择器
   root.walkRules((rule) => {
-    rule.selectors = rule.selectors.map(selector =>
-      selector.replace(/\[data-theme="([\w-]+)"\]/g, ".theme-$1"),
-    )
+    rule.selectors = rule.selectors.map(toThemeClass)
   })
 
   return root.toString()

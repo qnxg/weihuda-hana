@@ -82,7 +82,7 @@
     "tailwindcss": "^4.3.5",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "tsx": "^4.23.15",
-    "tunewind": "^0.1.0",
+    "tunewind": "^0.2.0",
     "typescript": "^5.4.5",
     "weapp-tailwindcss": "^5.7.4",
     "webpack": "5.91.0"

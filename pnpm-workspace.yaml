@@ -1,6 +1,6 @@
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - tunewind@0.1.0
+  - tunewind@0.2.0
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
