@@ -5,17 +5,14 @@ type Scheme = NonNullable<NonNullable<TuneConfig["theme"]>["schemes"]>[string]
 type Palette = NonNullable<Scheme["palette"]>
 type Shades = NonNullable<Scheme["shade"]>
 
-/** 语义色阶, 深色侧反向取值 */
+/** 语义色阶 */
 const shade: Shades = {
   fg: { light: 500, dark: 300 },
   fgsoft: { light: 400, dark: 400 },
-  fgstrong: { light: 800, dark: 200 },
-  fginvert: { light: 100, dark: 900 },
-  bg: { light: 100, dark: 900 },
-  bgstrong: { light: 50, dark: 950 },
-  bginvert: { light: 800, dark: 200 },
-  line: { light: 200, dark: 800 },
-  lineinvert: { light: 900, dark: 100 },
+  fgstrong: { light: 600, dark: 200 },
+  bg: { light: 100, dark: 950 },
+  bgstrong: { light: 50, dark: 900 },
+  line: { light: 200, dark: 950 },
 }
 
 /** 同一色系在两种模式下保持一致 */

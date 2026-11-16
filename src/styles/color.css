@@ -11,10 +11,6 @@
   color: var(--color-ink-fgstrong);
 }
 
-@utility text-invert {
-  color: var(--color-ink-fginvert);
-}
-
 @utility bg-default {
   background-color: var(--color-ink-bg);
 }
@@ -23,16 +19,8 @@
   background-color: var(--color-ink-bgstrong);
 }
 
-@utility bg-invert {
-  background-color: var(--color-ink-bginvert);
-}
-
 @utility border-default {
   border-color: var(--color-ink-line);
-}
-
-@utility border-invert {
-  border-color: var(--color-ink-lineinvert);
 }
 /* #endregion */
 
@@ -49,10 +37,6 @@
   color: var(--color-primary-fgstrong);
 }
 
-@utility text-primary-invert {
-  color: var(--color-primary-fginvert);
-}
-
 @utility bg-primary {
   background-color: var(--color-primary-bg);
 }
@@ -61,16 +45,8 @@
   background-color: var(--color-primary-bgstrong);
 }
 
-@utility bg-primary-invert {
-  background-color: var(--color-primary-bginvert);
-}
-
 @utility border-primary {
   border-color: var(--color-primary-line);
-}
-
-@utility border-primary-invert {
-  border-color: var(--color-primary-lineinvert);
 }
 /* #endregion */
 
@@ -87,10 +63,6 @@
   color: var(--color-error-fgstrong);
 }
 
-@utility text-error-invert {
-  color: var(--color-error-fginvert);
-}
-
 @utility bg-error {
   background-color: var(--color-error-bg);
 }
@@ -99,16 +71,8 @@
   background-color: var(--color-error-bgstrong);
 }
 
-@utility bg-error-invert {
-  background-color: var(--color-error-bginvert);
-}
-
 @utility border-error {
   border-color: var(--color-error-line);
-}
-
-@utility border-error-invert {
-  border-color: var(--color-error-lineinvert);
 }
 /* #endregion */
 
@@ -125,10 +89,6 @@
   color: var(--color-ink-fgstrong);
 }
 
-@utility text-ink-invert {
-  color: var(--color-ink-fginvert);
-}
-
 @utility bg-ink {
   background-color: var(--color-ink-bg);
 }
@@ -137,15 +97,7 @@
   background-color: var(--color-ink-bgstrong);
 }
 
-@utility bg-ink-invert {
-  background-color: var(--color-ink-bginvert);
-}
-
 @utility border-ink {
   border-color: var(--color-ink-line);
-}
-
-@utility border-ink-invert {
-  border-color: var(--color-ink-lineinvert);
 }
 /* #endregion */
