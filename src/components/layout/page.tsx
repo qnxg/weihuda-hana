@@ -6,7 +6,7 @@ export default function Page({ children }: Readonly<{ children?: ReactNode }>): 
   const { className } = useTheme()
 
   return (
-    <View className={`${className} relative h-screen w-full flex flex-col overflow-hidden bg-strong`}>
+    <View className={`${className} relative h-screen w-full flex flex-col overflow-hidden bg-default`}>
       <View className="flex-1 flex flex-col overflow-hidden">
         {children}
       </View>

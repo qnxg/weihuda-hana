@@ -6,6 +6,7 @@ import Button from "@/components/common/button"
 import Cell from "@/components/common/cell"
 import Icon from "@/components/common/icon"
 import Scroll from "@/components/common/scroll"
+import Skeleton from "@/components/common/skeleton"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import { sleep } from "@/utils/sleep"
@@ -90,6 +91,23 @@ export default function CompDebug(): ReactNode {
                     <Text className="text-xs text-soft">children 区域</Text>
                   </View>
                 </Cell>
+              </View>
+            </View>
+
+            <View className="flex flex-col gap-3">
+              <Text className="text-strong">骨架屏</Text>
+
+              <View className="p-4 rounded bg-strong flex flex-col gap-2">
+                <View className="flex items-center gap-2">
+                  <Skeleton className="h-2r w-2r rounded-full" />
+                  <View className="flex-1 flex flex-col gap-1">
+                    <Skeleton className="h-1r w-full" />
+                    <Skeleton className="h-1r w-6" />
+                  </View>
+                </View>
+                <Skeleton className="h-2r w-full" />
+                <Skeleton className="h-2r w-full" />
+                <Skeleton animated={false} className="h-2r w-full" />
               </View>
             </View>
           </View>

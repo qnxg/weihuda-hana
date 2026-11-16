@@ -1,18 +1,37 @@
+/** 页面底色, 对应普通背景 */
 page {
-  background-color: var(--color-ink-bgstrong);
+  background-color: var(--color-ink-bg);
 }
 
+/** 下拉刷新的三点动画 */
 @keyframes tune-dot {
   0%,
   80%,
   100% {
-    opacity: 20%;
+    opacity: 0.2;
   }
   40% {
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
+/** 三点动画, 用 animationDelay 错开 */
 @utility dot-loading {
   animation: tune-dot 1.2s infinite;
+}
+
+/** 骨架屏的闪烁动画 */
+@keyframes tune-skeleton {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/** 骨架屏动画 */
+@utility skeleton-pulse {
+  animation: tune-skeleton 1.6s ease-in-out infinite;
 }
