@@ -22,6 +22,6 @@ export const tabbar: TabbarItem[] = [
 
 /** 图标色值: 图标渲染成 Image 的 data url, 拿不到 CSS 变量, 也不宜用 oklch */
 export const tabbarColor = {
-  active: "#d97706",
-  inactive: "#94a3b8",
+  active: "#f59e0b",
+  inactive: "#a3a3a3",
 } as const

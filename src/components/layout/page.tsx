@@ -1,13 +1,12 @@
 import type { ReactNode } from "react"
 import { View } from "@tarojs/components"
+import { useTheme } from "@/hooks/theme"
 
-interface PageProps {
-  children?: ReactNode
-}
+export default function Page({ children }: Readonly<{ children?: ReactNode }>): ReactNode {
+  const { className } = useTheme()
 
-export default function Page({ children }: Readonly<PageProps>): ReactNode {
   return (
-    <View className="relative h-screen w-full flex flex-col overflow-hidden bg-strong">
+    <View className={`${className} relative h-screen w-full flex flex-col overflow-hidden bg-strong`}>
       <View className="flex-1 flex flex-col overflow-hidden">
         {children}
       </View>

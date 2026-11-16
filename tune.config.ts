@@ -7,13 +7,13 @@ type Shades = NonNullable<Scheme["shade"]>
 
 /** 语义色阶, 深色侧反向取值 */
 const shade: Shades = {
-  fg: { light: 600, dark: 300 },
+  fg: { light: 500, dark: 300 },
   fgsoft: { light: 400, dark: 400 },
   fgstrong: { light: 800, dark: 200 },
-  fginvert: { light: 50, dark: 950 },
-  bg: { light: 50, dark: 950 },
-  bgstrong: { light: 100, dark: 900 },
-  bginvert: { light: 900, dark: 50 },
+  fginvert: { light: 100, dark: 900 },
+  bg: { light: 100, dark: 900 },
+  bgstrong: { light: 50, dark: 950 },
+  bginvert: { light: 800, dark: 200 },
   line: { light: 200, dark: 800 },
   lineinvert: { light: 900, dark: 100 },
 }
@@ -40,7 +40,7 @@ export default defineConfig({
     palette: {
       primary: "amber",
       error: "rose",
-      ink: "slate",
+      ink: "neutral",
     },
     shade,
     opacity: {
@@ -51,7 +51,7 @@ export default defineConfig({
     },
     schemes: {
       spring: createScheme("emerald"),
-      summer: createScheme("sky"),
+      summer: createScheme("blue"),
     },
   },
   size: {

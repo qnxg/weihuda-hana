@@ -5,6 +5,15 @@ export default defineAppConfig({
     "pages/table/index",
     "pages/profile/index",
   ],
+  subPackages: [
+    {
+      // 调试子包
+      root: "packages/debug",
+      pages: [
+        "pages/theme/index",
+      ],
+    },
+  ],
   tabBar: {
     custom: true,
     color: "#94a3b8",
