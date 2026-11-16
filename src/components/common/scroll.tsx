@@ -55,7 +55,7 @@ export default function Scroll({
         <Slot name="refresher" className="w-full">
           <View
             className={cn(
-              "h-3r flex items-center justify-center gap-1 bg-strong",
+              "h-3r flex items-center justify-center gap-1 bg-default",
               refresherClassName,
             )}
           >
