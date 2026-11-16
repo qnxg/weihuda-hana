@@ -35,3 +35,25 @@ page {
 @utility skeleton-pulse {
   animation: tune-skeleton 1.6s ease-in-out infinite;
 }
+
+/** 安全区内边距, 供容器使用 */
+@utility pt-safe {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
+
+@utility pb-safe {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/** 安全区占位高度 */
+@utility h-safe-top {
+  height: constant(safe-area-inset-top);
+  height: env(safe-area-inset-top);
+}
+
+@utility h-safe-bottom {
+  height: constant(safe-area-inset-bottom);
+  height: env(safe-area-inset-bottom);
+}

@@ -3,6 +3,7 @@ import { Text, View } from "@tarojs/components"
 import { getCurrentPages } from "@tarojs/taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
+import SafeArea from "@/components/common/safe-area"
 import { tabbar } from "@/config/tabbar"
 import { navigate } from "@/utils/navigate"
 
@@ -16,26 +17,29 @@ export default function Tabbar(): ReactNode {
   const active = currentPath()
 
   return (
-    <View className="h-4r shrink-0 flex border-t border-default bg-default">
-      {tabbar.map(({ path, text, icon }) => {
-        const selected = path === active
+    <View className="shrink-0 border-t border-default bg-default">
+      <View className="h-4r flex">
+        {tabbar.map(({ path, text, icon }) => {
+          const selected = path === active
 
-        return (
-          <Button
-            key={path}
-            variant="ghost"
-            color={selected ? "primary" : "ink"}
-            className="flex-1 flex-col gap-1"
-            onClick={() => {
-              if (!selected)
-                navigate(`/${path}`)
-            }}
-          >
-            <Icon icon={icon} color={selected ? "primary" : "ink"} className="h-3h w-3h" />
-            <Text className="text-xs">{text}</Text>
-          </Button>
-        )
-      })}
+          return (
+            <Button
+              key={path}
+              variant="ghost"
+              color={selected ? "primary" : "ink"}
+              className="flex-1 flex-col gap-1"
+              onClick={() => {
+                if (!selected)
+                  navigate(`/${path}`)
+              }}
+            >
+              <Icon icon={icon} color={selected ? "primary" : "ink"} className="h-3h w-3h" />
+              <Text className="text-xs">{text}</Text>
+            </Button>
+          )
+        })}
+      </View>
+      <SafeArea />
     </View>
   )
 }
