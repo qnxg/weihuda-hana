@@ -26,13 +26,13 @@ export default function CompDebug(): ReactNode {
 
   return (
     <Page>
-      <Main className="p-4">
+      <Main>
         <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
           <View className="flex flex-col gap-3">
             <View className="flex flex-col gap-2">
               <Text className="text-strong">按钮</Text>
 
-              <Card className="p-3 flex flex-col gap-3">
+              <Card className="flex flex-col gap-3">
                 <View className="flex gap-2">
                   <Button className={buttonClass}>主要</Button>
                   <Button variant="outline" className={buttonClass}>次要</Button>
@@ -59,7 +59,7 @@ export default function CompDebug(): ReactNode {
             <View className="flex flex-col gap-2">
               <Text className="text-strong">列表项</Text>
 
-              <Card className="p-3 overflow-hidden">
+              <Card className="overflow-hidden">
                 <Cell title="标题" description="值" />
                 <Cell
                   title="可点击"
@@ -100,7 +100,7 @@ export default function CompDebug(): ReactNode {
             <View className="flex flex-col gap-2">
               <Text className="text-strong">骨架屏</Text>
 
-              <Card className="p-4 flex flex-col gap-2">
+              <Card className="flex flex-col gap-2">
                 <View className="flex items-center gap-2">
                   <Skeleton className="h-2r w-2r rounded-full" />
                   <View className="flex-1 flex flex-col gap-1">

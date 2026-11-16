@@ -7,7 +7,7 @@ export default function Main({
   children,
 }: Readonly<ComponentProps<typeof View>>): ReactNode {
   return (
-    <View className={cn("flex-1 flex flex-col overflow-hidden", className)}>
+    <View className={cn("flex-1 flex flex-col overflow-hidden p-1r", className)}>
       {children}
     </View>
   )

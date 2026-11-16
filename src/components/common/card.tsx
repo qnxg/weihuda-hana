@@ -9,7 +9,7 @@ export default function Card({
   ...rest
 }: Readonly<ComponentProps<typeof View>>): ReactNode {
   return (
-    <View {...rest} className={cn("rounded-lg bg-strong", className)}>
+    <View {...rest} className={cn("rounded-lg bg-strong p-1r", className)}>
       {children}
     </View>
   )
