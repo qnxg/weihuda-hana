@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import type { ModeChoice, ThemeChoice } from "@/types/theme"
 import { Text, View } from "@tarojs/components"
 import Button from "@/components/common/button"
+import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import { useTheme } from "@/hooks/theme"
@@ -48,79 +49,83 @@ export default function ThemeDebug(): ReactNode {
 
   return (
     <Page>
-      <Main className="py-1r">
-        <Text className="text-strong">主题调试</Text>
+      <Main>
+        <Scroll>
+          <View className="py-1r flex flex-col">
+            <Text className="text-strong">主题调试</Text>
 
-        <View className="mt-2">
-          <Text className="text-soft text-xs">{`${themeChoice} -> ${theme} / ${modeChoice} -> ${mode}`}</Text>
-        </View>
+            <View className="mt-2">
+              <Text className="text-soft text-xs">{`${themeChoice} -> ${theme} / ${modeChoice} -> ${mode}`}</Text>
+            </View>
 
-        <Section title="主题">
-          {themes.map(item => (
-            <Choice
-              key={item.value}
-              label={item.label}
-              active={themeChoice === item.value}
-              onTap={() => setThemeChoice(item.value)}
-            />
-          ))}
-        </Section>
+            <Section title="主题">
+              {themes.map(item => (
+                <Choice
+                  key={item.value}
+                  label={item.label}
+                  active={themeChoice === item.value}
+                  onTap={() => setThemeChoice(item.value)}
+                />
+              ))}
+            </Section>
 
-        <Section title="模式">
-          {modes.map(item => (
-            <Choice
-              key={item.value}
-              label={item.label}
-              active={modeChoice === item.value}
-              onTap={() => setModeChoice(item.value)}
-            />
-          ))}
-        </Section>
+            <Section title="模式">
+              {modes.map(item => (
+                <Choice
+                  key={item.value}
+                  label={item.label}
+                  active={modeChoice === item.value}
+                  onTap={() => setModeChoice(item.value)}
+                />
+              ))}
+            </Section>
 
-        <Section title="前景">
-          <View className="flex-1 p-2 border border-default bg-default">
-            <Text className="text-xs text-default">default</Text>
-          </View>
-          <View className="flex-1 p-2 border border-default bg-default">
-            <Text className="text-xs text-soft">soft</Text>
-          </View>
-          <View className="flex-1 p-2 border border-default bg-default">
-            <Text className="text-xs text-strong">strong</Text>
-          </View>
-        </Section>
+            <Section title="前景">
+              <View className="flex-1 p-2 border border-default bg-default">
+                <Text className="text-xs text-default">default</Text>
+              </View>
+              <View className="flex-1 p-2 border border-default bg-default">
+                <Text className="text-xs text-soft">soft</Text>
+              </View>
+              <View className="flex-1 p-2 border border-default bg-default">
+                <Text className="text-xs text-strong">strong</Text>
+              </View>
+            </Section>
 
-        <Section title="背景">
-          <View className="flex-1 p-2 bg-default border border-default">
-            <Text className="text-xs text-default">bg-default</Text>
-          </View>
-          <View className="flex-1 p-2 bg-strong border border-default">
-            <Text className="text-xs text-default">bg-strong</Text>
-          </View>
-        </Section>
+            <Section title="背景">
+              <View className="flex-1 p-2 bg-default border border-default">
+                <Text className="text-xs text-default">bg-default</Text>
+              </View>
+              <View className="flex-1 p-2 bg-strong border border-default">
+                <Text className="text-xs text-default">bg-strong</Text>
+              </View>
+            </Section>
 
-        <Section title="主色与错误">
-          <View className="flex-1 p-2 bg-primary">
-            <Text className="text-xs text-primary-strong">primary</Text>
-          </View>
-          <View className="flex-1 p-2 bg-primary-strong">
-            <Text className="text-xs text-primary-strong">primary-strong</Text>
-          </View>
-          <View className="flex-1 p-2 bg-error-strong">
-            <Text className="text-xs text-error-strong">error-strong</Text>
-          </View>
-        </Section>
+            <Section title="主色与错误">
+              <View className="flex-1 p-2 bg-primary">
+                <Text className="text-xs text-primary-strong">primary</Text>
+              </View>
+              <View className="flex-1 p-2 bg-primary-strong">
+                <Text className="text-xs text-primary-strong">primary-strong</Text>
+              </View>
+              <View className="flex-1 p-2 bg-error-strong">
+                <Text className="text-xs text-error-strong">error-strong</Text>
+              </View>
+            </Section>
 
-        <Section title="边框与透明度">
-          <View className="flex-1 p-2 border border-primary">
-            <Text className="text-xs text-primary">border-primary</Text>
+            <Section title="边框与透明度">
+              <View className="flex-1 p-2 border border-primary">
+                <Text className="text-xs text-primary">border-primary</Text>
+              </View>
+              <View className="flex-1 p-2 bg-strong opacity-soft">
+                <Text className="text-xs text-default">opacity-soft</Text>
+              </View>
+              <View className="flex-1 p-2 bg-strong opacity-ghost">
+                <Text className="text-xs text-default">opacity-ghost</Text>
+              </View>
+            </Section>
           </View>
-          <View className="flex-1 p-2 bg-strong opacity-soft">
-            <Text className="text-xs text-default">opacity-soft</Text>
-          </View>
-          <View className="flex-1 p-2 bg-strong opacity-ghost">
-            <Text className="text-xs text-default">opacity-ghost</Text>
-          </View>
-        </Section>
+        </Scroll>
       </Main>
     </Page>
   )

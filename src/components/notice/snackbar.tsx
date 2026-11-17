@@ -19,7 +19,7 @@ export default function Snackbar(): ReactNode {
   const appear = Math.max(0, Math.min(1, elapsed / animation))
 
   return (
-    <View className="absolute bottom-0 left-0 right-0 flex px-2r pb-safe">
+    <View className="absolute bottom-0 left-0 right-0 flex px-2r">
       <View
         className="mb-2r flex w-full items-center gap-2 rounded-md border border-default bg-strong p-1h shadow-float"
         style={{
