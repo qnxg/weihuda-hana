@@ -8,6 +8,7 @@ import Card from "@/components/common/card"
 import Form from "@/components/form/form"
 import Input from "@/components/form/input"
 import Submit from "@/components/form/submit"
+import { QUERY_KEY } from "@/config/query"
 import { queryClient, useMutation, useQuery } from "@/hooks/query"
 import { toast } from "@/utils/toast"
 
@@ -26,8 +27,8 @@ export default function Verify({ onBack }: Readonly<VerifyProps>): ReactNode {
   const [cooldown, setCooldown] = useState(0)
 
   const phone = useQuery({
-    queryKey: ["auth", "verify"],
-    queryFn: () => api.auth.verify(),
+    queryKey: QUERY_KEY.auth.verify,
+    queryFn: ({ signal }) => api.auth.verify(signal),
     staleTime: 0,
   })
 

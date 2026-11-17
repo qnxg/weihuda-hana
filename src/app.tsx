@@ -2,8 +2,8 @@ import type { PropsWithChildren } from "react"
 import { useLaunch } from "@tarojs/taro"
 import { queryClient, QueryClientProvider } from "@/hooks/query"
 import { initTheme } from "@/hooks/theme"
-import { installAbortController } from "@/utils/abort"
 import { hydrateToken } from "@/utils/auth"
+import { installAbortController } from "@/utils/request/abort"
 
 import "./app.css"
 
