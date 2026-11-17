@@ -1,12 +1,10 @@
 import type { ReactNode } from "react"
 import { View } from "@tarojs/components"
-import { navigateBack, useLoad } from "@tarojs/taro"
-import { useState } from "react"
+import { navigateBack, useRouter } from "@tarojs/taro"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Login from "@/pages/auth/components/login"
 import Verify from "@/pages/auth/components/verify"
-import { hasToken } from "@/utils/auth"
 import { navigate } from "@/utils/navigate"
 
 /** 鉴权页模式 */
@@ -19,17 +17,10 @@ function back(): void {
 
 /** 鉴权页 */
 export default function Auth(): ReactNode {
-  const [mode, setMode] = useState<AuthMode | null>(null)
-
-  useLoad((params) => {
-    const next = params.mode === "verify"
-      ? "verify"
-      : "login"
-    setMode(next)
-
-    if (next === "login" && hasToken())
-      back()
-  })
+  const router = useRouter()
+  const mode: AuthMode = router.params.mode === "verify"
+    ? "verify"
+    : "login"
 
   return (
     <Page>
