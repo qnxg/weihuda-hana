@@ -10,6 +10,7 @@ import Scroll from "@/components/common/scroll"
 import Skeleton from "@/components/common/skeleton"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import Alert from "@/components/modal/alert"
 import Popup from "@/components/modal/popup"
 import { sleep } from "@/utils/sleep"
 
@@ -19,6 +20,7 @@ const buttonClass = "px-3 py-2 text-sm"
 export default function CompDebug(): ReactNode {
   const [refreshing, setRefreshing] = useState(false)
   const [popup, setPopup] = useState(false)
+  const [alert, setAlert] = useState(false)
 
   const refresh = async () => {
     setRefreshing(true)
@@ -123,6 +125,14 @@ export default function CompDebug(): ReactNode {
                 <Button className={buttonClass} onClick={() => setPopup(true)}>打开</Button>
               </Card>
             </View>
+
+            <View className="flex flex-col gap-2">
+              <Text className="text-strong">确认框</Text>
+
+              <Card className="flex flex-col gap-3">
+                <Button className={buttonClass} color="error" onClick={() => setAlert(true)}>打开</Button>
+              </Card>
+            </View>
           </View>
         </Scroll>
       </Main>
@@ -131,6 +141,19 @@ export default function CompDebug(): ReactNode {
         <Text className="text-sm text-soft">点遮罩或右上角关闭, 退场动画结束后才从模态层移除</Text>
         <Button className={`${buttonClass} w-full`} onClick={() => setPopup(false)}>关闭</Button>
       </Popup>
+
+      <Alert
+        visible={alert}
+        icon={<Icon icon={House} className="h-1r w-1r" />}
+        color="error"
+        title="确认框"
+        confirmText="确定"
+        cancelText="取消"
+        onConfirm={() => setAlert(false)}
+        onCancel={() => setAlert(false)}
+      >
+        <Text className="text-sm text-soft">居中弹窗, 点遮罩等同取消</Text>
+      </Alert>
     </Page>
   )
 }
