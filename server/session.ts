@@ -23,6 +23,8 @@ interface Behavior {
 
 /** 会话 */
 export interface Session extends Behavior {
+  /** 会话 id */
+  id: number
   /** 账号 */
   account: string
   /** 当前访问令牌是否过期 */
@@ -52,19 +54,21 @@ const behaviors = new Map<string, Behavior>([
   ],
 ])
 
-const sessions = new Map<string, Session>()
+const sessions = new Map<number, Session>()
+
+let sessionSeed = 0
 
 /** 签发一对令牌 */
 function issue(session: Session): Token {
   session.seed += 1
   return {
-    access: `access.${session.account}.${session.seed}`,
-    refresh: `refresh.${session.account}.${session.seed}`,
+    access: `access.${session.id}.${session.seed}`,
+    refresh: `refresh.${session.id}.${session.seed}`,
   }
 }
 
-/** 从令牌解析账号 */
-function parse(token: string, kind: TokenKind): string | null {
+/** 从令牌解析会话 id */
+function parse(token: string, kind: TokenKind): number | null {
   const prefix = `${kind}.`
 
   if (!token.startsWith(prefix))
@@ -72,18 +76,19 @@ function parse(token: string, kind: TokenKind): string | null {
 
   const rest = token.slice(prefix.length)
   const index = rest.lastIndexOf(".")
+  const id = Number(rest.slice(0, index))
 
-  return index === -1
-    ? null
-    : rest.slice(0, index)
+  return Number.isInteger(id)
+    ? id
+    : null
 }
 
 /** 读取令牌对应的会话 */
 function sessionOf(token: string, kind: TokenKind): Session | null {
-  const account = parse(token, kind)
-  return account
-    ? sessions.get(account) ?? null
-    : null
+  const id = parse(token, kind)
+  return id === null
+    ? null
+    : sessions.get(id) ?? null
 }
 
 /** 从请求头取访问令牌 */
@@ -102,15 +107,18 @@ export function login(account: string): Token | null {
     return null
 
   const behavior = behaviors.get(account) ?? normal
+  sessionSeed += 1
+
   const session: Session = {
     ...behavior,
+    id: sessionSeed,
     account,
     stale: behavior.expired,
     verified: false,
     seed: 0,
   }
 
-  sessions.set(account, session)
+  sessions.set(session.id, session)
   return issue(session)
 }
 
@@ -132,7 +140,7 @@ export function verify(session: Session): void {
 
 /** 销毁会话 */
 export function logout(session: Session): void {
-  sessions.delete(session.account)
+  sessions.delete(session.id)
 }
 
 /** 是否需要二次验证 */
