@@ -14,6 +14,7 @@ import Alert from "@/components/modal/alert"
 import Dialog from "@/components/modal/dialog"
 import Popup from "@/components/modal/popup"
 import { sleep } from "@/utils/sleep"
+import { toast } from "@/utils/toast"
 
 /** 按钮的通用尺寸 */
 const buttonClass = "px-3 py-2 text-sm"
@@ -141,6 +142,22 @@ export default function CompDebug(): ReactNode {
 
               <Card className="flex flex-col gap-3">
                 <Button className={buttonClass} onClick={() => setDialog(true)}>打开</Button>
+              </Card>
+            </View>
+
+            <View className="flex flex-col gap-2">
+              <Text className="text-strong">提示</Text>
+
+              <Card className="flex flex-col gap-2">
+                <View className="flex gap-2">
+                  <Button className={`${buttonClass} flex-1`} onClick={() => toast.success("已保存")}>成功</Button>
+                  <Button color="error" className={`${buttonClass} flex-1`} onClick={() => toast.error("保存失败")}>失败</Button>
+                  <Button variant="outline" color="ink" className={`${buttonClass} flex-1`} onClick={() => toast.info("已复制")}>信息</Button>
+                </View>
+                <View className="flex gap-2">
+                  <Button variant="outline" color="ink" className={`${buttonClass} flex-1`} onClick={() => toast.loading("加载中")}>加载中</Button>
+                  <Button variant="outline" color="ink" className={`${buttonClass} flex-1`} onClick={() => toast.hide()}>关闭</Button>
+                </View>
               </Card>
             </View>
           </View>

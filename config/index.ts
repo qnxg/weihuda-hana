@@ -56,6 +56,10 @@ export default defineConfig<"webpack5">({
     enable: false,
   },
   mini: {
+    // Taro 默认不实现 TaroNode.contains, preact 插入子节点时会调用它导致崩溃
+    runtime: {
+      enableContains: true,
+    },
     // 根目录下的共享模块不在 sourceRoot 内, 需要显式纳入编译
     compile: {
       include: [

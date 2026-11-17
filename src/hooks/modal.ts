@@ -1,16 +1,9 @@
 import type { ReactNode } from "react"
 import type { ModalEntry } from "@/types/modal"
 import { useCallback, useEffect, useId, useState } from "react"
-import { duration } from "@/config/animation"
+import { animation } from "@/config/duration"
 import { useModalApiContext, useModalEntriesContext } from "@/contexts/modal"
-
-let seed = 0
-
-/** 生成 id */
-function createId(): string {
-  seed += 1
-  return `modal-${seed}`
-}
+import { createId } from "@/utils/id"
 
 interface UseModalResult {
   /** 挂载节点 */
@@ -26,7 +19,7 @@ export function useModal(): UseModalResult {
   const { setEntry, removeEntry } = useModalApiContext()
 
   const mount = useCallback((node: ReactNode) => {
-    const id = createId()
+    const id = createId("modal")
     setEntry(id, node)
     return id
   }, [setEntry])
@@ -67,7 +60,7 @@ export function useModalPresence(
     }
 
     setActive(false)
-    const timer = setTimeout(setPresent, duration, false)
+    const timer = setTimeout(setPresent, animation, false)
     return () => clearTimeout(timer)
   }, [visible])
 

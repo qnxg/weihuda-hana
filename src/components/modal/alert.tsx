@@ -6,7 +6,7 @@ import { cloneElement } from "react"
 import Button from "@/components/common/button"
 import Card from "@/components/common/card"
 import Overlay from "@/components/modal/overlay"
-import { duration } from "@/config/animation"
+import { animation } from "@/config/duration"
 import { useModalPresence } from "@/hooks/modal"
 import { cn } from "@/utils/cn"
 
@@ -63,7 +63,7 @@ export default function Alert({
         style={{
           opacity: active ? 1 : 0,
           transform: active ? "scale(1)" : "scale(0.9)",
-          transition: `opacity ${duration}ms ease-out, transform ${duration}ms ease-out`,
+          transition: `opacity ${animation}ms ease-out, transform ${animation}ms ease-out`,
         }}
       >
         {(icon || title) && (
