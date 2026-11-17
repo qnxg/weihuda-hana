@@ -7,7 +7,7 @@ import Tabbar from "@/components/layout/tabbar"
 export default function Table(): ReactNode {
   return (
     <Page>
-      <Main>
+      <Main className="py-1r">
         <View className="flex-1 flex items-center justify-center">
           <Text className="text-soft">table</Text>
         </View>

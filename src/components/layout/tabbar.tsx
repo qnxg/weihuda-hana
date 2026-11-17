@@ -3,7 +3,6 @@ import { Text, View } from "@tarojs/components"
 import { getCurrentPages } from "@tarojs/taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
-import SafeArea from "@/components/common/safe-area"
 import { tabbar } from "@/config/tabbar"
 import { navigate } from "@/utils/navigate"
 
@@ -39,7 +38,6 @@ export default function Tabbar(): ReactNode {
           )
         })}
       </View>
-      <SafeArea />
     </View>
   )
 }

@@ -30,7 +30,7 @@ export default function CompDebug(): ReactNode {
     <Page>
       <Main>
         <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
-          <View className="flex flex-col gap-3">
+          <View className="py-1r flex flex-col gap-3">
             <View className="flex flex-col gap-2">
               <Text className="text-strong">按钮</Text>
 

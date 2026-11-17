@@ -4,6 +4,7 @@ import { X } from "lucide-react-taro"
 import { useEffect, useId, useState } from "react"
 import Card from "@/components/common/card"
 import Icon from "@/components/common/icon"
+import SafeArea from "@/components/common/safe-area"
 import Overlay from "@/components/modal/overlay"
 import { useModal } from "@/hooks/modal"
 import { cn } from "@/utils/cn"
@@ -58,7 +59,7 @@ export default function Popup({
     ? (
         <Overlay position="bottom" onClick={onClose} className="w-full">
           <Card
-            className={cn("w-full flex flex-col overflow-hidden pb-safe", className)}
+            className={cn("w-full flex flex-col overflow-hidden", className)}
             style={style}
           >
             <View className="flex items-center justify-between gap-2">
@@ -70,6 +71,7 @@ export default function Popup({
               )}
             </View>
             {children}
+            <SafeArea />
           </Card>
         </Overlay>
       )

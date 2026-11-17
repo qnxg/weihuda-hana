@@ -9,7 +9,7 @@ import { navigate } from "@/utils/navigate"
 export default function Home(): ReactNode {
   return (
     <Page>
-      <Main>
+      <Main className="py-1r">
         <View className="flex-1 flex flex-col items-center justify-center gap-2">
           <Text className="text-soft">home</Text>
           <Button

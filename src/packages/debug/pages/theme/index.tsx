@@ -48,7 +48,7 @@ export default function ThemeDebug(): ReactNode {
 
   return (
     <Page>
-      <Main>
+      <Main className="py-1r">
         <Text className="text-strong">主题调试</Text>
 
         <View className="mt-2">
