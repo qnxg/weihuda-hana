@@ -8,7 +8,7 @@ import Form from "@/components/form/form"
 import Input from "@/components/form/input"
 import Submit from "@/components/form/submit"
 import { useMutation } from "@/hooks/query"
-import { setToken } from "@/utils/auth"
+import { setToken, unlockAuthPrompts } from "@/utils/auth"
 import { toast } from "@/utils/toast"
 
 export interface LoginProps {
@@ -28,6 +28,7 @@ export default function Login({ onBack }: Readonly<LoginProps>): ReactNode {
     mutationFn: (values: AuthLoginPayload) => api.auth.login(values),
     onSuccess: (data) => {
       setToken(data)
+      unlockAuthPrompts()
       toast.success("登录成功")
       onBack()
     },

@@ -1,6 +1,7 @@
 import type { AuthRefreshData, AuthRefreshPayload } from "@contract/routes"
 import { OhNetClient } from "@xtwis/ohnet"
 import { STORAGE } from "@/config/storage"
+import { useAuthStore } from "@/stores/auth"
 import { adapter } from "@/utils/request/adapter"
 import { resolveBaseUrl } from "@/utils/request/base"
 import { normalize } from "@/utils/request/middleware/normalize"
@@ -59,10 +60,8 @@ export function refreshToken(): Promise<string | null> {
 
 /** 用刷新令牌换新令牌 */
 async function doRefresh(): Promise<string | null> {
-  if (!refresh) {
-    snackbar.show("登录状态已失效, 请重新登录")
+  if (!refresh)
     return null
-  }
 
   snackbar.show("同步用户数据")
 
@@ -73,7 +72,21 @@ async function doRefresh(): Promise<string | null> {
   }
   catch {
     clearToken()
-    snackbar.show("登录状态已失效, 请重新登录")
     return null
   }
+}
+
+/** 登录失效: 弹窗引导重新登录 */
+export function promptLoginLost(): void {
+  useAuthStore.getState().ask("loginLost")
+}
+
+/** 需要二次验证: 弹窗引导去验证 */
+export function promptVerify(): void {
+  useAuthStore.getState().ask("verify")
+}
+
+/** 解锁全部提示, 允许下次失效再次弹窗 */
+export function unlockAuthPrompts(): void {
+  useAuthStore.getState().unlock()
 }

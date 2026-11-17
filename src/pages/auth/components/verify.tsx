@@ -10,6 +10,7 @@ import Input from "@/components/form/input"
 import Submit from "@/components/form/submit"
 import { QUERY_KEY } from "@/config/query"
 import { queryClient, useMutation, useQuery } from "@/hooks/query"
+import { unlockAuthPrompts } from "@/utils/auth"
 import { toast } from "@/utils/toast"
 
 export interface VerifyProps {
@@ -43,6 +44,7 @@ export default function Verify({ onBack }: Readonly<VerifyProps>): ReactNode {
     onSuccess: () => {
       toast.success("验证成功")
       void queryClient.invalidateQueries()
+      unlockAuthPrompts()
       onBack()
     },
     onError: error => toast.error(error.message),

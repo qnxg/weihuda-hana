@@ -10,6 +10,8 @@ export interface HandlerInput<S> {
   query: Queries<S>
   /** 请求体 */
   body: Payload<S>
+  /** 读取请求头 */
+  header: (name: string) => string | undefined
 }
 
 /** 处理器返回值 */

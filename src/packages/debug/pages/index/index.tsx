@@ -21,6 +21,7 @@ const entries = [
   { text: "主题", path: "/packages/debug/pages/theme/index" },
   { text: "组件", path: "/packages/debug/pages/comp/index" },
   { text: "表单", path: "/packages/debug/pages/form/index" },
+  { text: "鉴权", path: "/packages/debug/pages/auth/index" },
 ]
 
 /** 列表 */

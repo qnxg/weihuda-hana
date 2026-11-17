@@ -36,7 +36,12 @@ export function createMockApi() {
 
       api.register(`${domain}.${name}`, endpoint, (async ({ c, request }) => {
         const body = await readBody(c, endpoint, request.body)
-        return handler({ params: request.params, query: request.query, body } as never)
+        return handler({
+          params: request.params,
+          query: request.query,
+          body,
+          header: (key: string) => c.req.header(key),
+        } as never)
       }) as never)
     }
   }
