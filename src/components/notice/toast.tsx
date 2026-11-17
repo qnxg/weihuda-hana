@@ -3,14 +3,11 @@ import type { FC, ReactNode } from "react"
 import type { ToastType } from "@/types/toast"
 import { Text, View } from "@tarojs/components"
 import { CircleAlert, CircleCheck, Info, LoaderCircle } from "lucide-react-taro"
-import { useEffect, useState } from "react"
 import Icon from "@/components/common/icon"
 import { animation } from "@/config/duration"
+import { useExpire } from "@/hooks/notice"
 import { useToast } from "@/hooks/toast"
 import { cn } from "@/utils/cn"
-
-/** 刷新间隔 */
-const tick = 50
 
 /** 类型图标 */
 const icons: Record<ToastType, FC<LucideIconProps>> = {
@@ -31,27 +28,7 @@ const colors: Record<ToastType, "primary" | "error" | "ink"> = {
 /** 居中提示 */
 export default function Toast(): ReactNode {
   const { current, hide } = useToast()
-  const [now, setNow] = useState(() => Date.now())
-
-  useEffect(() => {
-    if (!current)
-      return
-
-    const timer = setInterval(() => {
-      const time = Date.now()
-      setNow(time)
-
-      if (current.duration === 0 && time - current.startAt >= animation)
-        clearInterval(timer)
-    }, tick)
-
-    return () => clearInterval(timer)
-  }, [current])
-
-  useEffect(() => {
-    if (current && current.duration > 0 && now >= current.startAt + current.duration)
-      hide()
-  }, [current, hide, now])
+  const now = useExpire(current, hide)
 
   if (!current)
     return null

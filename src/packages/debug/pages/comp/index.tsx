@@ -14,6 +14,7 @@ import Alert from "@/components/modal/alert"
 import Dialog from "@/components/modal/dialog"
 import Popup from "@/components/modal/popup"
 import { sleep } from "@/utils/sleep"
+import { snackbar } from "@/utils/snackbar"
 import { toast } from "@/utils/toast"
 
 /** 按钮的通用尺寸 */
@@ -158,6 +159,27 @@ export default function CompDebug(): ReactNode {
                   <Button variant="outline" color="ink" className={`${buttonClass} flex-1`} onClick={() => toast.loading("加载中")}>加载中</Button>
                   <Button variant="outline" color="ink" className={`${buttonClass} flex-1`} onClick={() => toast.hide()}>关闭</Button>
                 </View>
+              </Card>
+            </View>
+
+            <View className="flex flex-col gap-2">
+              <Text className="text-strong">通知条</Text>
+
+              <Card className="flex gap-2">
+                <Button className={`${buttonClass} flex-1`} onClick={() => snackbar.show("网络已断开")}>普通</Button>
+                <Button
+                  variant="outline"
+                  color="ink"
+                  className={`${buttonClass} flex-1`}
+                  onClick={() => snackbar.show("网络已断开", {
+                    action: {
+                      text: "重试",
+                      onTap: () => snackbar.hide(),
+                    },
+                  })}
+                >
+                  带操作
+                </Button>
               </Card>
             </View>
           </View>
