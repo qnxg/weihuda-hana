@@ -1,6 +1,7 @@
 import type { ReactNode } from "react"
 import type { ModalEntry } from "@/types/modal"
-import { useCallback } from "react"
+import { useCallback, useEffect, useId, useState } from "react"
+import { duration } from "@/config/animation"
 import { useModalApiContext, useModalEntriesContext } from "@/contexts/modal"
 
 let seed = 0
@@ -39,6 +40,49 @@ export function useModal(): UseModalResult {
   }, [removeEntry])
 
   return { mount, update, unmount }
+}
+
+interface UseModalPresenceResult {
+  /** 在场 */
+  present: boolean
+  /** 激活 */
+  active: boolean
+}
+
+/** 模态层在场状态 */
+export function useModalPresence(
+  visible: boolean,
+  render: (active: boolean) => ReactNode,
+): UseModalPresenceResult {
+  const { update, unmount } = useModal()
+  const id = useId()
+  const [present, setPresent] = useState(visible)
+  const [active, setActive] = useState(visible)
+
+  useEffect(() => {
+    if (visible) {
+      setPresent(true)
+      const timer = setTimeout(setActive, 0, true)
+      return () => clearTimeout(timer)
+    }
+
+    setActive(false)
+    const timer = setTimeout(setPresent, duration, false)
+    return () => clearTimeout(timer)
+  }, [visible])
+
+  const node = render(active)
+
+  useEffect(() => {
+    if (present)
+      update(id, node)
+    else
+      unmount(id)
+  }, [id, node, present, unmount, update])
+
+  useEffect(() => () => unmount(id), [id, unmount])
+
+  return { present, active }
 }
 
 /** 模态层条目 */
