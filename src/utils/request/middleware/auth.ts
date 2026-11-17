@@ -4,6 +4,7 @@ import { OhNetMiddleware } from "@xtwis/ohnet"
 import { BIZ_ERROR_TYPE } from "@/config/request"
 import { ApiError } from "@/types/request"
 import { getAccessToken, refreshToken } from "@/utils/auth"
+import { requireVerify } from "@/utils/verify"
 
 /** 免鉴权路径 */
 const publicPaths = ["/auth/login", "/auth/refresh", "/auth/captcha"]
@@ -35,9 +36,11 @@ export class Auth extends OhNetMiddleware {
       return
     }
 
-    // 需要验证: 交由验证弹层处理, 此处不登出
-    if (error.code === CODE.auth.verifyRequired)
+    // 需要验证: 提示并跳验证页, 此处不登出
+    if (error.code === CODE.auth.verifyRequired) {
       error.handle()
+      requireVerify()
+    }
   }
 }
 

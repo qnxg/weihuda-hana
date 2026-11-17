@@ -9,8 +9,8 @@ const demoPassword = "123456"
 /** 演示用验证码 */
 const demoCaptcha = "123456"
 
-/** 触发二次验证的密码 */
-const tfaPassword = "tfa"
+/** 演示用手机号 */
+const demoPhone = "138****8000"
 
 let seed = 0
 
@@ -21,24 +21,16 @@ function issue() {
 }
 
 export const auth: Handlers<typeof contract.auth> = {
-  login: ({ body }) => {
-    if (body.password === tfaPassword)
-      return ok<{ tfa: true }>({ tfa: true })
-
-    if (body.password !== demoPassword)
-      return fail(CODE.auth.loginFailed, "账号或密码错误")
-
-    return ok(issue())
-  },
-  loginCaptcha: ({ body }) =>
-    body.code === demoCaptcha
+  login: ({ body }) =>
+    body.password === demoPassword
       ? ok(issue())
-      : fail(CODE.auth.captchaInvalid, "验证码错误"),
+      : fail(CODE.auth.loginFailed, "账号或密码错误"),
   refresh: ({ body }) =>
     body.refresh
       ? ok(issue())
       : fail(CODE.auth.tokenInvalid, "令牌无效"),
   logout: () => ok(null),
+  verify: () => ok({ phone: demoPhone }),
   captchaSend: () => ok({ cooldown: 60 }),
   captchaVerify: ({ body }) =>
     body.code === demoCaptcha

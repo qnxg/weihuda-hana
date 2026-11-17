@@ -4,6 +4,7 @@ export default defineAppConfig({
     "pages/kit/index",
     "pages/table/index",
     "pages/profile/index",
+    "pages/auth/index",
   ],
   subPackages: [
     {

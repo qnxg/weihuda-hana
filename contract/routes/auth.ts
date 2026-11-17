@@ -25,8 +25,11 @@ interface LoginPayload {
   password: string
 }
 
-/** 登录结果, 需要二次验证时不带令牌 */
-type LoginData = { tfa: true } | ({ tfa?: false } & Token)
+/** 验证手机号 */
+interface VerifyData {
+  /** 手机号 */
+  phone: string
+}
 
 /** 刷新入参 */
 interface RefreshPayload {
@@ -47,12 +50,12 @@ interface CaptchaSent {
 }
 
 export const auth = {
-  login: endpoint.post<never, LoginPayload, LoginData>("/auth/login", "登录"),
-  loginCaptcha: endpoint.post<never, CaptchaPayload, Token>("/auth/login/captcha", "登录二次验证"),
+  login: endpoint.post<never, LoginPayload, Token>("/auth/login", "登录"),
   refresh: endpoint.post<never, RefreshPayload, Token>("/auth/refresh", "刷新令牌"),
   logout: endpoint.post<never, never, null>("/auth/logout", "登出"),
+  verify: endpoint.post<never, never, VerifyData>("/auth/verify", "开始验证"),
   captchaSend: endpoint.post<never, never, CaptchaSent>("/auth/captcha/send", "发送验证码"),
-  captchaVerify: endpoint.post<never, CaptchaPayload, null>("/auth/captcha/verify", "校验验证码"),
+  captchaVerify: endpoint.post<never, CaptchaPayload, null>("/auth/captcha/verify", "二次验证"),
   me: endpoint.get<never, never, User>("/auth/me", "当前账号"),
 }
 
@@ -60,16 +63,15 @@ export type AuthLogin = ApiSpec<typeof auth.login>
 export type AuthLoginPayload = Payload<AuthLogin>
 export type AuthLoginData = Data<AuthLogin>
 
-export type AuthLoginCaptcha = ApiSpec<typeof auth.loginCaptcha>
-export type AuthLoginCaptchaPayload = Payload<AuthLoginCaptcha>
-export type AuthLoginCaptchaData = Data<AuthLoginCaptcha>
-
 export type AuthRefresh = ApiSpec<typeof auth.refresh>
 export type AuthRefreshPayload = Payload<AuthRefresh>
 export type AuthRefreshData = Data<AuthRefresh>
 
 export type AuthLogout = ApiSpec<typeof auth.logout>
 export type AuthLogoutData = Data<AuthLogout>
+
+export type AuthVerify = ApiSpec<typeof auth.verify>
+export type AuthVerifyData = Data<AuthVerify>
 
 export type AuthCaptchaSend = ApiSpec<typeof auth.captchaSend>
 export type AuthCaptchaSendData = Data<AuthCaptchaSend>
