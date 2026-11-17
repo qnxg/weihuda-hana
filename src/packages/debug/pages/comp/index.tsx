@@ -11,6 +11,7 @@ import Skeleton from "@/components/common/skeleton"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Alert from "@/components/modal/alert"
+import Dialog from "@/components/modal/dialog"
 import Popup from "@/components/modal/popup"
 import { sleep } from "@/utils/sleep"
 
@@ -21,6 +22,7 @@ export default function CompDebug(): ReactNode {
   const [refreshing, setRefreshing] = useState(false)
   const [popup, setPopup] = useState(false)
   const [alert, setAlert] = useState(false)
+  const [dialog, setDialog] = useState(false)
 
   const refresh = async () => {
     setRefreshing(true)
@@ -133,6 +135,14 @@ export default function CompDebug(): ReactNode {
                 <Button className={buttonClass} color="error" onClick={() => setAlert(true)}>打开</Button>
               </Card>
             </View>
+
+            <View className="flex flex-col gap-2">
+              <Text className="text-strong">居中弹窗</Text>
+
+              <Card className="flex flex-col gap-3">
+                <Button className={buttonClass} onClick={() => setDialog(true)}>打开</Button>
+              </Card>
+            </View>
           </View>
         </Scroll>
       </Main>
@@ -154,6 +164,16 @@ export default function CompDebug(): ReactNode {
       >
         <Text className="text-sm text-soft">居中弹窗, 点遮罩等同取消</Text>
       </Alert>
+
+      <Dialog
+        visible={dialog}
+        title="居中弹窗"
+        closeable={false}
+        onClose={() => setDialog(false)}
+        footer={<Button className="flex-1 py-1" onClick={() => setDialog(false)}>知道了</Button>}
+      >
+        <Text className="text-sm text-soft">标题与右上角关闭在头部, 底部由 footer 传入</Text>
+      </Dialog>
     </Page>
   )
 }
