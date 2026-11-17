@@ -1,5 +1,16 @@
-import type { ApiResponse, ApiSpec, Data } from "@contract/types"
+import type { ApiResponse, ApiSpec, Data, Params, Payload, Queries } from "@contract/types"
 import type { AppRoute } from "@sapporta/rest-core"
+import { CODE } from "@shared/codes"
+
+/** 端点入参 */
+export interface HandlerInput<S> {
+  /** 路径参数 */
+  params: Params<S>
+  /** 查询参数 */
+  query: Queries<S>
+  /** 请求体 */
+  body: Payload<S>
+}
 
 /** 处理器返回值 */
 export interface Result<T> {
@@ -8,18 +19,18 @@ export interface Result<T> {
 }
 
 /** 端点处理器 */
-export type Handler = () => Result<unknown>
+export type Handler<D extends AppRoute> = (input: HandlerInput<ApiSpec<D>>) => Result<Data<ApiSpec<D>>>
 
 /** 一个域的处理器集合 */
 export type Handlers<D> = {
-  [K in keyof D]: D[K] extends AppRoute ? () => Result<Data<ApiSpec<D[K]>>> : never
+  [K in keyof D]: D[K] extends AppRoute ? Handler<D[K]> : never
 }
 
 /** 业务成功 */
 export function ok<T>(data: T, message = "ok"): Result<T> {
   return {
     status: 200,
-    body: { code: 0, data, message },
+    body: { code: CODE.ok, data, message },
   }
 }
 
