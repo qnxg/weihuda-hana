@@ -27,13 +27,23 @@ export class Auth extends OhNetMiddleware {
     if (!(error instanceof ApiError) || error.type !== BIZ_ERROR_TYPE)
       return
 
-    // 令牌失效: 换令牌后重试一次, 失败交由弹窗引导重新登录
+    // 令牌失效: 换令牌后重试一次, 失败则引导重新登录
     if (error.code === CODE.auth.tokenInvalid) {
-      if (await refreshToken())
+      if (await refreshToken()) {
         controls.retry()
-      else
+      }
+      else {
+        error.handle()
         promptLoginLost()
+      }
 
+      return
+    }
+
+    // 令牌被作废: 换令牌无用, 直接引导重新登录
+    if (error.code === CODE.auth.kickOff || error.code === CODE.auth.tokenReused) {
+      error.handle()
+      promptLoginLost()
       return
     }
 

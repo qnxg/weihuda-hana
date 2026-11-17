@@ -1,6 +1,7 @@
 import type { Term } from "@contract/routes/model"
 import type { ApiSpec, Data, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 interface GradeItem {
   /** 课程 id */
@@ -39,8 +40,8 @@ interface GradeDetailItem {
 }
 
 export const grade = {
-  list: endpoint.get<never, Term, GradeItem[]>("/grade", "成绩列表"),
-  get: endpoint.get<GradeParams, never, GradeDetailItem[]>("/grade/:detailId", "单科成绩"),
+  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, GradeItem[]>("/grade", "成绩列表"),
+  get: endpoint.codes([CODE.notFound, CODE.upstream.failed, CODE.upstream.timeout]).get<GradeParams, never, GradeDetailItem[]>("/grade/:detailId", "单科成绩"),
 }
 
 export type GradeList = ApiSpec<typeof grade.list>

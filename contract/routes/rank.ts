@@ -1,6 +1,7 @@
 import type { Semester, Year } from "@contract/routes/model"
 import type { ApiSpec, Data, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 /** 排名指标 */
 interface RankDetail {
@@ -59,9 +60,9 @@ export type RankDataSource = "total" | "execution"
 export type RankDisplay = "max" | "initial"
 
 export const rank = {
-  caGet: endpoint.get<never, never, RankCa | null>("/rank/ca", "凭证排名"),
-  caRefresh: endpoint.post<never, never, null>("/rank/ca/refresh", "重新生成凭证排名"),
-  get: endpoint.get<never, RankQueries, Rank>("/rank", "教务排名"),
+  caGet: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, never, RankCa | null>("/rank/ca", "凭证排名"),
+  caRefresh: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).post<never, never, null>("/rank/ca/refresh", "重新生成凭证排名"),
+  get: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, RankQueries, Rank>("/rank", "教务排名"),
 }
 
 export type RankCaGet = ApiSpec<typeof rank.caGet>

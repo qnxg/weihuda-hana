@@ -1,6 +1,7 @@
 import type { PageData, PageQueries } from "@contract/routes/model"
 import type { ApiSpec, Data } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 /** 兑换状态, 待领取 / 已完成 / 已过期 */
 export type PointExchangeStatus = "pending" | "done" | "expired"
@@ -76,13 +77,13 @@ interface Desc {
 }
 
 export const point = {
-  get: endpoint.get<never, never, Point>("/point", "积分"),
-  check: endpoint.post<never, never, CheckResult>("/point", "签到"),
-  recordList: endpoint.get<never, PageQueries, PageData<PointRecordItem>>("/point/record", "积分记录"),
-  goodsList: endpoint.get<never, never, GoodsItem[]>("/point/goods", "积分商品"),
-  exchange: endpoint.post<ExchangeParams, never, ExchangeItem>("/point/goods/:id", "兑换商品"),
-  exchangeList: endpoint.get<never, never, ExchangeItem[]>("/point/exchange", "待兑换"),
-  desc: endpoint.get<never, never, Desc>("/point/desc", "积分说明"),
+  get: endpoint.internal().get<never, never, Point>("/point", "积分"),
+  check: endpoint.internal().codes([CODE.rejected]).post<never, never, CheckResult>("/point", "签到"),
+  recordList: endpoint.internal().get<never, PageQueries, PageData<PointRecordItem>>("/point/record", "积分记录"),
+  goodsList: endpoint.internal().get<never, never, GoodsItem[]>("/point/goods", "积分商品"),
+  exchange: endpoint.internal().codes([CODE.notFound, CODE.rejected]).post<ExchangeParams, never, ExchangeItem>("/point/goods/:id", "兑换商品"),
+  exchangeList: endpoint.internal().get<never, never, ExchangeItem[]>("/point/exchange", "待兑换"),
+  desc: endpoint.internal().get<never, never, Desc>("/point/desc", "积分说明"),
 }
 
 export type PointGet = ApiSpec<typeof point.get>

@@ -1,6 +1,7 @@
 import type { Term } from "@contract/routes/model"
 import type { ApiSpec, Data, Payload, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 /** 课程, 一个课程对应课表里的一个格子 */
 interface CourseItem {
@@ -82,11 +83,11 @@ interface CoursePayload {
 interface CreatePayload extends CoursePayload, Term {}
 
 export const course = {
-  list: endpoint.get<never, Term, CourseItem[]>("/course", "课程列表"),
-  extraList: endpoint.get<never, Term, ExtraCourseItem[]>("/course/extra", "无课表课程"),
-  create: endpoint.post<never, CreatePayload, CourseItem>("/course/custom", "新增自定义课程"),
-  update: endpoint.put<CourseParams, CoursePayload, CourseItem>("/course/custom/:customizeId", "修改自定义课程"),
-  remove: endpoint.delete<CourseParams, never, null>("/course/custom/:customizeId", "删除自定义课程"),
+  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, CourseItem[]>("/course", "课程列表"),
+  extraList: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExtraCourseItem[]>("/course/extra", "无课表课程"),
+  create: endpoint.internal().post<never, CreatePayload, CourseItem>("/course/custom", "新增自定义课程"),
+  update: endpoint.internal().codes([CODE.notFound]).put<CourseParams, CoursePayload, CourseItem>("/course/custom/:customizeId", "修改自定义课程"),
+  remove: endpoint.internal().codes([CODE.notFound]).delete<CourseParams, never, null>("/course/custom/:customizeId", "删除自定义课程"),
 }
 
 export type CourseList = ApiSpec<typeof course.list>

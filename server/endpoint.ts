@@ -2,6 +2,9 @@ import type { ApiResponse, ApiSpec, Data, Params, Payload, Queries } from "@cont
 import type { AppRoute } from "@sapporta/rest-core"
 import { CODE } from "@shared/codes"
 
+/** 读取请求头 */
+export type HeaderReader = (name: string) => string | undefined
+
 /** 端点入参 */
 export interface HandlerInput<S> {
   /** 路径参数 */
@@ -11,7 +14,7 @@ export interface HandlerInput<S> {
   /** 请求体 */
   body: Payload<S>
   /** 读取请求头 */
-  header: (name: string) => string | undefined
+  header: HeaderReader
 }
 
 /** 处理器返回值 */

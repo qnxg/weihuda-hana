@@ -15,7 +15,7 @@ interface AnnouncementItem {
 }
 
 export const announcement = {
-  list: endpoint.get<never, never, AnnouncementItem[]>("/announcement", "公告列表"),
+  list: endpoint.public().get<never, never, AnnouncementItem[]>("/announcement", "公告列表"),
 }
 
 export type AnnouncementList = ApiSpec<typeof announcement.list>

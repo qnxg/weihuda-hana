@@ -1,5 +1,6 @@
 import type { ApiSpec, Data, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 interface MonthNetflow {
   /** 欠费 */
@@ -73,9 +74,9 @@ interface DetailQueries {
 }
 
 export const netflow = {
-  get: endpoint.get<never, never, MonthNetflow>("/netflow", "本月流量"),
-  orderList: endpoint.get<never, never, NetflowOrderItem[]>("/netflow/order", "流量账单"),
-  detail: endpoint.get<never, DetailQueries, NetflowDetail>("/netflow/detail", "流量明细"),
+  get: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, never, MonthNetflow>("/netflow", "本月流量"),
+  orderList: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, never, NetflowOrderItem[]>("/netflow/order", "流量账单"),
+  detail: endpoint.codes([CODE.invalid, CODE.upstream.failed, CODE.upstream.timeout]).get<never, DetailQueries, NetflowDetail>("/netflow/detail", "流量明细"),
 }
 
 export type NetflowGet = ApiSpec<typeof netflow.get>

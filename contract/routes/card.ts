@@ -1,5 +1,6 @@
 import type { ApiSpec, Data, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 /** 交易类型, 充值 / 消费 */
 export type CardRecordType = "recharge" | "consumption"
@@ -49,8 +50,8 @@ interface CardRecordQueries {
 }
 
 export const card = {
-  get: endpoint.get<never, never, Card>("/card", "校园卡"),
-  recordList: endpoint.get<never, CardRecordQueries, CardRecordData>("/card/record", "校园卡流水"),
+  get: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, never, Card>("/card", "校园卡"),
+  recordList: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, CardRecordQueries, CardRecordData>("/card/record", "校园卡流水"),
 }
 
 export type CardGet = ApiSpec<typeof card.get>

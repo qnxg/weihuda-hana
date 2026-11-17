@@ -18,8 +18,8 @@ interface AboutData {
 }
 
 export const root = {
-  health: endpoint.get<never, never, HealthData>("/", "健康检查"),
-  about: endpoint.get<never, never, AboutData>("/about", "关于"),
+  health: endpoint.public().get<never, never, HealthData>("/", "健康检查"),
+  about: endpoint.public().get<never, never, AboutData>("/about", "关于"),
 }
 
 export type RootHealth = ApiSpec<typeof root.health>

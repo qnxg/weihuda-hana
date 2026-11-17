@@ -1,5 +1,6 @@
 import type { ApiSpec, Data, Payload } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 /** 账号信息 */
 interface User {
@@ -50,13 +51,13 @@ interface CaptchaSent {
 }
 
 export const auth = {
-  login: endpoint.post<never, LoginPayload, Token>("/auth/login", "登录"),
-  refresh: endpoint.post<never, RefreshPayload, Token>("/auth/refresh", "刷新令牌"),
-  logout: endpoint.post<never, never, null>("/auth/logout", "登出"),
-  verify: endpoint.post<never, never, VerifyData>("/auth/verify", "开始验证"),
-  captchaSend: endpoint.post<never, never, CaptchaSent>("/auth/captcha/send", "发送验证码"),
-  captchaVerify: endpoint.post<never, CaptchaPayload, null>("/auth/captcha/verify", "二次验证"),
-  me: endpoint.get<never, never, User>("/auth/me", "当前账号"),
+  login: endpoint.public().codes([CODE.auth.loginFailed]).post<never, LoginPayload, Token>("/auth/login", "登录"),
+  refresh: endpoint.public().codes([CODE.auth.tokenInvalid, CODE.auth.tokenReused, CODE.auth.kickOff]).post<never, RefreshPayload, Token>("/auth/refresh", "刷新令牌"),
+  logout: endpoint.internal().post<never, never, null>("/auth/logout", "登出"),
+  verify: endpoint.internal().post<never, never, VerifyData>("/auth/verify", "开始验证"),
+  captchaSend: endpoint.internal().post<never, never, CaptchaSent>("/auth/captcha/send", "发送验证码"),
+  captchaVerify: endpoint.internal().codes([CODE.auth.captchaInvalid]).post<never, CaptchaPayload, null>("/auth/captcha/verify", "二次验证"),
+  me: endpoint.internal().get<never, never, User>("/auth/me", "当前账号"),
 }
 
 export type AuthLogin = ApiSpec<typeof auth.login>

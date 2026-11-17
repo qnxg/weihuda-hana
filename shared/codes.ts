@@ -41,3 +41,12 @@ export const CODE = {
     unauthorized: 3003,
   },
 } as const
+
+/** 把码表展平成业务码字面量 */
+type Leaves<T> = T extends number ? T : { [K in keyof T]: Leaves<T[K]> }[keyof T]
+
+/** 码表里的全部业务码 */
+export type AppCode = Leaves<typeof CODE>
+
+/** 非成功码 */
+export type ErrorCode = Exclude<AppCode, typeof CODE.ok>

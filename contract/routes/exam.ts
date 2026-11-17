@@ -1,6 +1,7 @@
 import type { Term } from "@contract/routes/model"
 import type { ApiSpec, Data, Payload, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
+import { CODE } from "@shared/codes"
 
 interface ExamItem {
   /** 课程代码, 自定义考试为 null */
@@ -47,10 +48,10 @@ interface ExamPayload {
 }
 
 export const exam = {
-  list: endpoint.get<never, Term, ExamItem[]>("/exam", "考试安排"),
-  create: endpoint.post<never, ExamPayload, null>("/exam", "新增自定义考试"),
-  update: endpoint.put<ExamParams, ExamPayload, null>("/exam/:customizeId", "修改自定义考试"),
-  remove: endpoint.delete<ExamParams, never, null>("/exam/:customizeId", "删除自定义考试"),
+  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExamItem[]>("/exam", "考试安排"),
+  create: endpoint.internal().post<never, ExamPayload, null>("/exam", "新增自定义考试"),
+  update: endpoint.internal().codes([CODE.notFound]).put<ExamParams, ExamPayload, null>("/exam/:customizeId", "修改自定义考试"),
+  remove: endpoint.internal().codes([CODE.notFound]).delete<ExamParams, never, null>("/exam/:customizeId", "删除自定义考试"),
 }
 
 export type ExamList = ApiSpec<typeof exam.list>
