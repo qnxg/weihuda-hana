@@ -1,7 +1,7 @@
 import type { Mode, ModeChoice, Theme, ThemeChoice } from "@/types/theme"
 import { onThemeChange } from "@tarojs/taro"
 import { useState } from "react"
-import { modeClass, themeClass } from "@/config/theme"
+import { MODE_CLASS, THEME_CLASS } from "@/config/theme"
 import { useThemeStore } from "@/stores/theme"
 
 /** 注册系统色彩模式监听, 应用启动时调用一次 */
@@ -59,7 +59,7 @@ export function useTheme(): Readonly<ThemeResult> {
     : modeChoice
 
   return {
-    className: `${themeClass[theme]} ${modeClass[mode]}`.trim(),
+    className: `${THEME_CLASS[theme]} ${MODE_CLASS[mode]}`.trim(),
     theme,
     mode,
     themeChoice,

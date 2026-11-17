@@ -6,7 +6,7 @@ import { contract } from "@contract/routes"
 import { serve } from "@hono/node-server"
 import { TsRestApi } from "@sapporta/honest"
 import { route } from "@server/routes"
-import { env } from "@shared/env"
+import { ENV } from "@shared/env"
 
 type Domain = keyof typeof contract
 
@@ -47,7 +47,7 @@ export function createMockApi() {
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   serve({
     fetch: createMockApi().fetch,
-    port: env.mockPort,
+    port: ENV.mockPort,
     hostname: "localhost",
   })
 }

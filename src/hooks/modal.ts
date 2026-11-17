@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import type { ModalEntry } from "@/types/modal"
 import { useCallback, useEffect, useId, useState } from "react"
-import { animation } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useModalApiContext, useModalEntriesContext } from "@/contexts/modal"
 import { createId } from "@/utils/id"
 
@@ -63,7 +63,7 @@ export function useModalPresence(
     const timer = setTimeout(() => {
       setActive(false)
       setPresent(false)
-    }, animation)
+    }, DURATION.animation)
     return () => clearTimeout(timer)
   }, [visible])
 

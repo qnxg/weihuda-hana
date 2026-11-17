@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import type { NoticeEntry } from "@/types/notice"
 import { useEffect, useState } from "react"
-import { animation } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useNoticeStore } from "@/stores/notice"
 
 /** 刷新间隔 */
@@ -25,7 +25,7 @@ export function useExpire(
       setNow(time)
 
       if (item.duration === 0) {
-        if (time - item.startAt >= animation)
+        if (time - item.startAt >= DURATION.animation)
           clearInterval(timer)
         return
       }

@@ -13,7 +13,7 @@ export interface TabbarItem {
 }
 
 /** 底部标签配置, 顺序即展示顺序 */
-export const tabbar: TabbarItem[] = [
+export const TABBAR: TabbarItem[] = [
   { path: "pages/home/index", text: "首页", icon: House },
   { path: "pages/kit/index", text: "工具箱", icon: LayoutGrid },
   { path: "pages/table/index", text: "课表", icon: Table2 },

@@ -4,7 +4,7 @@ import type { ToastType } from "@/types/toast"
 import { Text, View } from "@tarojs/components"
 import { CircleAlert, CircleCheck, Info, LoaderCircle } from "lucide-react-taro"
 import Icon from "@/components/common/icon"
-import { animation } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useExpire } from "@/hooks/notice"
 import { useToast } from "@/hooks/toast"
 import { cn } from "@/utils/cn"
@@ -34,7 +34,7 @@ export default function Toast(): ReactNode {
     return null
 
   const elapsed = now - current.startAt
-  const appear = Math.max(0, Math.min(1, elapsed / animation))
+  const appear = Math.max(0, Math.min(1, elapsed / DURATION.animation))
 
   return (
     <View className="absolute inset-0 flex items-center justify-center">

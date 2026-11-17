@@ -5,7 +5,7 @@ import Card from "@/components/common/card"
 import Icon from "@/components/common/icon"
 import SafeArea from "@/components/common/safe-area"
 import Overlay from "@/components/modal/overlay"
-import { animation } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useModalPresence } from "@/hooks/modal"
 import { cn } from "@/utils/cn"
 
@@ -39,7 +39,7 @@ export default function Popup({
         className={cn("w-full flex flex-col overflow-hidden", className)}
         style={{
           transform: active ? "translateY(0)" : "translateY(100%)",
-          transition: `transform ${animation}ms ease-out`,
+          transition: `transform ${DURATION.animation}ms ease-out`,
         }}
       >
         <View className="flex items-center justify-between gap-2">

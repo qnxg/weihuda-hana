@@ -38,4 +38,4 @@ const raw = {
 }
 /* eslint-enable node/prefer-global/process */
 
-export const env: Env = schema.parse(raw)
+export const ENV: Env = schema.parse(raw)

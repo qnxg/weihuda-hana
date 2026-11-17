@@ -1,18 +1,18 @@
 import { extendTailwindMerge } from "tailwind-merge"
-import { opacity, spacing } from "@/config/tokens"
+import { OPACITY, SPACING } from "@/config/tokens"
 
 const twMerge = extendTailwindMerge({
   // opacity 的默认校验只认数字, 需要换成语义键
   override: {
     classGroups: {
       opacity: [
-        { opacity },
+        { opacity: OPACITY },
       ],
     },
   },
   extend: {
     theme: {
-      spacing,
+      spacing: SPACING,
     },
   },
 })

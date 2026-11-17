@@ -1,4 +1,4 @@
-import { env } from "@shared/env"
+import { ENV } from "@shared/env"
 
 const LEVEL = {
   error: 0,
@@ -11,7 +11,7 @@ type Output = (...args: unknown[]) => void
 
 /** 日志输出函数 */
 function emit(write: Output, level: number, label: string, args: unknown[]): void {
-  if (level > env.logLevel)
+  if (level > ENV.logLevel)
     return
 
   write(`[${level}][${label}]`, ...args)

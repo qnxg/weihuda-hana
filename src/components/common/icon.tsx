@@ -2,11 +2,11 @@ import type { IconProps as LucideIconProps } from "lucide-react-taro"
 import type { FC, ReactNode } from "react"
 import type { Mode, Theme } from "@/types/theme"
 import { View } from "@tarojs/components"
-import { palette } from "@/config/theme"
+import { PALETTE } from "@/config/theme"
 import { useTheme } from "@/hooks/theme"
 
 /** 语义色名 */
-export type IconColor = keyof typeof palette
+export type IconColor = keyof typeof PALETTE
 
 export interface IconProps {
   /** 图标组件 */
@@ -21,11 +21,11 @@ export interface IconProps {
 function colorOf(color: IconColor, theme: Theme, mode: Mode): string {
   switch (color) {
     case "primary":
-      return palette.primary[theme][mode]
+      return PALETTE.primary[theme][mode]
     case "error":
-      return palette.error[mode]
+      return PALETTE.error[mode]
     default:
-      return palette.ink[mode]
+      return PALETTE.ink[mode]
   }
 }
 

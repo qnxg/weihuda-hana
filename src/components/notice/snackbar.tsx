@@ -3,7 +3,7 @@ import { Text, View } from "@tarojs/components"
 import { Info } from "lucide-react-taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
-import { animation } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useExpire } from "@/hooks/notice"
 import { useSnackbar } from "@/hooks/snackbar"
 
@@ -16,7 +16,7 @@ export default function Snackbar(): ReactNode {
     return null
 
   const elapsed = now - current.startAt
-  const appear = Math.max(0, Math.min(1, elapsed / animation))
+  const appear = Math.max(0, Math.min(1, elapsed / DURATION.animation))
 
   return (
     <View className="absolute bottom-0 left-0 right-0 flex px-2r">

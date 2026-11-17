@@ -1,6 +1,6 @@
 import type { OhNetAdapter, OhNetContext } from "@xtwis/ohnet"
 import { OhNetMiddleware } from "@xtwis/ohnet"
-import { label } from "@/config/label"
+import { LABEL } from "@/config/label"
 import { BIZ_ERROR_TYPE } from "@/config/request"
 import { ApiError } from "@/types/request"
 import { logger } from "@/utils/logger"
@@ -16,7 +16,7 @@ export class Notice extends OhNetMiddleware {
       return
 
     // 弹窗待提示层就绪后接入
-    logger.error(label.request.error, error)
+    logger.error(LABEL.request.error, error)
     error.handle()
   }
 }

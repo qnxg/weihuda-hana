@@ -3,7 +3,7 @@ import { Text, View } from "@tarojs/components"
 import { getCurrentPages } from "@tarojs/taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
-import { tabbar } from "@/config/tabbar"
+import { TABBAR } from "@/config/tabbar"
 import { navigate } from "@/utils/navigate"
 
 /** 当前页面路径, 与 app.config 的 pages 一致 */
@@ -18,7 +18,7 @@ export default function Tabbar(): ReactNode {
   return (
     <View className="shrink-0 border-t border-default bg-default">
       <View className="h-4r flex">
-        {tabbar.map(({ path, text, icon }) => {
+        {TABBAR.map(({ path, text, icon }) => {
           const selected = path === active
 
           return (

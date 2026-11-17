@@ -1,14 +1,14 @@
 import type { ToastOptions, ToastType } from "@/types/toast"
 import { createElement } from "react"
 import Toast from "@/components/notice/toast"
-import { toast as toastDuration } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { useToastStore } from "@/stores/toast"
 import { notice } from "@/utils/notice"
 
 /** 展示提示 */
 function show(message: string, options: ToastOptions = {}): void {
   notice.mount(createElement(Toast), "toast")
-  useToastStore.getState().show(message, options.type ?? "info", options.duration ?? toastDuration)
+  useToastStore.getState().show(message, options.type ?? "info", options.duration ?? DURATION.toast)
 }
 
 /** 按类型展示 */

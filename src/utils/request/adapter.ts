@@ -1,5 +1,5 @@
 import type { OhNetAdapter, OhNetContext, OhNetResponse } from "@xtwis/ohnet"
-import { env } from "@shared/env"
+import { ENV } from "@shared/env"
 import { request } from "@tarojs/taro"
 import {
   createResponse,
@@ -78,7 +78,7 @@ function send(context: OhNetContext): Promise<OhNetResponse> {
   })
 }
 
-/** 基于 Taro.request 的 ohnet 适配器, 传输失败时按 env.attempts 重试 */
+/** 基于 Taro.request 的 ohnet 适配器, 传输失败时按 ENV.attempts 重试 */
 export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNetResponse> => {
   const { method } = context.request
 
@@ -87,7 +87,7 @@ export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNe
 
   let last: unknown
 
-  for (let attempt = 1; attempt <= env.attempts; attempt++) {
+  for (let attempt = 1; attempt <= ENV.attempts; attempt++) {
     try {
       return await send(context)
     }

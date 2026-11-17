@@ -1,5 +1,5 @@
 /** 日志标签 */
-export const label = {
+export const LABEL = {
   request: {
     error: "Request",
   },

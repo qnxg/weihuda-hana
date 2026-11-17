@@ -1,6 +1,6 @@
 import type { SnackbarItem, SnackbarOptions } from "@/types/snackbar"
 import { create } from "zustand"
-import { snackbar as snackbarDuration } from "@/config/duration"
+import { DURATION } from "@/config/duration"
 import { createId } from "@/utils/id"
 
 /** 队列上限 */
@@ -25,7 +25,7 @@ export const useSnackbarStore = create<SnackbarState>()(set => ({
       message,
       action: options.action,
       startAt: 0,
-      duration: options.duration ?? snackbarDuration,
+      duration: options.duration ?? DURATION.snackbar,
     }
 
     set((state) => {

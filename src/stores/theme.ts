@@ -2,7 +2,7 @@ import type { Mode, ModeChoice, ThemeChoice } from "@/types/theme"
 import { getSystemInfoSync } from "@tarojs/taro"
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
-import { storageKey } from "@/config/storage"
+import { STORAGE } from "@/config/storage"
 import { storage } from "@/utils/storage"
 
 /** 系统色彩模式 */
@@ -39,7 +39,7 @@ export const useThemeStore = create<ThemeState>()(
       setSystem: system => set({ system }),
     }),
     {
-      name: storageKey.theme,
+      name: STORAGE.theme,
       storage: createJSONStorage(() => storage),
       partialize: state => ({ theme: state.theme, mode: state.mode }),
     },
