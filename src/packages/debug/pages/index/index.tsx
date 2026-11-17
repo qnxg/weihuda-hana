@@ -10,6 +10,7 @@ import { navigate } from "@/utils/navigate"
 const entries = [
   { text: "主题", path: "/packages/debug/pages/theme/index" },
   { text: "组件", path: "/packages/debug/pages/comp/index" },
+  { text: "表单", path: "/packages/debug/pages/form/index" },
 ]
 
 export default function DebugIndex(): ReactNode {

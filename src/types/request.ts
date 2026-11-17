@@ -5,7 +5,7 @@ export type { ApiResponse } from "@contract/types"
 /** 请求层错误 */
 export class ApiError extends OhNetError {
   // @ts-expect-error ohnet 把 code 声明为 string, 业务错误的 code 是数字
-  declare readonly code: string | number
+  readonly code: string | number
   /** 是否已处理 */
   handled: boolean
 
@@ -15,7 +15,8 @@ export class ApiError extends OhNetError {
     message: string,
     options: { data?: unknown, error?: unknown, handled?: boolean } = {},
   ) {
-    super(type, code as unknown as string, message, options.data, options.error)
+    super(type, String(code), message, options.data, options.error)
+    this.code = code
     this.handled = options.handled ?? false
   }
 

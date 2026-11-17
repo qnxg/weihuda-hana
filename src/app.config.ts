@@ -13,6 +13,7 @@ export default defineAppConfig({
         "pages/index/index",
         "pages/theme/index",
         "pages/comp/index",
+        "pages/form/index",
       ],
     },
   ],
