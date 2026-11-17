@@ -67,7 +67,7 @@ export default function Button({
   return (
     <View
       className={cn(
-        "flex items-center justify-center gap-1",
+        "flex items-center justify-center gap-1 rounded-md",
         variants[variant][color],
         inert && "opacity-soft",
         className,

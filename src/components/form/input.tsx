@@ -105,7 +105,7 @@ export default function Input({
       {label && <Text className="text-sm text-soft">{label}</Text>}
       <View
         className={cn(
-          "flex items-center rounded-lg border px-2h py-1h bg-strong",
+          "flex items-center rounded-md border px-2h py-1h bg-strong",
           message ? "border-error" : "border-default",
           disabled && "opacity-soft",
         )}
