@@ -10,6 +10,7 @@ export default defineAppConfig({
       // 调试子包
       root: "packages/debug",
       pages: [
+        "pages/index/index",
         "pages/theme/index",
         "pages/comp/index",
       ],
