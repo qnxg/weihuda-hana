@@ -6,14 +6,14 @@ import { ApiError } from "@/types/request"
 import { getAccessToken, promptLoginLost, promptVerify, refreshToken } from "@/utils/auth"
 
 /** 免鉴权路径 */
-const publicPaths = ["/auth/login", "/auth/refresh", "/auth/captcha"]
+const publicPaths = ["/auth/login", "/auth/refresh"]
 
 /** 自动鉴权 */
 export class Auth extends OhNetMiddleware {
   readonly name = "auth"
 
   async enter(_adapter: OhNetAdapter, context: OhNetContext): Promise<void> {
-    if (publicPaths.some(path => context.request.url.includes(path)))
+    if (publicPaths.some(path => context.request.url.endsWith(path)))
       return
 
     const token = getAccessToken()
