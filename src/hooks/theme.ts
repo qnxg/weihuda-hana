@@ -1,5 +1,6 @@
 import type { Mode, ModeChoice, Theme, ThemeChoice } from "@/types/theme"
 import { onThemeChange } from "@tarojs/taro"
+import { useState } from "react"
 import { modeClass, themeClass } from "@/config/theme"
 import { useThemeStore } from "@/stores/theme"
 
@@ -48,9 +49,10 @@ export function useTheme(): Readonly<ThemeResult> {
   const setThemeChoice = useThemeStore(state => state.setThemeChoice)
   const setModeChoice = useThemeStore(state => state.setModeChoice)
   const system = useThemeStore(state => state.system)
+  const [month] = useState(() => new Date().getMonth() + 1)
 
   const theme = themeChoice === "auto"
-    ? themeOf(new Date().getMonth() + 1)
+    ? themeOf(month)
     : themeChoice
   const mode = modeChoice === "auto"
     ? system

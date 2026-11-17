@@ -51,31 +51,34 @@ export function useModalPresence(
   const id = useId()
   const [present, setPresent] = useState(visible)
   const [active, setActive] = useState(visible)
+  const shown = present || visible
+  const entered = active && visible
 
   useEffect(() => {
     if (visible) {
-      setPresent(true)
       const timer = setTimeout(setActive, 0, true)
       return () => clearTimeout(timer)
     }
 
-    setActive(false)
-    const timer = setTimeout(setPresent, animation, false)
+    const timer = setTimeout(() => {
+      setActive(false)
+      setPresent(false)
+    }, animation)
     return () => clearTimeout(timer)
   }, [visible])
 
-  const node = render(active)
+  const node = render(entered)
 
   useEffect(() => {
-    if (present)
+    if (shown)
       update(id, node)
     else
       unmount(id)
-  }, [id, node, present, unmount, update])
+  }, [id, node, shown, unmount, update])
 
   useEffect(() => () => unmount(id), [id, unmount])
 
-  return { present, active }
+  return { present: shown, active: entered }
 }
 
 /** 模态层条目 */

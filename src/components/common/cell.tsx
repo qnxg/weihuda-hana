@@ -62,7 +62,10 @@ export default function Cell({
       onClick={disabled ? undefined : onClick}
     >
       <View className="flex items-center gap-2">
-        {icon && cloneElement(icon, { color: iconColor })}
+        {icon && (
+          // eslint-disable-next-line react/no-clone-element -- 图标颜色随列表项语义色走
+          cloneElement(icon, { color: iconColor })
+        )}
         <View className="flex-1">
           {title && <Text className={tone.title}>{title}</Text>}
         </View>

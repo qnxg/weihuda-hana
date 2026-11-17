@@ -76,6 +76,7 @@ export default function Button({
     >
       {loading && icon
         ? <Icon icon={LoaderCircle} color={iconColor} className={cn(iconClassName, "animate-spin")} />
+        // eslint-disable-next-line react/no-clone-element -- 图标颜色随按钮语义色走, 由 Icon 统一承载
         : icon && cloneElement(icon, { color: iconColor })}
       {children}
     </View>

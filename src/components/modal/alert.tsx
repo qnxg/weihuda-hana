@@ -70,6 +70,7 @@ export default function Alert({
           <View className="flex items-center gap-2">
             {icon && (
               <View className={cn("h-2r w-2r flex items-center justify-center rounded-full", badge[color])}>
+                {/* eslint-disable-next-line react/no-clone-element -- 图标颜色随类型色走 */}
                 {cloneElement(icon, {
                   className: icon.props.className ?? "h-1r w-1r",
                   color: icon.props.color ?? color,

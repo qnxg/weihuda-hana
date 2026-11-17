@@ -37,8 +37,6 @@ export default function Toast(): ReactNode {
     if (!current)
       return
 
-    setNow(Date.now())
-
     const timer = setInterval(() => {
       const time = Date.now()
       setNow(time)
