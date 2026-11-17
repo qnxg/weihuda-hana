@@ -11,6 +11,7 @@ import Submit from "@/components/form/submit"
 import { QUERY_KEY } from "@/config/query"
 import { queryClient, useMutation, useQuery } from "@/hooks/query"
 import { unlockAuthPrompts } from "@/utils/auth"
+import { handleError } from "@/utils/error"
 import { toast } from "@/utils/toast"
 
 export interface VerifyProps {
@@ -36,7 +37,7 @@ export default function Verify({ onBack }: Readonly<VerifyProps>): ReactNode {
   const send = useMutation({
     mutationFn: () => api.auth.captchaSend(),
     onSuccess: data => setCooldown(data.cooldown),
-    onError: error => toast.error(error.message),
+    onError: handleError(),
   })
 
   const verify = useMutation({
@@ -47,7 +48,7 @@ export default function Verify({ onBack }: Readonly<VerifyProps>): ReactNode {
       unlockAuthPrompts()
       onBack()
     },
-    onError: error => toast.error(error.message),
+    onError: handleError(),
   })
 
   useEffect(() => {

@@ -7,8 +7,8 @@ import Cell from "@/components/common/cell"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import { useMutation } from "@/hooks/query"
-import { ApiError } from "@/types/request"
 import { clearToken, setToken } from "@/utils/auth"
+import { handleError } from "@/utils/error"
 import { toast } from "@/utils/toast"
 
 /** 演示用密码 */
@@ -29,19 +29,13 @@ export default function AuthDebug(): ReactNode {
       setToken(data)
       toast.success("已登录")
     },
-    onError: error => toast.error(error.message),
+    onError: handleError(),
   })
 
   const me = useMutation({
     mutationFn: () => api.auth.me(),
     onSuccess: data => toast.success(`账号: ${data.name}`),
-    onError: (error) => {
-      // 中间件已接管的错误由弹窗提示, 不再叠一层提示
-      if (error instanceof ApiError && error.handled)
-        return
-
-      toast.error(error.message)
-    },
+    onError: handleError(),
   })
 
   const reset = () => {

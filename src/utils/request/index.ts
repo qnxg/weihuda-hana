@@ -4,7 +4,6 @@ import { adapter } from "@/utils/request/adapter"
 import { resolveBaseUrl } from "@/utils/request/base"
 import { auth } from "@/utils/request/middleware/auth"
 import { normalize } from "@/utils/request/middleware/normalize"
-import { notice } from "@/utils/request/middleware/notice"
 
 /** 放宽 get 的签名: params 是查询参数对象 */
 type RequestClient = Omit<OhNetClientType, "get"> & {
@@ -16,7 +15,6 @@ const client = OhNetClient.create({
   adapter,
 })
   .with(auth)
-  .with(notice)
   .with(normalize)
 
 /** 全局请求实例 */

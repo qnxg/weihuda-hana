@@ -9,6 +9,7 @@ import Input from "@/components/form/input"
 import Submit from "@/components/form/submit"
 import { useMutation } from "@/hooks/query"
 import { setToken, unlockAuthPrompts } from "@/utils/auth"
+import { handleError } from "@/utils/error"
 import { toast } from "@/utils/toast"
 
 export interface LoginProps {
@@ -32,7 +33,7 @@ export default function Login({ onBack }: Readonly<LoginProps>): ReactNode {
       toast.success("登录成功")
       onBack()
     },
-    onError: error => toast.error(error.message),
+    onError: handleError(),
   })
 
   return (
