@@ -10,6 +10,7 @@ import Scroll from "@/components/common/scroll"
 import Skeleton from "@/components/common/skeleton"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import Popup from "@/components/modal/popup"
 import { sleep } from "@/utils/sleep"
 
 /** 按钮的通用尺寸 */
@@ -17,6 +18,7 @@ const buttonClass = "px-3 py-2 text-sm"
 
 export default function CompDebug(): ReactNode {
   const [refreshing, setRefreshing] = useState(false)
+  const [popup, setPopup] = useState(false)
 
   const refresh = async () => {
     setRefreshing(true)
@@ -113,9 +115,22 @@ export default function CompDebug(): ReactNode {
                 <Skeleton animated={false} className="h-2r w-full" />
               </Card>
             </View>
+
+            <View className="flex flex-col gap-2">
+              <Text className="text-strong">底部弹出</Text>
+
+              <Card className="flex flex-col gap-3">
+                <Button className={buttonClass} onClick={() => setPopup(true)}>打开</Button>
+              </Card>
+            </View>
           </View>
         </Scroll>
       </Main>
+
+      <Popup title="底部弹出" visible={popup} onClose={() => setPopup(false)} className="gap-1r">
+        <Text className="text-sm text-soft">点遮罩或右上角关闭, 退场动画结束后才从模态层移除</Text>
+        <Button className={`${buttonClass} w-full`} onClick={() => setPopup(false)}>关闭</Button>
+      </Popup>
     </Page>
   )
 }

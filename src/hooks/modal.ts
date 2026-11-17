@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import type { ModalEntry } from "@/types/modal"
 import { useCallback } from "react"
-import { useModalContext } from "@/contexts/modal"
+import { useModalApiContext, useModalEntriesContext } from "@/contexts/modal"
 
 let seed = 0
 
@@ -12,8 +12,6 @@ function createId(): string {
 }
 
 interface UseModalResult {
-  /** 模态层节点 */
-  entries: ModalEntry[]
   /** 挂载节点 */
   mount: (node: ReactNode) => string
   /** 更新节点 */
@@ -24,7 +22,7 @@ interface UseModalResult {
 
 /** 模态层控制 */
 export function useModal(): UseModalResult {
-  const { entries, setEntry, removeEntry } = useModalContext()
+  const { setEntry, removeEntry } = useModalApiContext()
 
   const mount = useCallback((node: ReactNode) => {
     const id = createId()
@@ -40,5 +38,10 @@ export function useModal(): UseModalResult {
     removeEntry(id)
   }, [removeEntry])
 
-  return { entries, mount, update, unmount }
+  return { mount, update, unmount }
+}
+
+/** 模态层条目 */
+export function useModalEntries(): ModalEntry[] {
+  return useModalEntriesContext()
 }
