@@ -56,8 +56,9 @@ export default defineConfig({
     // wxss 不支持类名里的 `.` 转义, 小数阶会生成 `.h-5\.5` 直接编译失败, 所以 step 只取整数
     step: 1,
     units: {
-      default: "4px",
-      x: "1px",
+      // taro 中 1rem 对应 32rpx, 但 1px 却强行替换为 1rpx, 因此 16px = 1rem 关系失效, 此处只能使用 rem 维持单位
+      default: "0.25rem",
+      x: "0.0625rem",
       h: "0.5rem",
       r: "1rem",
     },
