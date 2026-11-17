@@ -1,5 +1,8 @@
 import { z } from "zod"
 
+// 小程序不允许动态编译代码, zod 的 fastpass 会拿到非法函数, 关闭 JIT 走解释执行
+z.config({ jitless: true })
+
 export interface Env {
   /** 请求 base url */
   baseUrl: string
@@ -11,6 +14,8 @@ export interface Env {
   attempts: number
   /** 日志级别, 0: 错误, 1: 信息, 2: 调试, -1: 关闭 */
   logLevel: number
+  /** 是否显示调试入口 */
+  debug: boolean
 }
 
 const schema = z.object({
@@ -19,18 +24,18 @@ const schema = z.object({
   mockPort: z.coerce.number().int().min(1).default(9300),
   attempts: z.coerce.number().int().min(1).default(3),
   logLevel: z.coerce.number().int().min(-1).max(2).default(1),
+  debug: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
 })
 
 /* eslint-disable node/prefer-global/process */
-const raw = typeof process === "undefined"
-  ? {}
-  : {
-      baseUrl: process.env.TARO_APP_BASE_URL,
-      mock: process.env.TARO_APP_MOCK,
-      mockPort: process.env.TARO_APP_MOCK_PORT,
-      attempts: process.env.TARO_APP_ATTEMPTS,
-      logLevel: process.env.TARO_APP_LOG_LEVEL,
-    }
+const raw = {
+  baseUrl: process.env.TARO_APP_BASE_URL,
+  mock: process.env.TARO_APP_MOCK,
+  mockPort: process.env.TARO_APP_MOCK_PORT,
+  attempts: process.env.TARO_APP_ATTEMPTS,
+  logLevel: process.env.TARO_APP_LOG_LEVEL,
+  debug: process.env.TARO_APP_DEBUG,
+}
 /* eslint-enable node/prefer-global/process */
 
 export const env: Env = schema.parse(raw)
