@@ -1,102 +1,141 @@
 /* #region default */
+/** 默认文本 */
 @utility text-default {
   color: var(--color-ink-fg);
 }
 
+/** 弱化文本 */
 @utility text-soft {
   color: var(--color-ink-fgsoft);
 }
 
+/** 加强文本 */
 @utility text-strong {
   color: var(--color-ink-fgstrong);
 }
 
+/** 反色文本 */
+@utility text-invert {
+  color: var(--color-ink-fginvert);
+}
+
+/** 默认背景 */
 @utility bg-default {
   background-color: var(--color-ink-bg);
 }
 
+/** 加强背景 */
 @utility bg-strong {
   background-color: var(--color-ink-bgstrong);
 }
 
+/** 默认边框 */
 @utility border-default {
   border-color: var(--color-ink-line);
 }
 /* #endregion */
 
 /* #region primary */
+/** 主色文本 */
 @utility text-primary {
   color: var(--color-primary-fg);
 }
 
+/** 主色弱化文本 */
 @utility text-primary-soft {
   color: var(--color-primary-fgsoft);
 }
 
+/** 主色加强文本 */
 @utility text-primary-strong {
   color: var(--color-primary-fgstrong);
 }
 
+/** 主色背景 */
 @utility bg-primary {
   background-color: var(--color-primary-bg);
 }
 
+/** 主色加强背景 */
 @utility bg-primary-strong {
   background-color: var(--color-primary-bgstrong);
 }
 
+/** 主色反色背景 */
+@utility bg-primary-invert {
+  background-color: var(--color-primary-bginvert);
+}
+
+/** 主色边框 */
 @utility border-primary {
   border-color: var(--color-primary-line);
 }
 /* #endregion */
 
 /* #region error */
+/** 错误色文本 */
 @utility text-error {
   color: var(--color-error-fg);
 }
 
+/** 错误色弱化文本 */
 @utility text-error-soft {
   color: var(--color-error-fgsoft);
 }
 
+/** 错误色加强文本 */
 @utility text-error-strong {
   color: var(--color-error-fgstrong);
 }
 
+/** 错误色背景 */
 @utility bg-error {
   background-color: var(--color-error-bg);
 }
 
+/** 错误色加强背景 */
 @utility bg-error-strong {
   background-color: var(--color-error-bgstrong);
 }
 
+/** 错误色反色背景 */
+@utility bg-error-invert {
+  background-color: var(--color-error-bginvert);
+}
+
+/** 错误色边框 */
 @utility border-error {
   border-color: var(--color-error-line);
 }
 /* #endregion */
 
 /* #region ink */
+/** 中性文本 */
 @utility text-ink {
   color: var(--color-ink-fg);
 }
 
+/** 中性弱化文本 */
 @utility text-ink-soft {
   color: var(--color-ink-fgsoft);
 }
 
+/** 中性加强文本 */
 @utility text-ink-strong {
   color: var(--color-ink-fgstrong);
 }
 
+/** 中性背景 */
 @utility bg-ink {
   background-color: var(--color-ink-bg);
 }
 
+/** 中性加强背景 */
 @utility bg-ink-strong {
   background-color: var(--color-ink-bgstrong);
 }
 
+/** 中性边框 */
 @utility border-ink {
   border-color: var(--color-ink-line);
 }

@@ -7,11 +7,21 @@ type Shades = NonNullable<Scheme["shade"]>
 
 /** 语义色阶 */
 const shade: Shades = {
+  /** 默认文本亮度 */
   fg: { light: 500, dark: 300 },
+  /** 弱化文本亮度 */
   fgsoft: { light: 400, dark: 400 },
+  /** 加强文本亮度 */
   fgstrong: { light: 600, dark: 200 },
+  /** 反色文本 (仅用于 ink, 表现为 light 的白色文本) */
+  fginvert: { light: 50, dark: 900 },
+  /** 默认背景亮度 (较柔和亮度) */
   bg: { light: 100, dark: 950 },
+  /** 加强背景亮度 (较强调亮度) */
   bgstrong: { light: 50, dark: 900 },
+  /** 反色背景 (仅用于 primary 和 error, 表现为 light 的深色背景) */
+  bginvert: { light: 600, dark: 400 },
+  /** 线亮度 (边框, 分割线等) */
   line: { light: 200, dark: 950 },
 }
 

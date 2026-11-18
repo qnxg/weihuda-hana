@@ -113,6 +113,15 @@ export default function ThemeDebug(): ReactNode {
               </View>
             </Section>
 
+            <Section title="反色">
+              <View className="flex-1 p-2 bg-primary-invert">
+                <Text className="text-xs text-invert">bg-primary-invert</Text>
+              </View>
+              <View className="flex-1 p-2 bg-error-invert">
+                <Text className="text-xs text-invert">bg-error-invert</Text>
+              </View>
+            </Section>
+
             <Section title="边框与透明度">
               <View className="flex-1 p-2 border border-primary">
                 <Text className="text-xs text-primary">border-primary</Text>
