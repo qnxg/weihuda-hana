@@ -99,7 +99,7 @@ export default function Navbar({ safeArea = true, title, back = true, children }
               </View>
             )
           : title && (
-            <View className="absolute inset-x-0 flex justify-center overflow-hidden">
+            <View className="pointer-events-none absolute inset-x-0 flex justify-center overflow-hidden">
               <Text className="truncate text-base text-strong">{title}</Text>
             </View>
           )}
