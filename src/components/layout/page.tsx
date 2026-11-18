@@ -8,8 +8,8 @@ import { ModalProvider } from "@/contexts/modal"
 import { useTheme } from "@/hooks/theme"
 
 export interface PageProps {
-  /** 安全区 */
-  safeArea?: boolean
+  /** 安全区, false 全关, true 全开, "top" / "bottom" 单独开 */
+  safeArea?: boolean | "top" | "bottom"
   /** 底栏 */
   tabbar?: boolean
   /** 内容 */
@@ -18,16 +18,19 @@ export interface PageProps {
 
 export default function Page({ safeArea = true, tabbar = false, children }: Readonly<PageProps>): ReactNode {
   const { className } = useTheme()
+  const top = safeArea === true || safeArea === "top"
+  const bottom = safeArea === true || safeArea === "bottom"
 
   return (
     <ModalProvider>
       <View className={`${className} relative h-screen w-full flex flex-col overflow-hidden bg-default`}>
+        {top && <SafeArea edge="top" />}
         <View className="flex-1 relative flex flex-col overflow-hidden">
           {children}
           <NoticeLayer />
         </View>
         {tabbar && <Tabbar />}
-        {safeArea && <SafeArea />}
+        {bottom && <SafeArea edge="bottom" />}
         <ModalLayer />
       </View>
     </ModalProvider>
