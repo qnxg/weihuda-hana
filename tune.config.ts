@@ -16,13 +16,13 @@ const shade: Shades = {
   /** 反色文本 (仅用于 ink, 表现为 light 的白色文本) */
   fginvert: { light: 50, dark: 900 },
   /** 默认背景亮度 (较柔和亮度) */
-  bg: { light: 100, dark: 950 },
+  bg: { light: 100, dark: 900 },
   /** 加强背景亮度 (较强调亮度) */
-  bgstrong: { light: 50, dark: 900 },
+  bgstrong: { light: 50, dark: 800 },
   /** 反色背景 (仅用于 primary 和 error, 表现为 light 的深色背景) */
   bginvert: { light: 600, dark: 400 },
   /** 线亮度 (边框, 分割线等) */
-  line: { light: 200, dark: 950 },
+  line: { light: 200, dark: 700 },
 }
 
 /** 同一色系在两种模式下保持一致 */
