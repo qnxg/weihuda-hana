@@ -47,7 +47,7 @@ function Group({ title, items }: Readonly<{ title: string, items: { text: string
 
 export default function DebugIndex(): ReactNode {
   return (
-    <Page>
+    <Page title="调试">
       <Main className="py-1r">
         <View className="flex flex-col gap-3">
           <Group title="页面" items={pages} />

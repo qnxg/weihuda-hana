@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { View } from "@tarojs/components"
 import SafeArea from "@/components/common/safe-area"
 import ModalLayer from "@/components/layout/modal-layer"
+import Navbar from "@/components/layout/navbar"
 import NoticeLayer from "@/components/layout/notice-layer"
 import Tabbar from "@/components/layout/tabbar"
 import { ModalProvider } from "@/contexts/modal"
@@ -12,11 +13,24 @@ export interface PageProps {
   safeArea?: boolean | "top" | "bottom"
   /** 底栏 */
   tabbar?: boolean
+  /** 顶栏, 默认 true */
+  navbar?: boolean
+  /** 标题 */
+  title?: string
+  /** 返回按钮 */
+  back?: boolean
   /** 内容 */
   children?: ReactNode
 }
 
-export default function Page({ safeArea = true, tabbar = false, children }: Readonly<PageProps>): ReactNode {
+export default function Page({
+  safeArea = true,
+  tabbar = false,
+  navbar = true,
+  title,
+  back = true,
+  children,
+}: Readonly<PageProps>): ReactNode {
   const { className } = useTheme()
   const top = safeArea === true || safeArea === "top"
   const bottom = safeArea === true || safeArea === "bottom"
@@ -25,6 +39,7 @@ export default function Page({ safeArea = true, tabbar = false, children }: Read
     <ModalProvider>
       <View className={`${className} relative h-screen w-full flex flex-col overflow-hidden bg-default`}>
         {top && <SafeArea edge="top" />}
+        {navbar && <Navbar title={title} back={back} safeArea={false} />}
         <View className="flex-1 relative flex flex-col overflow-hidden">
           {children}
           <NoticeLayer />

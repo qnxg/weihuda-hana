@@ -44,7 +44,7 @@ export default function AuthDebug(): ReactNode {
   }
 
   return (
-    <Page>
+    <Page title="鉴权调试">
       <Main className="py-1r">
         <View className="flex flex-col gap-3">
           <View className="flex flex-col gap-2">

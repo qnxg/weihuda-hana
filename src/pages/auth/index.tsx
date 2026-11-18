@@ -1,19 +1,14 @@
 import type { ReactNode } from "react"
 import { View } from "@tarojs/components"
-import { navigateBack, useRouter } from "@tarojs/taro"
+import { useRouter } from "@tarojs/taro"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Login from "@/pages/auth/components/login"
 import Verify from "@/pages/auth/components/verify"
-import { navigate } from "@/utils/navigate"
+import { navigateBack } from "@/utils/navigate"
 
 /** 鉴权页模式 */
 type AuthMode = "login" | "verify"
-
-/** 回到来源页 */
-function back(): void {
-  navigateBack().catch(() => navigate("/pages/home/index"))
-}
 
 /** 鉴权页 */
 export default function Auth(): ReactNode {
@@ -23,11 +18,11 @@ export default function Auth(): ReactNode {
     : "login"
 
   return (
-    <Page>
+    <Page title="鉴权">
       <Main>
         <View className="py-1r flex flex-col gap-3">
-          {mode === "login" && <Login onBack={back} />}
-          {mode === "verify" && <Verify onBack={back} />}
+          {mode === "login" && <Login onBack={navigateBack} />}
+          {mode === "verify" && <Verify onBack={navigateBack} />}
         </View>
       </Main>
     </Page>

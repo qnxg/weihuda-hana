@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
-import { House, Settings } from "lucide-react-taro"
+import { Bell, House, Info, Settings } from "lucide-react-taro"
 import { useState } from "react"
 import Button from "@/components/common/button"
 import Card from "@/components/common/card"
@@ -9,10 +9,12 @@ import Icon from "@/components/common/icon"
 import Scroll from "@/components/common/scroll"
 import Skeleton from "@/components/common/skeleton"
 import Main from "@/components/layout/main"
+import Navbar, { NavbarAction } from "@/components/layout/navbar"
 import Page from "@/components/layout/page"
 import Alert from "@/components/modal/alert"
 import Dialog from "@/components/modal/dialog"
 import Popup from "@/components/modal/popup"
+import { navigateBack } from "@/utils/navigate"
 import { sleep } from "@/utils/sleep"
 import { snackbar } from "@/utils/snackbar"
 import { toast } from "@/utils/toast"
@@ -33,7 +35,15 @@ export default function CompDebug(): ReactNode {
   }
 
   return (
-    <Page>
+    <Page navbar={false}>
+      <Navbar
+        back={<NavbarAction text="返回" onClick={() => { navigateBack() }} />}
+        safeArea={false}
+      >
+        <NavbarAction icon={Info} onClick={() => { toast.info("这是一条提示") }} />
+        <NavbarAction icon={Bell} onClick={() => { snackbar.show("这是一条通知") }} />
+        <NavbarAction text="提示" />
+      </Navbar>
       <Main>
         <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
           <View className="py-1r flex flex-col gap-3">

@@ -1,4 +1,4 @@
-import { getCurrentPages, navigateTo, switchTab } from "@tarojs/taro"
+import { getCurrentPages, navigateTo, switchTab, navigateBack as taroNavigateBack } from "@tarojs/taro"
 import { TABBAR } from "@/config/tabbar"
 
 /** tab 页路径, 带前导斜杠 */
@@ -16,4 +16,9 @@ export function navigate(to: string): void {
     void switchTab({ url: to })
   else
     void navigateTo({ url: to })
+}
+
+/** 返回来源页 */
+export function navigateBack(): void {
+  taroNavigateBack().catch(() => navigate("/pages/home/index"))
 }

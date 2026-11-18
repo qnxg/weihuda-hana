@@ -5,7 +5,7 @@ import Page from "@/components/layout/page"
 
 export default function Profile(): ReactNode {
   return (
-    <Page tabbar>
+    <Page tabbar title="我的" back={false}>
       <Main className="py-1r">
         <View className="flex-1 flex items-center justify-center">
           <Text className="text-soft">profile</Text>

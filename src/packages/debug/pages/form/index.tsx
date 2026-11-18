@@ -21,7 +21,7 @@ export default function FormDebug(): ReactNode {
   const [account, setAccount] = useState("")
 
   return (
-    <Page>
+    <Page title="表单调试">
       <Main>
         <Scroll>
           <View className="py-1r flex flex-col gap-3">

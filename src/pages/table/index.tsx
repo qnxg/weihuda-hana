@@ -5,7 +5,7 @@ import Page from "@/components/layout/page"
 
 export default function Table(): ReactNode {
   return (
-    <Page tabbar>
+    <Page tabbar title="课表" back={false}>
       <Main className="py-1r">
         <View className="flex-1 flex items-center justify-center">
           <Text className="text-soft">table</Text>

@@ -48,7 +48,7 @@ export default function ThemeDebug(): ReactNode {
   const { theme, mode, themeChoice, modeChoice, setThemeChoice, setModeChoice } = useTheme()
 
   return (
-    <Page>
+    <Page title="主题调试">
       <Main>
         <Scroll>
           <View className="py-1r flex flex-col">

@@ -5,7 +5,7 @@ import Page from "@/components/layout/page"
 
 export default function Home(): ReactNode {
   return (
-    <Page tabbar>
+    <Page tabbar title="首页" back={false}>
       <Main className="py-1r">
         <View className="flex-1 flex flex-col items-center justify-center gap-2">
           <Text className="text-soft">home</Text>
