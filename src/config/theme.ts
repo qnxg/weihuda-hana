@@ -16,10 +16,10 @@ export const MODE_CLASS: Record<Mode, string> = {
 /** 运行时色板, 对应 tune.config 的 fg 阶 */
 export const PALETTE = {
   primary: {
-    spring: { light: "#10b981", dark: "#6ee7b7" },
-    summer: { light: "#3b82f6", dark: "#93c5fd" },
-    autumn: { light: "#f59e0b", dark: "#fcd34d" },
+    spring: { light: "#059669", dark: "#6ee7b7" },
+    summer: { light: "#2563eb", dark: "#93c5fd" },
+    autumn: { light: "#d97706", dark: "#fcd34d" },
   },
-  error: { light: "#f43f5e", dark: "#fda4af" },
-  ink: { light: "#a3a3a3", dark: "#a3a3a3" },
+  error: { light: "#e11d48", dark: "#fda4af" },
+  ink: { light: "#525252", dark: "#d4d4d4" },
 } as const
