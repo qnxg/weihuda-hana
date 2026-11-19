@@ -1,13 +1,11 @@
 import type { AuthPromptKind } from "@/types/auth"
 import { useCallback } from "react"
+import { PAGE } from "@/config/page"
 import { useAuthStore } from "@/stores/auth"
-import { navigate } from "@/utils/navigate"
-
-/** 登录页路径 */
-const LOGIN_PAGE = "/pages/auth/index"
+import { navigateTo } from "@/utils/navigate"
 
 /** 验证页路径 */
-const VERIFY_PAGE = "/pages/auth/index?mode=verify"
+const VERIFY_PAGE = `${PAGE.auth}?mode=verify`
 
 interface UseAuthPromptResult {
   /** 正在展示的提示 */
@@ -29,8 +27,8 @@ export function useAuthPrompt(): UseAuthPromptResult {
       return
 
     dismiss()
-    navigate(kind === "loginLost"
-      ? LOGIN_PAGE
+    navigateTo(kind === "loginLost"
+      ? PAGE.auth
       : VERIFY_PAGE)
   }, [])
 

@@ -4,7 +4,7 @@ import { getCurrentPages } from "@tarojs/taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
 import { TABBAR } from "@/config/tabbar"
-import { navigate } from "@/utils/navigate"
+import { navigateTo } from "@/utils/navigate"
 
 /** 当前页面路径, 与 app.config 的 pages 一致 */
 function currentPath(): string {
@@ -19,7 +19,7 @@ export default function Tabbar(): ReactNode {
     <View className="shrink-0 border-t border-default bg-default">
       <View className="h-4r flex">
         {TABBAR.map(({ path, text, icon }) => {
-          const selected = path === active
+          const selected = path === `/${active}`
 
           return (
             <Button
@@ -29,7 +29,7 @@ export default function Tabbar(): ReactNode {
               className="flex-1 flex-col gap-1"
               onClick={() => {
                 if (!selected)
-                  navigate(`/${path}`)
+                  navigateTo(path)
               }}
             >
               <Icon icon={icon} color={selected ? "primary" : "ink"} className="h-3h w-3h" />

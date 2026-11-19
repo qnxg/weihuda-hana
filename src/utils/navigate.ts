@@ -1,8 +1,9 @@
-import { getCurrentPages, navigateTo, switchTab, navigateBack as taroNavigateBack } from "@tarojs/taro"
+import { getCurrentPages, switchTab, navigateBack as taroNavigateBack, navigateTo as taroNavigateTo } from "@tarojs/taro"
+import { PAGE } from "@/config/page"
 import { TABBAR } from "@/config/tabbar"
 
 /** tab 页路径, 带前导斜杠 */
-const tabPaths = TABBAR.map(item => `/${item.path}`)
+const tabPaths = TABBAR.map(item => item.path)
 
 /** 当前页面路由, 不带前导斜杠 */
 export function currentRoute(): string {
@@ -10,15 +11,15 @@ export function currentRoute(): string {
   return pages[pages.length - 1]?.route ?? ""
 }
 
-/** 跳转页面: tab 页走 switchTab, 其他走 navigateTo */
-export function navigate(to: string): void {
+/** 跳转页面 */
+export function navigateTo(to: string): void {
   if (tabPaths.includes(to))
     void switchTab({ url: to })
   else
-    void navigateTo({ url: to })
+    void taroNavigateTo({ url: to })
 }
 
 /** 返回来源页 */
 export function navigateBack(): void {
-  taroNavigateBack().catch(() => navigate("/pages/home/index"))
+  taroNavigateBack().catch(() => navigateTo(PAGE.home))
 }
