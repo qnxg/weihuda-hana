@@ -3,57 +3,191 @@ import type { Handlers } from "@server/endpoint"
 import { fail, ok } from "@server/endpoint"
 import { CODE } from "@shared/codes"
 
-const courses: CourseItem[] = [
+/** 课程模板 */
+interface Template {
+  /** 课程名 */
+  courseName: string
+  /** 课程类型 */
+  courseType: string
+  /** 学分 */
+  credit: number
+  /** 教师 */
+  teacher: string
+  /** 地点 */
+  place: string
+  /** 校区 */
+  area: string
+  /** 上课班级 */
+  className: string
+  /** 人数 */
+  people: number
+  /** 上课周次 */
+  weeks: number[]
+}
+
+/** 连续周次 */
+function weeks(from: number, to: number): number[] {
+  return Array.from({ length: to - from + 1 }, (_, index) => from + index)
+}
+
+/** 课程模板池, 按天循环取用 */
+const templates: Template[] = [
   {
-    courseId: "GE01123",
     courseName: "高等数学 A",
-    className: "计科 2501",
     courseType: "通识必修",
     credit: 5,
-    weeks: [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-    ],
-    day: 1,
-    time: 1,
-    extra: null,
-    area: "南校区",
-    place: "综合楼 301",
-    people: 120,
     teacher: "王军",
-    customizeId: null,
+    place: "综合楼 301",
+    area: "南校区",
+    className: "计科 2501",
+    people: 120,
+    weeks: weeks(1, 16),
   },
   {
-    courseId: "CS01001",
     courseName: "程序设计基础",
-    className: "计科 2501",
     courseType: "专业核心",
     credit: 3,
-    weeks: [1, 2, 3, 4, 5, 6, 7, 8],
-    day: 3,
-    time: 3,
-    extra: null,
-    area: "南校区",
-    place: "信息楼 502",
-    people: 60,
     teacher: "李敏",
-    customizeId: null,
+    place: "信息楼 502",
+    area: "南校区",
+    className: "计科 2501",
+    people: 60,
+    weeks: weeks(1, 16),
+  },
+  {
+    courseName: "大学英语(三)",
+    courseType: "通识必修",
+    credit: 3,
+    teacher: "陈静",
+    place: "外语楼 204",
+    area: "南校区",
+    className: "计科 2501",
+    people: 45,
+    weeks: weeks(1, 16),
+  },
+  {
+    courseName: "线性代数",
+    courseType: "通识必修",
+    credit: 3,
+    teacher: "刘洋",
+    place: "综合楼 105",
+    area: "南校区",
+    className: "计科 2501",
+    people: 100,
+    weeks: weeks(1, 8),
+  },
+  {
+    courseName: "数据结构",
+    courseType: "专业核心",
+    credit: 4,
+    teacher: "赵磊",
+    place: "信息楼 401",
+    area: "南校区",
+    className: "计科 2501",
+    people: 55,
+    weeks: weeks(9, 18),
+  },
+  {
+    courseName: "计算机组成原理",
+    courseType: "专业核心",
+    credit: 4,
+    teacher: "孙倩",
+    place: "信息楼 305",
+    area: "南校区",
+    className: "计科 2501",
+    people: 50,
+    weeks: weeks(1, 16),
+  },
+  {
+    courseName: "大学物理 B",
+    courseType: "通识必修",
+    credit: 3,
+    teacher: "周涛",
+    place: "理学楼 208",
+    area: "南校区",
+    className: "计科 2501",
+    people: 90,
+    weeks: weeks(1, 12),
+  },
+  {
+    courseName: "体育(三)",
+    courseType: "通识必修",
+    credit: 1,
+    teacher: "吴强",
+    place: "体育馆",
+    area: "南校区",
+    className: "计科 2501",
+    people: 40,
+    weeks: weeks(1, 18),
+  },
+  {
+    courseName: "马克思主义基本原理",
+    courseType: "通识必修",
+    credit: 3,
+    teacher: "郑华",
+    place: "文科楼 302",
+    area: "南校区",
+    className: "计科 2501",
+    people: 130,
+    weeks: weeks(1, 16),
+  },
+  {
+    courseName: "概率论与数理统计",
+    courseType: "通识必修",
+    credit: 3,
+    teacher: "冯雪",
+    place: "综合楼 202",
+    area: "南校区",
+    className: "计科 2501",
+    people: 110,
+    weeks: weeks(9, 18),
   },
 ]
+
+/** 每天的节次, 空数组表示当天无课 */
+const schedule: Record<number, number[]> = {
+  0: [],
+  1: [1, 3, 5],
+  2: [3, 5],
+  3: [1, 5],
+  4: [3, 7],
+  5: [1],
+  6: [],
+}
+
+/** 按课表铺满整学期 */
+function createCourses(): CourseItem[] {
+  const list: CourseItem[] = []
+  let index = 0
+
+  for (const [day, times] of Object.entries(schedule)) {
+    for (const time of times) {
+      const template = templates[index % templates.length]
+      index += 1
+
+      list.push({
+        courseId: `GE${String(index).padStart(5, "0")}`,
+        courseName: template.courseName,
+        className: template.className,
+        courseType: template.courseType,
+        credit: template.credit,
+        weeks: template.weeks,
+        day: Number(day),
+        time,
+        extra: null,
+        area: template.area,
+        place: template.place,
+        people: template.people,
+        teacher: template.teacher,
+        customizeId: null,
+      })
+    }
+  }
+
+  return list
+}
+
+const courses = createCourses()
 
 const extras = [
   {

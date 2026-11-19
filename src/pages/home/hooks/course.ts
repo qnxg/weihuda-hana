@@ -1,19 +1,21 @@
-import type { Term } from "@contract/routes"
+import type { CourseItem, Term } from "@contract/routes"
 import { useMemo } from "react"
 import { api } from "@/apis"
 import { QUERY_KEY } from "@/config/query"
 import { useQuery } from "@/hooks/query"
 import { useRefreshable } from "@/pages/home/hooks/refresh"
 
-export interface TodayCourses {
-  /** 当天课程数, 未就绪为 null */
-  count: number | null
+export interface DayCourses {
+  /** 当天课程, 按节次升序 */
+  list: CourseItem[]
+  /** 是否已就绪 */
+  ready: boolean
   /** 是否加载中 */
   loading: boolean
 }
 
-/** 当天课程, 依赖学期 */
-export function useTodayCourses(term: Term | undefined, week: number | null, day: number): TodayCourses {
+/** 某天的课程, 依赖学期与教学周 */
+export function useDayCourses(term: Term | undefined, week: number | null, day: number): DayCourses {
   const key = useMemo(() => QUERY_KEY.course.list(term), [term])
 
   const courses = useQuery({
@@ -29,9 +31,11 @@ export function useTodayCourses(term: Term | undefined, week: number | null, day
 
   useRefreshable(key)
 
-  const count = courses.data
-    ? courses.data.filter(item => week !== null && item.day === day && item.weeks.includes(week)).length
-    : null
+  const list = courses.data && week !== null
+    ? courses.data
+        .filter(item => item.day === day && item.weeks.includes(week))
+        .sort((a, b) => a.time - b.time)
+    : []
 
-  return { count, loading: courses.isLoading }
+  return { list, ready: courses.data !== undefined, loading: courses.isLoading }
 }

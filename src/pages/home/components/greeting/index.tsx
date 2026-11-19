@@ -9,10 +9,11 @@ import { PAGE } from "@/config/page"
 import { QUERY_KEY } from "@/config/query"
 import { useQuery } from "@/hooks/query"
 import Sign from "@/pages/home/components/greeting/sign"
-import { dateOf, greetingOf, nowOf, weekOf, wishOf } from "@/pages/home/components/greeting/text"
+import { greetingOf, wishOf } from "@/pages/home/components/greeting/text"
 import { useAnnouncements } from "@/pages/home/hooks/announcement"
-import { useTodayCourses } from "@/pages/home/hooks/course"
+import { useDayCourses } from "@/pages/home/hooks/course"
 import { useRefreshable } from "@/pages/home/hooks/refresh"
+import { dateOf, nowOf, weekOf } from "@/utils/date"
 import { navigateTo } from "@/utils/navigate"
 
 /** 问候 */
@@ -33,7 +34,7 @@ export default function Greeting(): ReactNode {
   const week = term
     ? weekOf(now, term)
     : null
-  const today = useTodayCourses(term, week, now.getDay())
+  const today = useDayCourses(term, week, now.getDay())
   const announcement = useAnnouncements()
   const pending = me.isPending
     || semester.isPending
@@ -42,9 +43,9 @@ export default function Greeting(): ReactNode {
   const title = me.data
     ? `${greetingOf(now)}, ${me.data.name.slice(0, 1)}同学`
     : greetingOf(now)
-  const subtitle = today.count === null
-    ? dateOf(now)
-    : `${dateOf(now)} | ${wishOf(today.count)}`
+  const subtitle = today.ready
+    ? `${dateOf(now)} | ${wishOf(today.list.length)}`
+    : dateOf(now)
 
   return (
     <View className="flex items-center justify-between gap-2">
