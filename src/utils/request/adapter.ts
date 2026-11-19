@@ -85,9 +85,12 @@ export const adapter: OhNetAdapter = async (context: OhNetContext): Promise<OhNe
   if (!METHODS.includes(method))
     throw new OhNetAdapterError(METHOD_CODE, `adapter: unsupported method: ${method}`)
 
+  const attempts = method === "GET"
+    ? ENV.attempts
+    : 1
   let last: unknown
 
-  for (let attempt = 1; attempt <= ENV.attempts; attempt++) {
+  for (let attempt = 1; attempt <= attempts; attempt++) {
     try {
       return await send(context)
     }
