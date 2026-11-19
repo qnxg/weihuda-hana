@@ -2,6 +2,7 @@ import type { EndpointMeta } from "@contract/endpoint"
 import type { AppRoute } from "@sapporta/rest-core"
 import type { HeaderReader, Result } from "@server/endpoint"
 import process from "node:process"
+import { setTimeout as delay } from "node:timers/promises"
 import { pathToFileURL } from "node:url"
 import { contract } from "@contract/routes"
 import { serve } from "@hono/node-server"
@@ -41,6 +42,9 @@ export function createMockApi() {
       const key = `${domain}.${name}`
 
       api.register(key, endpoint, (async ({ c, request }) => {
+        if (ENV.mockDelay > 0)
+          await delay(ENV.mockDelay)
+
         const header: HeaderReader = key => c.req.header(key)
 
         const denied = guard(endpoint.meta, header)
