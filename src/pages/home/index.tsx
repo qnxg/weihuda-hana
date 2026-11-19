@@ -3,7 +3,7 @@ import { View } from "@tarojs/components"
 import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
-import Demo from "@/pages/home/components/demo"
+import Greeting from "@/pages/home/components/greeting"
 import { RefreshProvider } from "@/pages/home/contexts/refresh"
 import { useRefresh } from "@/pages/home/hooks/refresh"
 
@@ -13,7 +13,7 @@ function Content(): ReactNode {
   return (
     <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
       <View className="flex flex-col gap-1r py-1r">
-        <Demo />
+        <Greeting />
       </View>
     </Scroll>
   )

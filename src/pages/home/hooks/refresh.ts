@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { queryClient } from "@/hooks/query"
 import { useRefreshRegistry } from "@/pages/home/contexts/refresh"
 
-/** 按查询键注册刷新任务, 键需为稳定引用 */
+/** 按查询键注册刷新任务 */
 export function useRefreshable(key: readonly unknown[]): void {
   const { register, unregister } = useRefreshRegistry()
   const id = JSON.stringify(key)
@@ -33,7 +33,7 @@ export interface RefreshResult {
   refresh: () => void
 }
 
-/** 首页的刷新编排, 全部任务落定后结束刷新态 */
+/** 首页的刷新编排 */
 export function useRefresh(): RefreshResult {
   const { collect } = useRefreshRegistry()
   const [refreshing, setRefreshing] = useState(false)

@@ -11,6 +11,7 @@ const tones: Record<IconColor, { title: string, description: string }> = {
   primary: { title: "text-primary", description: "text-primary-soft" },
   error: { title: "text-error", description: "text-error-soft" },
   ink: { title: "text-default", description: "text-soft" },
+  invert: { title: "text-invert", description: "text-invert" },
 }
 
 export interface CellProps {

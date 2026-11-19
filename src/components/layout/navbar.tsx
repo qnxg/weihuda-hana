@@ -26,6 +26,7 @@ const textTone: Record<IconColor, string> = {
   primary: "text-primary",
   error: "text-error",
   ink: "text-default",
+  invert: "text-invert",
 }
 
 /** 单个操作 */

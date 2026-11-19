@@ -21,5 +21,7 @@ export const PALETTE = {
     autumn: { light: "#d97706", dark: "#fcd34d" },
   },
   error: { light: "#e11d48", dark: "#fda4af" },
+  /** 反色文本, 与 bginvert 背景搭配 */
+  invert: { light: "#fafafa", dark: "#171717" },
   ink: { light: "#525252", dark: "#d4d4d4" },
 } as const

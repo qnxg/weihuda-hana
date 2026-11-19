@@ -4,22 +4,22 @@ import { ok } from "@server/endpoint"
 
 const list: TermInfo[] = [
   {
-    year: 2025,
+    year: 2026,
     semester: "autumn",
-    start: "2025-09-01",
-    weeks: 20,
+    start: "2026-09-13",
+    weeks: 18,
+  },
+  {
+    year: 2025,
+    semester: "summer",
+    start: "2026-07-05",
+    weeks: 10,
   },
   {
     year: 2025,
     semester: "spring",
-    start: "2025-02-17",
-    weeks: 20,
-  },
-  {
-    year: 2024,
-    semester: "autumn",
-    start: "2024-09-02",
-    weeks: 20,
+    start: "2026-03-01",
+    weeks: 18,
   },
 ]
 

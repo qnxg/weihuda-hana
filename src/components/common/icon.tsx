@@ -24,6 +24,8 @@ function colorOf(color: IconColor, theme: Theme, mode: Mode): string {
       return PALETTE.primary[theme][mode]
     case "error":
       return PALETTE.error[mode]
+    case "invert":
+      return PALETTE.invert[mode]
     default:
       return PALETTE.ink[mode]
   }
