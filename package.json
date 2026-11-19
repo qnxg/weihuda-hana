@@ -41,6 +41,7 @@
     "@tarojs/runtime": "4.1.11",
     "@tarojs/shared": "4.1.11",
     "@tarojs/taro": "4.1.11",
+    "@xtwis/ohday": "^1.0.2",
     "@xtwis/ohnet": "^2.0.1",
     "lucide-react-taro": "^1.5.2",
     "preact": "~10.23.2",

@@ -1,4 +1,5 @@
 import type { CourseItem } from "@contract/routes"
+import { od } from "@xtwis/ohday"
 import { PERIODS } from "@/config/course"
 import { atTime } from "@/utils/date"
 
@@ -36,10 +37,12 @@ export function rangeOf(course: CourseItem, date: Date): { start: Date, end: Dat
 export function statusOf(course: CourseItem, date: Date, now: Date): CourseStatus {
   const { start, end } = rangeOf(course, date)
 
-  if (now < start)
+  const time = od(now)
+
+  if (time.lt(start))
     return "pending"
 
-  return now <= end
+  return time.le(end)
     ? "ongoing"
     : "ended"
 }
@@ -58,7 +61,7 @@ export function labelOf(status: CourseStatus): string {
 
 /** 阈值内返回分钟数 */
 function near(target: Date, now: Date): number | undefined {
-  const minutes = Math.ceil((target.getTime() - now.getTime()) / 60_000)
+  const minutes = Math.ceil(od(target).diff(now, "m", true))
 
   return minutes > 0 && minutes <= NEAR
     ? minutes
@@ -81,7 +84,7 @@ export function progressOf(course: CourseItem, date: Date, now: Date): CoursePro
   const { start, end } = rangeOf(course, date)
 
   if (status === "ongoing") {
-    const elapsed = (now.getTime() - start.getTime()) / (end.getTime() - start.getTime())
+    const elapsed = od(now).diff(start, "ms") / od(end).diff(start, "ms")
     return {
       status,
       progress: Math.min(1, Math.max(0, elapsed)),

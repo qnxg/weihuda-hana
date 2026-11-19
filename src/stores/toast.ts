@@ -1,4 +1,5 @@
 import type { ToastItem, ToastType } from "@/types/toast"
+import { od } from "@xtwis/ohday"
 import { create } from "zustand"
 
 interface ToastState {
@@ -18,7 +19,7 @@ export const useToastStore = create<ToastState>()(set => ({
       current: {
         message,
         type,
-        startAt: Date.now(),
+        startAt: od().ts,
         duration,
       },
     }),

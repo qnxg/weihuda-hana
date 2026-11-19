@@ -1,4 +1,5 @@
 import type { SnackbarItem, SnackbarOptions } from "@/types/snackbar"
+import { od } from "@xtwis/ohday"
 import { create } from "zustand"
 import { DURATION } from "@/config/duration"
 import { createId } from "@/utils/id"
@@ -40,7 +41,7 @@ export const useSnackbarStore = create<SnackbarState>()(set => ({
           ? [
               {
                 ...head,
-                startAt: Date.now(),
+                startAt: od().ts,
               },
               ...queue.slice(1),
             ]
@@ -60,7 +61,7 @@ export const useSnackbarStore = create<SnackbarState>()(set => ({
       queue: [
         {
           ...rest[0],
-          startAt: Date.now(),
+          startAt: od().ts,
         },
         ...rest.slice(1),
       ],

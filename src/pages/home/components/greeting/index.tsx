@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
+import { od } from "@xtwis/ohday"
 import { Bell } from "lucide-react-taro"
 import { api } from "@/apis"
 import Button from "@/components/common/button"
@@ -34,7 +35,7 @@ export default function Greeting(): ReactNode {
   const week = term
     ? weekOf(now, term)
     : null
-  const today = useDayCourses(term, week, now.getDay())
+  const today = useDayCourses(term, week, od(now).day)
   const announcement = useAnnouncements()
   const pending = me.isPending
     || semester.isPending

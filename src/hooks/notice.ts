@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import type { NoticeEntry } from "@/types/notice"
+import { od } from "@xtwis/ohday"
 import { useEffect, useState } from "react"
 import { DURATION } from "@/config/duration"
 import { useNoticeStore } from "@/stores/notice"
@@ -12,16 +13,16 @@ export function useExpire(
   item: { startAt: number, duration: number } | null,
   onExpire: () => void,
 ): number {
-  const [now, setNow] = useState(() => Date.now())
+  const [now, setNow] = useState(() => od().ts)
 
   useEffect(() => {
     if (!item)
       return
 
-    const initial = setTimeout(() => setNow(Date.now()), 0)
+    const initial = setTimeout(() => setNow(od().ts), 0)
 
     const timer = setInterval(() => {
-      const time = Date.now()
+      const time = od().ts
       setNow(time)
 
       if (item.duration === 0) {

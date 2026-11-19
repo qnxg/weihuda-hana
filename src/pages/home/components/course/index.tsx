@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
+import { od } from "@xtwis/ohday"
 import { useState } from "react"
 import { api } from "@/apis"
 import Button from "@/components/common/button"
@@ -68,7 +69,7 @@ export default function Course(): ReactNode {
   const week = term
     ? weekOf(date, term)
     : null
-  const { list, loading } = useDayCourses(term, week, date.getDay())
+  const { list, loading } = useDayCourses(term, week, od(date).day)
 
   const pending = semester.isPending || loading
   const pickedToday = picked?.tomorrow === tomorrow

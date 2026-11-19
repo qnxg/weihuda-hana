@@ -35,6 +35,9 @@ importers:
       '@tarojs/taro':
         specifier: 4.1.11
         version: 4.1.11(727d4cb1fc15c8dc4dc8ea2adfd7921d)
+      '@xtwis/ohday':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@xtwis/ohnet':
         specifier: ^2.0.1
         version: 2.0.1
@@ -3411,6 +3414,9 @@ packages:
 
   '@xtuc/long@4.2.2':
     resolution: {integrity: sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==}
+
+  '@xtwis/ohday@1.0.2':
+    resolution: {integrity: sha512-RJzblveji9y7stDgfRDPXl+9WvIa6fsNpaS71Avz0Te5ZViTdxSJZSvx+fx5X7mklEGEBi/zOCX657RHYEthMg==}
 
   '@xtwis/ohnet@2.0.1':
     resolution: {integrity: sha512-v06Tg239jjI49feidq/aSRx31Ocjve79DFhIjznJy65y2/gnhuIUeCExlzrZ/roKNXK3vV3hcKMcezBUBbgWYw==}
@@ -11543,6 +11549,8 @@ snapshots:
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
+
+  '@xtwis/ohday@1.0.2': {}
 
   '@xtwis/ohnet@2.0.1': {}
 

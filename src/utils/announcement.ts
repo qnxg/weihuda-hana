@@ -1,3 +1,4 @@
+import { od } from "@xtwis/ohday"
 import { STORAGE } from "@/config/storage"
 import { storage } from "@/utils/storage"
 
@@ -13,5 +14,5 @@ export function setReadAt(time: number): void {
 
 /** 解析接口时间, 格式 YYYY-MM-DD HH:mm:ss */
 export function parseTime(value: string): number {
-  return new Date(value.replace(" ", "T")).getTime()
+  return od(value).ts
 }

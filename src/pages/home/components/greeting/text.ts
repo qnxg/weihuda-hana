@@ -1,3 +1,5 @@
+import { od } from "@xtwis/ohday"
+
 /** 时段问候, 按起始小时升序 */
 const GREETINGS: [number, string][] = [
   [6, "早上好"],
@@ -10,7 +12,7 @@ const GREETINGS: [number, string][] = [
 
 /** 问候语, 未到首个时段视为深夜 */
 export function greetingOf(date: Date): string {
-  const hour = date.getHours()
+  const hour = od(date).hour
   const hit = [...GREETINGS].reverse().find(([from]) => hour >= from)
 
   return hit ? hit[1] : "晚安"
