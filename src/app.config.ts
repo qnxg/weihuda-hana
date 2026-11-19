@@ -1,41 +1,63 @@
+import { PAGE } from "./config/page"
+
+/** 调试子包根 */
+const DEBUG_ROOT = "packages/debug"
+
+/** tab 页 */
+const tabs = [
+  { path: PAGE.home, text: "首页" },
+  { path: PAGE.kit, text: "工具箱" },
+  { path: PAGE.table, text: "课表" },
+  { path: PAGE.profile, text: "我的" },
+]
+
+/** 其余主包页面 */
+const pages = [PAGE.auth]
+
+/** 调试子包页面 */
+const debugPages = [
+  PAGE.debug.index,
+  PAGE.debug.theme,
+  PAGE.debug.comp,
+  PAGE.debug.form,
+  PAGE.debug.auth,
+]
+
+/** 去掉前导斜杠, app.json 的页面路径不带斜杠 */
+function strip(path: string): string {
+  return path.slice(1)
+}
+
+/** 批量去掉前导斜杠 */
+function route(paths: readonly string[]): string[] {
+  return paths.map(strip)
+}
+
+/** 子包内页面路径, 去掉子包根 */
+function inner(root: string, paths: readonly string[]): string[] {
+  return paths.map(path => path.slice(root.length))
+}
+
 export default defineAppConfig({
-  pages: [
-    "pages/home/index",
-    "pages/kit/index",
-    "pages/table/index",
-    "pages/profile/index",
-    "pages/auth/index",
-  ],
+  darkmode: true,
+  pages: route([
+    ...tabs.map(tab => tab.path),
+    ...pages,
+  ]),
   subPackages: [
     {
-      // 调试子包
-      root: "packages/debug",
-      pages: [
-        "pages/index/index",
-        "pages/theme/index",
-        "pages/comp/index",
-        "pages/form/index",
-        "pages/auth/index",
-      ],
+      root: DEBUG_ROOT,
+      pages: inner(`/${DEBUG_ROOT}/`, debugPages),
     },
   ],
   tabBar: {
     custom: true,
-    color: "#94a3b8",
-    selectedColor: "#d97706",
-    backgroundColor: "#ffffff",
-    list: [
-      { pagePath: "pages/home/index", text: "首页" },
-      { pagePath: "pages/kit/index", text: "工具箱" },
-      { pagePath: "pages/table/index", text: "课表" },
-      { pagePath: "pages/profile/index", text: "我的" },
-    ],
+    list: tabs.map(tab => ({
+      pagePath: strip(tab.path),
+      text: tab.text,
+    })),
   },
   window: {
-    backgroundTextStyle: "light",
     navigationStyle: "custom",
-    navigationBarBackgroundColor: "#fff",
-    navigationBarTitleText: "WeChat",
-    navigationBarTextStyle: "black",
   },
 })
