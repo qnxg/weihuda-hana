@@ -1,6 +1,7 @@
-import type { RootHealthData } from "@contract/routes"
+import type { RootAboutData, RootHealthData } from "@contract/routes"
 import { request } from "@/utils/request"
 
 export const root = {
-  health: () => request.get<RootHealthData>("/"),
+  health: (signal?: AbortSignal) => request.add({ signal }).get<RootHealthData>("/"),
+  about: (signal?: AbortSignal) => request.add({ signal }).get<RootAboutData>("/about"),
 }

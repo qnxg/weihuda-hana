@@ -1,13 +1,14 @@
-import type { OhNetClient as OhNetClientType } from "@xtwis/ohnet"
+import type { OhNetClient as OhNetClientType, OhNetConfig } from "@xtwis/ohnet"
 import { OhNetClient } from "@xtwis/ohnet"
 import { adapter } from "@/utils/request/adapter"
 import { resolveBaseUrl } from "@/utils/request/base"
 import { auth } from "@/utils/request/middleware/auth"
 import { normalize } from "@/utils/request/middleware/normalize"
 
-/** 放宽 get 的签名: params 是查询参数对象 */
-type RequestClient = Omit<OhNetClientType, "get"> & {
+/** 放宽 client 的签名 */
+type RequestClient = Omit<OhNetClientType, "add" | "get"> & {
   get: <T>(path?: string, params?: unknown) => Promise<T>
+  add: (config: OhNetConfig) => RequestClient
 }
 
 const client = OhNetClient.create({
