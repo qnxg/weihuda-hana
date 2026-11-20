@@ -1,4 +1,4 @@
-import type { Term } from "@contract/routes"
+import type { CardRecordListQueries, Term } from "@contract/routes"
 
 /** 查询键, 按接口域分层 */
 export const QUERY_KEY = {
@@ -22,6 +22,36 @@ export const QUERY_KEY = {
   announcement: {
     /** 公告列表 */
     list: ["announcement", "list"],
+  },
+  /** 校园卡 */
+  card: {
+    /** 余额 */
+    get: ["card"],
+    /** 流水, 按年月与类型区分 */
+    recordList: (queries: CardRecordListQueries) => [
+      "card",
+      "record",
+      queries.year,
+      queries.month,
+      queries.type,
+    ],
+  },
+  /** 宿舍 */
+  dorm: {
+    /** 宿舍信息 */
+    get: ["dorm"],
+    /** 剩余电量 */
+    electricity: ["dorm", "electricity"],
+  },
+  /** 邮件 */
+  email: {
+    /** 未读邮件数 */
+    get: ["email"],
+  },
+  /** 校园网流量 */
+  netflow: {
+    /** 本月流量 */
+    get: ["netflow"],
   },
   /** 课程 */
   course: {

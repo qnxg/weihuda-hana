@@ -3,6 +3,7 @@ import { View } from "@tarojs/components"
 import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import Campus from "@/pages/home/components/campus"
 import Course from "@/pages/home/components/course"
 import Greeting from "@/pages/home/components/greeting"
 import { RefreshProvider } from "@/pages/home/contexts/refresh"
@@ -16,6 +17,7 @@ function Content(): ReactNode {
       <View className="flex flex-col gap-1r py-1r">
         <Greeting />
         <Course />
+        <Campus />
       </View>
     </Scroll>
   )

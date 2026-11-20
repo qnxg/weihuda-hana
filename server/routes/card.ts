@@ -10,8 +10,8 @@ const records: (CardRecordItem & { type: CardRecordType })[] = [
     balance: 218.4,
     location: "五食堂",
     status: "正常",
-    tradedAt: "2025-11-10 12:05:00",
-    recordedAt: "2025-11-10 12:06:00",
+    tradedAt: "2026-11-10 12:05:00",
+    recordedAt: "2026-11-10 12:06:00",
     type: "consumption",
   },
   {
@@ -21,8 +21,8 @@ const records: (CardRecordItem & { type: CardRecordType })[] = [
     balance: 230.9,
     location: "校园超市",
     status: "正常",
-    tradedAt: "2025-11-09 18:40:00",
-    recordedAt: "2025-11-09 18:41:00",
+    tradedAt: "2026-11-09 18:40:00",
+    recordedAt: "2026-11-09 18:41:00",
     type: "consumption",
   },
   {
@@ -32,8 +32,8 @@ const records: (CardRecordItem & { type: CardRecordType })[] = [
     balance: 238.9,
     location: null,
     status: "正常",
-    tradedAt: "2025-11-01 09:12:00",
-    recordedAt: "2025-11-01 09:13:00",
+    tradedAt: "2026-11-01 09:12:00",
+    recordedAt: "2026-11-01 09:13:00",
     type: "recharge",
   },
 ]

@@ -12,8 +12,8 @@ interface Dorm {
 }
 
 interface Electricity {
-  /** 剩余电量 */
-  balance: string
+  /** 剩余电量, 单位度 */
+  balance: number
 }
 
 export const dorm = {
