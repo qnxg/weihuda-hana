@@ -100,13 +100,3 @@ export function progressOf(course: CourseItem, date: Date, now: Date): CoursePro
       }
     : { status, progress: 1 }
 }
-
-/** 默认选中: 进行中的课, 其次下一节, 都上完则无选中 */
-export function activeOf(list: CourseItem[], date: Date, now: Date): number {
-  const ongoing = list.findIndex(item => statusOf(item, date, now) === "ongoing")
-
-  if (ongoing !== -1)
-    return ongoing
-
-  return list.findIndex(item => statusOf(item, date, now) === "pending")
-}
