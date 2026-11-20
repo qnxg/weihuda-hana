@@ -17,23 +17,25 @@ export default function Campus(): ReactNode {
         <Text className="text-lg text-strong">校园生活</Text>
         <Button
           variant="ghost"
-          color="ink"
+          color="primary"
           className="px-1 py-0 text-xs"
           onClick={() => navigateTo(PAGE.debug.index)}
         >
           <Text>全部服务</Text>
         </Button>
       </View>
-      <View className="flex gap-3">
-        <Balance />
-        <Power />
-      </View>
-      <View className="flex gap-3">
-        <Point />
-        <Email />
-      </View>
-      <View className="flex">
-        <Flow />
+      <View className="flex flex-col gap-3">
+        <View className="flex gap-3">
+          <Balance />
+          <Power />
+        </View>
+        <View className="flex gap-3">
+          <Point />
+          <Email />
+        </View>
+        <View className="flex">
+          <Flow />
+        </View>
       </View>
     </View>
   )

@@ -1,4 +1,4 @@
-import type { CardRecordListQueries, Term } from "@contract/routes"
+import type { CardRecordListQueries, RankGetQueries, Term } from "@contract/routes"
 
 /** 查询键, 按接口域分层 */
 export const QUERY_KEY = {
@@ -52,6 +52,37 @@ export const QUERY_KEY = {
   netflow: {
     /** 本月流量 */
     get: ["netflow"],
+  },
+  /** 考试 */
+  exam: {
+    /** 考试安排, 按学期区分 */
+    list: (term?: Term) => [
+      "exam",
+      "list",
+      term?.year,
+      term?.semester,
+    ],
+  },
+  /** 成绩 */
+  grade: {
+    /** 成绩列表, 按学期区分 */
+    list: (term?: Term) => [
+      "grade",
+      "list",
+      term?.year,
+      term?.semester,
+    ],
+  },
+  /** 排名 */
+  rank: {
+    /** 教务排名 */
+    get: (queries: RankGetQueries) => [
+      "rank",
+      "get",
+      queries.range,
+      queries.dataSource,
+      queries.display,
+    ],
   },
   /** 课程 */
   course: {

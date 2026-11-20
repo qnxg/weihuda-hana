@@ -12,7 +12,7 @@ const detail = {
   gpaRank: "14/180",
 }
 
-const rank: Rank = { all: detail, compulsory: detail, core: null }
+const rank: Rank = { all: detail, compulsory: detail, core: detail }
 
 const ca: { updatedAt: string, rank: Rank } = { updatedAt: "2025-11-01 09:00:00", rank }
 

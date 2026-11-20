@@ -3,6 +3,7 @@ import { View } from "@tarojs/components"
 import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import Academic from "@/pages/home/components/academic"
 import Campus from "@/pages/home/components/campus"
 import Course from "@/pages/home/components/course"
 import Greeting from "@/pages/home/components/greeting"
@@ -18,6 +19,7 @@ function Content(): ReactNode {
         <Greeting />
         <Course />
         <Campus />
+        <Academic />
       </View>
     </Scroll>
   )
