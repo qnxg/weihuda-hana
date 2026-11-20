@@ -56,13 +56,16 @@ export function useModalPresence(
 
   useEffect(() => {
     if (visible) {
-      const timer = setTimeout(setActive, 0, true)
+      const timer = setTimeout(() => {
+        setPresent(true)
+        setActive(true)
+      }, 0)
       return () => clearTimeout(timer)
     }
 
     const timer = setTimeout(() => {
-      setActive(false)
       setPresent(false)
+      setActive(false)
     }, DURATION.transition)
     return () => clearTimeout(timer)
   }, [visible])

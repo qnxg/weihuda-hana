@@ -1,5 +1,6 @@
 import type { ComponentProps, ReactNode } from "react"
 import { View } from "@tarojs/components"
+import { DURATION } from "@/config/duration"
 import { cn } from "@/utils/cn"
 
 /** 位置 */
@@ -13,6 +14,8 @@ const align: Record<OverlayPosition, string> = {
 }
 
 export interface OverlayProps {
+  /** 激活, 决定遮罩的显隐过渡 */
+  active?: boolean
   /** 内容位置 */
   position?: OverlayPosition
   /** 内容容器 class */
@@ -25,6 +28,7 @@ export interface OverlayProps {
 
 /** 遮罩层 */
 export default function Overlay({
+  active = true,
   position = "center",
   className,
   children,
@@ -32,7 +36,11 @@ export default function Overlay({
 }: Readonly<OverlayProps>): ReactNode {
   return (
     <View className={cn("absolute inset-0 pointer-events-auto flex", align[position])}>
-      <View className="absolute inset-0 bg-black opacity-soft" onClick={onClick} />
+      <View
+        className={cn("absolute inset-0 bg-black", active ? "opacity-soft" : "opacity-hidden")}
+        style={{ transition: `opacity ${DURATION.transition}ms ease-out` }}
+        onClick={onClick}
+      />
       <View className={cn("relative", className)}>
         {children}
       </View>

@@ -57,7 +57,7 @@ export default function Alert({
   className,
 }: Readonly<AlertProps>): ReactNode {
   useModalPresence(visible, active => (
-    <Overlay position="center" onClick={closeable ? onCancel : undefined} className="w-full px-2r">
+    <Overlay active={active} position="center" onClick={closeable ? onCancel : undefined} className="w-full px-2r">
       <Card
         className={cn("w-full flex flex-col gap-2", className)}
         style={{

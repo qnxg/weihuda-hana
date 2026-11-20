@@ -35,3 +35,8 @@ page {
 @utility skeleton-pulse {
   animation: tune-skeleton 1.6s ease-in-out infinite;
 }
+
+/** 隐藏, 用于需要过渡的显隐 */
+@utility opacity-hidden {
+  opacity: 0;
+}

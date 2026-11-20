@@ -34,7 +34,7 @@ export default function Popup({
   children,
 }: Readonly<PopupProps>): ReactNode {
   useModalPresence(visible, active => (
-    <Overlay position="bottom" onClick={closeable ? onClose : undefined} className="w-full">
+    <Overlay active={active} position="bottom" onClick={closeable ? onClose : undefined} className="w-full">
       <Card
         className={cn("w-full flex flex-col overflow-hidden", className)}
         style={{
