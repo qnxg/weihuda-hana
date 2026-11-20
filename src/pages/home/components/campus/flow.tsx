@@ -22,7 +22,6 @@ export default function Flow(): ReactNode {
             <>
               <Skeleton className="h-4h w-full bg-ink-line" />
               <Skeleton className="h-2 w-full bg-ink-line" />
-              <Skeleton className="h-2 w-2/3 bg-ink-line" />
             </>
           )
         : (
