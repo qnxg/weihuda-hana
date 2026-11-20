@@ -7,7 +7,7 @@ import Card from "@/components/common/card"
 import Form from "@/components/form/form"
 import Input from "@/components/form/input"
 import Submit from "@/components/form/submit"
-import { useMutation } from "@/hooks/query"
+import { queryClient, useMutation } from "@/hooks/query"
 import { setToken, unlockAuthPrompts } from "@/utils/auth"
 import { handleError } from "@/utils/error"
 import { toast } from "@/utils/toast"
@@ -30,6 +30,7 @@ export default function Login({ onBack }: Readonly<LoginProps>): ReactNode {
     onSuccess: (data) => {
       setToken(data)
       unlockAuthPrompts()
+      void queryClient.invalidateQueries()
       toast.success("登录成功")
       onBack()
     },

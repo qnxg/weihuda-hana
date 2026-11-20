@@ -1,8 +1,10 @@
 import type { ReactNode } from "react"
 import { View } from "@tarojs/components"
+import { useDidShow } from "@tarojs/taro"
 import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
+import { queryClient } from "@/hooks/query"
 import Academic from "@/pages/home/components/academic"
 import Announcement from "@/pages/home/components/announcement"
 import Campus from "@/pages/home/components/campus"
@@ -28,6 +30,12 @@ function Content(): ReactNode {
 }
 
 export default function Home(): ReactNode {
+  useDidShow(() => {
+    void queryClient.invalidateQueries({
+      predicate: query => query.state.status === "error",
+    })
+  })
+
   return (
     <Page tabbar title="首页" back={false}>
       <Main>
