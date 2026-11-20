@@ -40,3 +40,18 @@ page {
 @utility opacity-hidden {
   opacity: 0;
 }
+
+/** 跑马灯滚动 */
+@keyframes tune-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/** 跑马灯, 时长由内联 animationDuration 指定 */
+@utility marquee {
+  animation: tune-marquee 10s linear infinite;
+}

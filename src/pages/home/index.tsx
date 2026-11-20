@@ -4,6 +4,7 @@ import Scroll from "@/components/common/scroll"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Academic from "@/pages/home/components/academic"
+import Announcement from "@/pages/home/components/announcement"
 import Campus from "@/pages/home/components/campus"
 import Course from "@/pages/home/components/course"
 import Greeting from "@/pages/home/components/greeting"
@@ -16,6 +17,7 @@ function Content(): ReactNode {
   return (
     <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
       <View className="flex flex-col gap-1r py-1r">
+        <Announcement />
         <Greeting />
         <Course />
         <Campus />
