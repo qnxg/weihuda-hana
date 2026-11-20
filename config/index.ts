@@ -56,6 +56,8 @@ export default defineConfig<"webpack5">({
     enable: false,
   },
   mini: {
+    // watch 模式默认生成 sourceMap, 关掉避免 dist 里出现 .map
+    enableSourceMap: false,
     // Taro 默认不实现 TaroNode.contains, preact 插入子节点时会调用它导致崩溃
     runtime: {
       enableContains: true,
