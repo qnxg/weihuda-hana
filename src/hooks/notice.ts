@@ -26,7 +26,7 @@ export function useExpire(
       setNow(time)
 
       if (item.duration === 0) {
-        if (time - item.startAt >= DURATION.animation)
+        if (time - item.startAt >= DURATION.transition)
           clearInterval(timer)
         return
       }

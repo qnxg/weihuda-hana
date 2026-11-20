@@ -34,7 +34,7 @@ export default function Toast(): ReactNode {
     return null
 
   const elapsed = now - current.startAt
-  const appear = Math.max(0, Math.min(1, elapsed / DURATION.animation))
+  const appear = Math.max(0, Math.min(1, elapsed / DURATION.transition))
 
   return (
     <View className="absolute inset-0 flex items-center justify-center">

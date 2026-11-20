@@ -63,7 +63,7 @@ export function useModalPresence(
     const timer = setTimeout(() => {
       setActive(false)
       setPresent(false)
-    }, DURATION.animation)
+    }, DURATION.transition)
     return () => clearTimeout(timer)
   }, [visible])
 

@@ -31,7 +31,7 @@ export default function Sign(): ReactNode {
     onSuccess: () => {
       setTicked(true)
       clearTimeout(timerRef.current)
-      timerRef.current = setTimeout(setTicked, DURATION.toast, false)
+      timerRef.current = setTimeout(setTicked, DURATION.hint, false)
       void queryClient.invalidateQueries({ queryKey: QUERY_KEY.point.get })
     },
   })

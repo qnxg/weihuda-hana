@@ -26,7 +26,7 @@ export const useSnackbarStore = create<SnackbarState>()(set => ({
       message,
       action: options.action,
       startAt: 0,
-      duration: options.duration ?? DURATION.snackbar,
+      duration: options.duration ?? DURATION.notification,
     }
 
     set((state) => {

@@ -39,7 +39,7 @@ export default function Popup({
         className={cn("w-full flex flex-col overflow-hidden", className)}
         style={{
           transform: active ? "translateY(0)" : "translateY(100%)",
-          transition: `transform ${DURATION.animation}ms ease-out`,
+          transition: `transform ${DURATION.transition}ms ease-out`,
         }}
       >
         <View className="flex items-center justify-between gap-2">

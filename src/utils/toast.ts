@@ -8,7 +8,7 @@ import { notice } from "@/utils/notice"
 /** 展示提示 */
 function show(message: string, options: ToastOptions = {}): void {
   notice.mount(createElement(Toast), "toast")
-  useToastStore.getState().show(message, options.type ?? "info", options.duration ?? DURATION.toast)
+  useToastStore.getState().show(message, options.type ?? "info", options.duration ?? DURATION.hint)
 }
 
 /** 按类型展示 */

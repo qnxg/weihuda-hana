@@ -1,9 +1,9 @@
-/** 动画时长 */
+/** 时长 */
 export const DURATION = {
-  /** 模态层进场 */
-  animation: 200,
-  /** 提示时长 */
-  toast: 1500,
-  /** 通知时长 */
-  snackbar: 3000,
+  /** 动画过渡 */
+  transition: 200,
+  /** 提示 */
+  hint: 1500,
+  /** 通知 */
+  notification: 3000,
 }

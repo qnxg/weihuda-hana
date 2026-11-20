@@ -63,7 +63,7 @@ export default function Alert({
         style={{
           opacity: active ? 1 : 0,
           transform: active ? "scale(1)" : "scale(0.9)",
-          transition: `opacity ${DURATION.animation}ms ease-out, transform ${DURATION.animation}ms ease-out`,
+          transition: `opacity ${DURATION.transition}ms ease-out, transform ${DURATION.transition}ms ease-out`,
         }}
       >
         {(icon || title) && (

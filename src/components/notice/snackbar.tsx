@@ -16,7 +16,7 @@ export default function Snackbar(): ReactNode {
     return null
 
   const elapsed = now - current.startAt
-  const appear = Math.max(0, Math.min(1, elapsed / DURATION.animation))
+  const appear = Math.max(0, Math.min(1, elapsed / DURATION.transition))
 
   return (
     <View className="absolute bottom-0 left-0 right-0 flex px-2r">
