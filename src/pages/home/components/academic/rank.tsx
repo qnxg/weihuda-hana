@@ -27,7 +27,7 @@ export default function Rank(): ReactNode {
           : (
               <Text className="text-xs text-soft">
                 {weightedRank
-                  ? `加权核心排名 ${weightedRank}`
+                  ? `加权核心 ${weightedRank}`
                   : "暂无排名"}
               </Text>
             )}
