@@ -16,7 +16,7 @@ export default function Flow(): ReactNode {
   const { data, loading } = useNetflow()
 
   return (
-    <Panel icon={Wifi} title="校园网流量" onOpen={() => navigateTo(PAGE.debug.index)}>
+    <Panel icon={Wifi} title="校园网流量" color="indigo" onOpen={() => navigateTo(PAGE.debug.index)}>
       {loading || !data
         ? (
             <>

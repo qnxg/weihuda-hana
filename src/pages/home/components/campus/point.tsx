@@ -16,6 +16,7 @@ export default function Point(): ReactNode {
     <Panel
       icon={Trophy}
       title="积分"
+      color="violet"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || value === undefined || combo === undefined

@@ -14,7 +14,7 @@ export default function Email(): ReactNode {
   const { count, failed, loading } = useEmail()
 
   return (
-    <Panel icon={Mail} title="邮件">
+    <Panel icon={Mail} title="邮件" color="cyan">
       {failed
         ? <Text className="text-xs text-soft">{UNBOUND}</Text>
         : loading || count === undefined

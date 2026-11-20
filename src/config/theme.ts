@@ -25,3 +25,15 @@ export const PALETTE = {
   invert: { light: "#fafafa", dark: "#171717" },
   ink: { light: "#525252", dark: "#d4d4d4" },
 } as const
+
+/** 强调色板, 只用于装饰, 对应 tune.config 的 fg 阶 */
+export const ACCENT = {
+  sky: { light: "#0084d1", dark: "#74d4ff" },
+  cyan: { light: "#0092b8", dark: "#53eafd" },
+  teal: { light: "#009689", dark: "#46ecd5" },
+  emerald: { light: "#009966", dark: "#5ee9b5" },
+  violet: { light: "#7f22fe", dark: "#c4b4ff" },
+  fuchsia: { light: "#c800de", dark: "#f4a8ff" },
+  orange: { light: "#f54900", dark: "#ffb86a" },
+  indigo: { light: "#4f39f6", dark: "#a3b3ff" },
+} as const

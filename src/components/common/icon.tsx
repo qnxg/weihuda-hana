@@ -2,33 +2,36 @@ import type { IconProps as LucideIconProps } from "lucide-react-taro"
 import type { FC, ReactNode } from "react"
 import type { Mode, Theme } from "@/types/theme"
 import { View } from "@tarojs/components"
-import { PALETTE } from "@/config/theme"
+import { ACCENT, PALETTE } from "@/config/theme"
 import { useTheme } from "@/hooks/theme"
 
 /** 语义色名 */
 export type IconColor = keyof typeof PALETTE
 
+/** 强调色名 */
+export type AccentColor = keyof typeof ACCENT
+
+/** 图标可选的颜色 */
+export type IconTint = IconColor | AccentColor
+
 export interface IconProps {
   /** 图标组件 */
   icon: FC<LucideIconProps>
-  /** 语义色 */
-  color?: IconColor
+  /** 颜色 */
+  color?: IconTint
   /** 尺寸与布局 */
   className?: string
 }
 
-/** 取语义色在当前主题与模式下的值 */
-function colorOf(color: IconColor, theme: Theme, mode: Mode): string {
-  switch (color) {
-    case "primary":
-      return PALETTE.primary[theme][mode]
-    case "error":
-      return PALETTE.error[mode]
-    case "invert":
-      return PALETTE.invert[mode]
-    default:
-      return PALETTE.ink[mode]
-  }
+/** 取颜色在当前主题与模式下的值 */
+function colorOf(color: IconTint, theme: Theme, mode: Mode): string {
+  if (color === "primary")
+    return PALETTE.primary[theme][mode]
+
+  if (color in ACCENT)
+    return ACCENT[color as AccentColor][mode]
+
+  return PALETTE[color as IconColor][mode]
 }
 
 /** 图标 */

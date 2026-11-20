@@ -16,6 +16,7 @@ export default function Balance(): ReactNode {
     <Panel
       icon={Wallet}
       title="校园卡"
+      color="sky"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || !card || spent === undefined

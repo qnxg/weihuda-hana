@@ -16,6 +16,7 @@ export default function Power(): ReactNode {
     <Panel
       icon={Zap}
       title="宿舍电量"
+      color="teal"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || electricity === undefined

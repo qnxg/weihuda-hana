@@ -25,8 +25,8 @@ export default function Grade(): ReactNode {
       className="flex flex-1 items-center gap-2 border border-default p-3"
       onClick={() => navigateTo(PAGE.debug.index)}
     >
-      <View className="flex h-4h w-4h shrink-0 items-center justify-center rounded-lg bg-primary">
-        <Icon icon={GraduationCap} color="primary" className="h-2h w-2h" />
+      <View className="flex h-4h w-4h shrink-0 items-center justify-center rounded-lg raw:bg-emerald-bg">
+        <Icon icon={GraduationCap} color="emerald" className="h-2h w-2h" />
       </View>
       <View className="flex flex-col gap-1">
         <Text className="text-sm text-strong">成绩查询</Text>

@@ -40,8 +40,8 @@ export default function Todo(): ReactNode {
   return (
     <Card className="flex flex-col gap-2 border border-default p-3">
       <View className="flex items-center gap-2">
-        <View className="flex h-3h w-3h items-center justify-center rounded-md bg-primary">
-          <Icon icon={CalendarClock} color="primary" className="h-2h w-2h" />
+        <View className="flex h-3h w-3h items-center justify-center rounded-md raw:bg-fuchsia-bg">
+          <Icon icon={CalendarClock} color="fuchsia" className="h-2h w-2h" />
         </View>
         <Text className="flex-1 text-sm text-strong">待办</Text>
       </View>
