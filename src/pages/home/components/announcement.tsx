@@ -70,8 +70,7 @@ export default function Announcement(): ReactNode {
       onClick={() => navigateTo(PAGE.debug.index)}
     >
       <View className="relative shrink-0">
-        <Icon icon={Bell} color="error" className="h-2h w-2h" />
-        <View className="absolute top-0 right-0 h-1x w-1x rounded-full bg-error-invert" />
+        <Icon icon={Bell} color="primary" className="h-2h w-2h" />
       </View>
       <View className={`${BOX} flex-1 overflow-hidden`}>
         {scrolling
