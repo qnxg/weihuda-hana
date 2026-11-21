@@ -1,8 +1,8 @@
-import type { ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import type { ZodType } from "zod"
 import { Input as TaroInput, Text, View } from "@tarojs/components"
-import { useEffect, useRef, useState } from "react"
-import { useFormContext } from "@/contexts/form"
+import { useState } from "react"
+import { useFormField } from "@/hooks/form"
 import { cn } from "@/utils/cn"
 
 export interface InputProps {
@@ -12,10 +12,12 @@ export interface InputProps {
   defaultValue?: string
   /** 字段名, 在表单内注册 */
   name?: string
-  /** 校验 */
-  schema?: ZodType<string>
+  /** 校验, 由 zod 决定类型 */
+  schema?: ZodType
   /** 变更回调 */
   onChange?: (value: string) => void
+  /** 输入类型 */
+  type?: ComponentProps<typeof TaroInput>["type"]
   /** 标签 */
   label?: string
   /** 占位 */
@@ -30,17 +32,6 @@ export interface InputProps {
   className?: string
 }
 
-/** 校验取值 */
-function validate(schema: ZodType<string> | undefined, value: string): string {
-  if (!schema)
-    return ""
-
-  const result = schema.safeParse(value)
-  return result.success
-    ? ""
-    : result.error.issues[0]?.message ?? "输入有误"
-}
-
 /** 输入框, 默认非受控 */
 export default function Input({
   value,
@@ -48,6 +39,7 @@ export default function Input({
   name,
   schema,
   onChange,
+  type,
   label,
   placeholder,
   password = false,
@@ -55,48 +47,17 @@ export default function Input({
   disabled = false,
   className,
 }: Readonly<InputProps>): ReactNode {
-  const form = useFormContext()
   const [inner, setInner] = useState(defaultValue)
-  const [touched, setTouched] = useState(false)
 
   const controlled = value !== undefined
   const current = controlled ? value : inner
-  const fieldSchema = schema ?? (form && name
-    ? form.fieldSchema(name)
-    : undefined)
-
-  const currentRef = useRef(current)
-  const schemaRef = useRef(fieldSchema)
-  const register = form?.register
-  const clearError = form?.clearError
-
-  currentRef.current = current
-  schemaRef.current = fieldSchema
-
-  useEffect(() => {
-    if (!register || !name)
-      return
-
-    return register(name, {
-      getValue: () => currentRef.current,
-      validate: () => validate(schemaRef.current, currentRef.current),
-    })
-  }, [name, register])
-
-  const formError = form && name
-    ? form.errors[name]
-    : ""
-  const message = formError || (touched
-    ? validate(fieldSchema, current)
-    : "")
+  const { message, markTouched, clear } = useFormField({ name, schema, value: current })
 
   function handle(next: string) {
     if (!controlled)
       setInner(next)
 
-    if (clearError && name)
-      clearError(name)
-
+    clear()
     onChange?.(next)
   }
 
@@ -113,13 +74,14 @@ export default function Input({
         <TaroInput
           className="flex-1 text-sm text-default"
           value={current}
+          type={type}
           password={password}
           maxlength={maxlength}
           disabled={disabled}
           placeholder={placeholder}
           placeholderClass="text-soft"
           onInput={event => handle(event.detail.value)}
-          onBlur={() => setTouched(true)}
+          onBlur={markTouched}
         />
       </View>
       {message && <Text className="text-xs text-error">{message}</Text>}

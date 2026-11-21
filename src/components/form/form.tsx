@@ -50,12 +50,12 @@ export default function Form<S extends ZodObject>({
     })
   }, [])
 
-  const fieldSchema = useCallback((name: string): ZodType<string> | undefined => {
-    return (schema.shape as Record<string, ZodType<string>>)[name]
+  const fieldSchema = useCallback(<T,>(name: string): ZodType<T> | undefined => {
+    return (schema.shape as Record<string, ZodType<T>>)[name]
   }, [schema])
 
   const submit = useCallback(async () => {
-    const values: Record<string, string> = {}
+    const values: Record<string, unknown> = {}
     fieldsRef.current.forEach((field, name) => {
       values[name] = field.getValue()
     })

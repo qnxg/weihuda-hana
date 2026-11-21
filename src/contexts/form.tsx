@@ -4,8 +4,8 @@ import { createContext, useContext } from "react"
 
 /** 字段注册内容 */
 export interface FormField {
-  /** 取值 */
-  getValue: () => string
+  /** 取值, 类型由 zod schema 决定 */
+  getValue: () => unknown
   /** 校验 */
   validate: () => string
 }
@@ -18,7 +18,7 @@ export interface FormContextValue {
   /** 清除错误 */
   clearError: (name: string) => void
   /** 字段结构 */
-  fieldSchema: (name: string) => ZodType<string> | undefined
+  fieldSchema: <T>(name: string) => ZodType<T> | undefined
   /** 提交 */
   submit: () => Promise<void>
   /** 提交中 */
