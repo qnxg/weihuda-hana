@@ -17,6 +17,8 @@ export interface NavbarActionProps {
   text?: string
   /** 语义色, 默认 ink */
   color?: IconColor
+  /** 激活态, 覆盖 color 为 primary */
+  active?: boolean
   /** 点击 */
   onClick?: ComponentProps<typeof View>["onClick"]
 }
@@ -30,12 +32,14 @@ const textTone: Record<IconColor, string> = {
 }
 
 /** 单个操作 */
-export function NavbarAction({ icon, text, color = "ink", onClick }: Readonly<NavbarActionProps>): ReactNode {
+export function NavbarAction({ icon, text, color = "ink", active = false, onClick }: Readonly<NavbarActionProps>): ReactNode {
+  const tone = active ? "primary" : color
+
   return (
     <View className="flex items-center" onClick={onClick}>
       {icon
-        ? <Icon icon={icon} color={color} className="h-3h w-3h" />
-        : <Text className={cn("text-sm", textTone[color])}>{text}</Text>}
+        ? <Icon icon={icon} color={tone} className="h-3h w-3h" />
+        : <Text className={cn("text-sm", textTone[tone])}>{text}</Text>}
     </View>
   )
 }
@@ -45,8 +49,8 @@ export interface NavbarProps {
   safeArea?: boolean
   /** 居中标题 */
   title?: string
-  /** 返回操作 */
-  back?: boolean | ReactElement<NavbarActionProps>
+  /** 返回操作, 传 true 用默认返回, 传节点则原样渲染 */
+  back?: boolean | ReactNode
   /** 操作列表 */
   children?: ReactElement<NavbarActionProps> | ReactElement<NavbarActionProps>[]
 }

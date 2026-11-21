@@ -22,6 +22,7 @@ export default function Picker({
   clearable = false,
   disabled = false,
   className,
+  triggerClassName,
   formatValue,
 }: Readonly<PickerProps>): ReactNode {
   const controlled = value !== undefined
@@ -73,6 +74,7 @@ export default function Picker({
         clearable={clearable}
         disabled={disabled}
         className={className}
+        triggerClassName={triggerClassName}
         onOpen={() => setOpen(true)}
         onClear={() => commit(null)}
       />

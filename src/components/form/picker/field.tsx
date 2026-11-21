@@ -22,6 +22,8 @@ export interface PickerFieldProps {
   disabled?: boolean
   /** 追加样式 */
   className?: string
+  /** 触发区样式 */
+  triggerClassName?: string
   /** 打开 */
   onOpen: () => void
   /** 清除 */
@@ -38,6 +40,7 @@ export default function PickerField({
   clearable = false,
   disabled = false,
   className,
+  triggerClassName,
   onOpen,
   onClear,
 }: Readonly<PickerFieldProps>): ReactNode {
@@ -54,6 +57,7 @@ export default function PickerField({
           "flex items-center gap-2 rounded-md border px-2h py-1h bg-strong",
           message ? "border-error" : "border-default",
           disabled && "opacity-soft",
+          triggerClassName,
         )}
         onClick={disabled ? undefined : onOpen}
       >

@@ -189,6 +189,23 @@ function createCourses(): CourseItem[] {
 
 const courses = createCourses()
 
+courses.push({
+  courseId: "GE09999",
+  courseName: "高等数学 A(重修)",
+  className: "重修班",
+  courseType: "通识必修",
+  credit: 5,
+  weeks: weeks(9, 18),
+  day: 1,
+  time: 1,
+  extra: null,
+  area: "南校区",
+  place: "综合楼 301",
+  people: 30,
+  teacher: "王军",
+  customizeId: null,
+})
+
 const extras = [
   {
     courseId: "GE03010",
@@ -203,9 +220,26 @@ const extras = [
   },
 ]
 
-const customs: CourseItem[] = []
+const customs: CourseItem[] = [
+  {
+    courseId: null,
+    courseName: "自定义课程",
+    className: null,
+    courseType: null,
+    credit: null,
+    weeks: weeks(1, 16),
+    day: 2,
+    time: 7,
+    extra: null,
+    area: null,
+    place: "线上",
+    people: null,
+    teacher: "我",
+    customizeId: 1,
+  },
+]
 
-let seed = 0
+let seed = 1
 
 export const course: Handlers<typeof contract.course> = {
   list: () => ok([

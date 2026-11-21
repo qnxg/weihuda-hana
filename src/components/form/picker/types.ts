@@ -65,6 +65,8 @@ export interface PickerProps {
   disabled?: boolean
   /** 追加样式 */
   className?: string
+  /** 触发区样式 */
+  triggerClassName?: string
   /** 已选文本 */
   formatValue?: (value: ColumnValue) => string
 }
