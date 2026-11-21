@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Text } from "@tarojs/components"
-import { Wallet } from "lucide-react-taro"
 import Skeleton from "@/components/common/skeleton"
 import { PAGE } from "@/config/page"
 import Panel from "@/pages/home/components/campus/panel"
@@ -14,9 +13,8 @@ export default function Balance(): ReactNode {
 
   return (
     <Panel
-      icon={Wallet}
+      tint="card"
       title="校园卡"
-      color="sky"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || !card || spent === undefined

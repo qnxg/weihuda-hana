@@ -1,5 +1,6 @@
 import type { IconProps as LucideIconProps } from "lucide-react-taro"
 import type { FC, ReactNode } from "react"
+import type { AccentColor } from "@/config/theme"
 import type { Mode, Theme } from "@/types/theme"
 import { View } from "@tarojs/components"
 import { ACCENT, PALETTE } from "@/config/theme"
@@ -7,9 +8,6 @@ import { useTheme } from "@/hooks/theme"
 
 /** 语义色名 */
 export type IconColor = keyof typeof PALETTE
-
-/** 强调色名 */
-export type AccentColor = keyof typeof ACCENT
 
 /** 图标可选的颜色 */
 export type IconTint = IconColor | AccentColor

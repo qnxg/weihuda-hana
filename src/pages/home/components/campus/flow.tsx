@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
-import { Wifi } from "lucide-react-taro"
 import Skeleton from "@/components/common/skeleton"
 import { PAGE } from "@/config/page"
 import Panel from "@/pages/home/components/campus/panel"
@@ -16,7 +15,7 @@ export default function Flow(): ReactNode {
   const { data, loading } = useNetflow()
 
   return (
-    <Panel icon={Wifi} title="校园网流量" color="indigo" onOpen={() => navigateTo(PAGE.debug.index)}>
+    <Panel tint="netflow" title="校园网流量" onOpen={() => navigateTo(PAGE.debug.index)}>
       {loading || !data
         ? (
             <>

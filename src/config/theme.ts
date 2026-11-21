@@ -37,3 +37,22 @@ export const ACCENT = {
   orange: { light: "#f54900", dark: "#ffb86a" },
   indigo: { light: "#4f39f6", dark: "#a3b3ff" },
 } as const
+
+/** 强调色名 */
+export type AccentColor = keyof typeof ACCENT
+
+/** 图标底色可选的颜色 */
+export type BadgeTint = AccentColor | "primary"
+
+/** 图标底色 class */
+export const BADGE_BG: Record<BadgeTint, string> = {
+  primary: "bg-primary",
+  sky: "raw:bg-sky-bg",
+  cyan: "raw:bg-cyan-bg",
+  teal: "raw:bg-teal-bg",
+  emerald: "raw:bg-emerald-bg",
+  violet: "raw:bg-violet-bg",
+  fuchsia: "raw:bg-fuchsia-bg",
+  orange: "raw:bg-orange-bg",
+  indigo: "raw:bg-indigo-bg",
+}

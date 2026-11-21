@@ -19,7 +19,7 @@ export default function Campus(): ReactNode {
           variant="ghost"
           color="primary"
           className="px-1 py-0 text-xs"
-          onClick={() => navigateTo(PAGE.debug.index)}
+          onClick={() => navigateTo(PAGE.kit)}
         >
           <Text>全部服务</Text>
         </Button>

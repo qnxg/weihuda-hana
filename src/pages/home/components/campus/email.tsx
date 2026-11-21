@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Text } from "@tarojs/components"
-import { Mail } from "lucide-react-taro"
 import Skeleton from "@/components/common/skeleton"
 import Panel from "@/pages/home/components/campus/panel"
 import Value from "@/pages/home/components/campus/value"
@@ -14,7 +13,7 @@ export default function Email(): ReactNode {
   const { count, failed, loading } = useEmail()
 
   return (
-    <Panel icon={Mail} title="邮件" color="cyan">
+    <Panel tint="email" title="邮件">
       {failed
         ? <Text className="text-xs text-soft">{UNBOUND}</Text>
         : loading || count === undefined

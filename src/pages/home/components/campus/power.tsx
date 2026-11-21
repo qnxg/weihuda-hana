@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Text } from "@tarojs/components"
-import { Zap } from "lucide-react-taro"
 import Skeleton from "@/components/common/skeleton"
 import { PAGE } from "@/config/page"
 import Panel from "@/pages/home/components/campus/panel"
@@ -14,9 +13,8 @@ export default function Power(): ReactNode {
 
   return (
     <Panel
-      icon={Zap}
+      tint="electricity"
       title="宿舍电量"
-      color="teal"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || electricity === undefined

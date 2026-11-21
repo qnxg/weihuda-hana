@@ -1,6 +1,5 @@
 import type { ReactNode } from "react"
 import { Text } from "@tarojs/components"
-import { Trophy } from "lucide-react-taro"
 import Skeleton from "@/components/common/skeleton"
 import { PAGE } from "@/config/page"
 import Panel from "@/pages/home/components/campus/panel"
@@ -14,9 +13,8 @@ export default function Point(): ReactNode {
 
   return (
     <Panel
-      icon={Trophy}
+      tint="point"
       title="积分"
-      color="violet"
       onOpen={() => navigateTo(PAGE.debug.index)}
     >
       {loading || value === undefined || combo === undefined
