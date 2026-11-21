@@ -11,6 +11,7 @@ import { point } from "@contract/routes/point"
 import { rank } from "@contract/routes/rank"
 import { root } from "@contract/routes/root"
 import { semester } from "@contract/routes/semester"
+import { todo } from "@contract/routes/todo"
 
 export const contract = {
   root,
@@ -18,6 +19,7 @@ export const contract = {
   announcement,
   semester,
   exam,
+  todo,
   grade,
   rank,
   point,
@@ -42,3 +44,4 @@ export * from "@contract/routes/point"
 export * from "@contract/routes/rank"
 export * from "@contract/routes/root"
 export * from "@contract/routes/semester"
+export * from "@contract/routes/todo"

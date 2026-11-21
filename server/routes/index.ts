@@ -11,6 +11,7 @@ import { point } from "@server/routes/point"
 import { rank } from "@server/routes/rank"
 import { root } from "@server/routes/root"
 import { semester } from "@server/routes/semester"
+import { todo } from "@server/routes/todo"
 
 export const route = {
   root,
@@ -18,6 +19,7 @@ export const route = {
   announcement,
   semester,
   exam,
+  todo,
   grade,
   rank,
   point,
@@ -41,3 +43,4 @@ export * from "@server/routes/point"
 export * from "@server/routes/rank"
 export * from "@server/routes/root"
 export * from "@server/routes/semester"
+export * from "@server/routes/todo"
