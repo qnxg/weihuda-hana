@@ -11,6 +11,7 @@ import { point } from "@/apis/point"
 import { rank } from "@/apis/rank"
 import { root } from "@/apis/root"
 import { semester } from "@/apis/semester"
+import { todo } from "@/apis/todo"
 
 export const api = {
   root,
@@ -18,6 +19,7 @@ export const api = {
   announcement,
   semester,
   exam,
+  todo,
   grade,
   rank,
   point,

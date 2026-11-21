@@ -63,6 +63,16 @@ export const QUERY_KEY = {
       term?.semester,
     ],
   },
+  /** 待办 */
+  todo: {
+    /** 待办列表, 按学期区分 */
+    list: (term?: Term) => [
+      "todo",
+      "list",
+      term?.year,
+      term?.semester,
+    ],
+  },
   /** 成绩 */
   grade: {
     /** 成绩列表, 按学期区分 */

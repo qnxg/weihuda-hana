@@ -1,17 +1,21 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
+import { ChevronRight } from "lucide-react-taro"
 import { api } from "@/apis"
 import Card from "@/components/common/card"
 import Icon from "@/components/common/icon"
 import Skeleton from "@/components/common/skeleton"
 import { ENTRY_TINT } from "@/config/entry"
+import { PAGE } from "@/config/page"
 import { QUERY_KEY } from "@/config/query"
 import { BADGE_BG } from "@/config/theme"
 import { useQuery } from "@/hooks/query"
-import ExamRow from "@/pages/home/components/academic/exam"
-import { recentOf } from "@/pages/home/components/academic/text"
+import EntryRow from "@/pages/home/components/academic/entry"
+import { entriesOf, recentOf } from "@/pages/home/components/academic/text"
 import { useExam } from "@/pages/home/hooks/exam"
+import { useTodo } from "@/pages/home/hooks/todo"
 import { nowOf } from "@/utils/date"
+import { navigateTo } from "@/utils/navigate"
 
 /** 列表行骨架 */
 function RowSkeleton(): ReactNode {
@@ -26,7 +30,7 @@ function RowSkeleton(): ReactNode {
   )
 }
 
-/** 待办, 近期考试 */
+/** 待办, 近期考试与自定义待办 */
 export default function Todo(): ReactNode {
   const semester = useQuery({
     queryKey: QUERY_KEY.semester.get,
@@ -34,9 +38,11 @@ export default function Todo(): ReactNode {
   })
 
   const term = semester.data?.current
-  const { list, loading } = useExam(term)
+  const { list: exams, loading: examLoading } = useExam(term)
+  const { list: todos, loading: todoLoading } = useTodo(term)
+  const loading = examLoading || todoLoading
   const now = nowOf()
-  const exams = recentOf(list, now)
+  const entries = recentOf(entriesOf(exams, todos), now)
   const { icon, color } = ENTRY_TINT.todo
 
   return (
@@ -46,6 +52,9 @@ export default function Todo(): ReactNode {
           <Icon icon={icon} color={color} className="h-2h w-2h" />
         </View>
         <Text className="flex-1 text-sm text-strong">待办</Text>
+        <View className="flex h-3h w-3h items-center justify-center" onClick={() => navigateTo(PAGE.table)}>
+          <Icon icon={ChevronRight} color="primary" className="h-2h w-2h" />
+        </View>
       </View>
       <View className="flex flex-col gap-2">
         {loading || semester.isPending
@@ -55,11 +64,11 @@ export default function Todo(): ReactNode {
                 <RowSkeleton />
               </>
             )
-          : exams.length === 0
-            ? <Text className="text-xs text-soft">近期无考试</Text>
-            : exams.map(item => (
-                <ExamRow
-                  key={`${item.courseId ?? "custom"}-${item.customizeId ?? item.date}-${item.startTime}`}
+          : entries.length === 0
+            ? <Text className="text-xs text-soft">近期无待办</Text>
+            : entries.map(item => (
+                <EntryRow
+                  key={item.key}
                   item={item}
                   now={now}
                 />
