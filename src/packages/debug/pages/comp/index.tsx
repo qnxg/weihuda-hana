@@ -1,6 +1,7 @@
+import type { ITouchEvent } from "@tarojs/components"
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
-import { Bell, House, Info, Settings } from "lucide-react-taro"
+import { Bell, House, Info, Plus, Settings, Trash2 } from "lucide-react-taro"
 import { useState } from "react"
 import Button from "@/components/common/button"
 import Card from "@/components/common/card"
@@ -13,6 +14,7 @@ import Navbar, { NavbarAction } from "@/components/layout/navbar"
 import Page from "@/components/layout/page"
 import Alert from "@/components/modal/alert"
 import Dialog from "@/components/modal/dialog"
+import Menu from "@/components/modal/menu"
 import Popup from "@/components/modal/popup"
 import { navigateBack } from "@/utils/navigate"
 import { sleep } from "@/utils/sleep"
@@ -27,6 +29,15 @@ export default function CompDebug(): ReactNode {
   const [popup, setPopup] = useState(false)
   const [alert, setAlert] = useState(false)
   const [dialog, setDialog] = useState(false)
+  const [touch, setTouch] = useState({ x: 0, y: 0 })
+  const [press, setPress] = useState<{ x: number, y: number } | null>(null)
+
+  function remember(event: ITouchEvent): void {
+    const point = event.touches[0]
+
+    if (point)
+      setTouch({ x: point.clientX, y: point.clientY })
+  }
 
   const refresh = async () => {
     setRefreshing(true)
@@ -157,6 +168,20 @@ export default function CompDebug(): ReactNode {
             </View>
 
             <View className="flex flex-col gap-2">
+              <Text className="text-strong">锚定菜单</Text>
+
+              <Card className="flex flex-col gap-3">
+                <View
+                  className="h-4r flex items-center justify-center rounded-md border border-dashed border-default"
+                  onTouchStart={remember}
+                  onLongPress={() => setPress(touch)}
+                >
+                  <Text className="text-sm text-soft">长按这里弹出菜单</Text>
+                </View>
+              </Card>
+            </View>
+
+            <View className="flex flex-col gap-2">
               <Text className="text-strong">提示</Text>
 
               <Card className="flex flex-col gap-2">
@@ -223,6 +248,35 @@ export default function CompDebug(): ReactNode {
       >
         <Text className="text-sm text-soft">标题与右上角关闭在头部, 底部由 footer 传入</Text>
       </Dialog>
+
+      <Menu
+        visible={press !== null}
+        at={press}
+        items={[
+          {
+            icon: <Icon icon={Plus} className="h-1r w-1r" />,
+            text: "添加课程",
+            onClick: () => toast.info("添加课程"),
+          },
+          {
+            icon: <Icon icon={Info} className="h-1r w-1r" />,
+            text: "查看详情",
+            onClick: () => toast.info("查看详情"),
+          },
+          {
+            icon: <Icon icon={Settings} className="h-1r w-1r" />,
+            text: "禁用项",
+            disabled: true,
+          },
+          {
+            icon: <Icon icon={Trash2} className="h-1r w-1r" />,
+            text: "删除",
+            danger: true,
+            onClick: () => toast.error("删除"),
+          },
+        ]}
+        onClose={() => setPress(null)}
+      />
     </Page>
   )
 }

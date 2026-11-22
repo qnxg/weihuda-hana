@@ -18,6 +18,8 @@ export interface OverlayProps {
   active?: boolean
   /** 内容位置 */
   position?: OverlayPosition
+  /** 遮罩变暗, 关掉只保留点击捕获层 */
+  dim?: boolean
   /** 内容容器 class */
   className?: string
   /** 内容 */
@@ -30,6 +32,7 @@ export interface OverlayProps {
 export default function Overlay({
   active = true,
   position = "center",
+  dim = true,
   className,
   children,
   onClick,
@@ -37,7 +40,7 @@ export default function Overlay({
   return (
     <View className={cn("absolute inset-0 pointer-events-auto flex", align[position])}>
       <View
-        className={cn("absolute inset-0 bg-black", active ? "opacity-soft" : "opacity-hidden")}
+        className={cn("absolute inset-0", dim && "bg-black", active ? "opacity-soft" : "opacity-hidden")}
         style={{ transition: `opacity ${DURATION.transition}ms ease-out` }}
         onClick={onClick}
       />
