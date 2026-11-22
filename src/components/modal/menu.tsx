@@ -1,5 +1,6 @@
 import type { ReactElement, ReactNode } from "react"
 import type { IconProps } from "@/components/common/icon"
+import { Text } from "@tarojs/components"
 import { getWindowInfo } from "@tarojs/taro"
 import { useEffect, useRef } from "react"
 import Card from "@/components/common/card"
@@ -10,10 +11,10 @@ import { useModalPresence } from "@/hooks/modal"
 import { cn } from "@/utils/cn"
 
 /** 菜单宽度 */
-const WIDTH = 144
+const WIDTH = 120
 
-/** 行高, Cell 的 py-1h 加一行 text-sm 再加底部分隔线 */
-const HEIGHT = 29
+/** 行高, Cell 的 py-2x 加一行 text-sm 再加底部分隔线 */
+const HEIGHT = 25
 
 /** 面板上下内边距 */
 const PADDING = 8
@@ -97,7 +98,7 @@ export default function Menu({ visible, at, items, onClose, className }: Readonl
     return (
       <Overlay active={active} dim={false} className="pointer-events-none h-full w-full" onClick={onClose}>
         <Card
-          className={cn("absolute flex flex-col border border-default p-1h pointer-events-auto", className)}
+          className={cn("absolute flex flex-col overflow-hidden border border-default p-0 pointer-events-auto", className)}
           style={{
             left,
             top,
@@ -111,12 +112,12 @@ export default function Menu({ visible, at, items, onClose, className }: Readonl
           {actions.map((item, index) => (
             <Cell
               key={item.text}
-              title={item.text}
+              title={<Text className="text-md">{item.text}</Text>}
               icon={item.icon}
               color={item.danger ? "error" : "ink"}
               disabled={item.disabled}
               border={index < items.length - 1}
-              className="px-2 py-2"
+              className="px-2 py-1"
               onClick={() => select(item)}
             />
           ))}
