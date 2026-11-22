@@ -6,6 +6,8 @@ export const PAGE = {
   kit: "/pages/kit/index",
   /** 课表 */
   table: "/pages/table/index",
+  /** 课程与待办表单 */
+  form: "/pages/form/index",
   /** 我的 */
   profile: "/pages/profile/index",
   /** 鉴权 */

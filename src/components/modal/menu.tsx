@@ -1,6 +1,7 @@
 import type { ReactElement, ReactNode } from "react"
 import type { IconProps } from "@/components/common/icon"
 import { getWindowInfo } from "@tarojs/taro"
+import { useEffect, useRef } from "react"
 import Card from "@/components/common/card"
 import Cell from "@/components/common/cell"
 import Overlay from "@/components/modal/overlay"
@@ -68,12 +69,25 @@ function placeOf(at: { x: number, y: number }, height: number): { left: number, 
 
 /** 锚定菜单, 在触点上浮出 */
 export default function Menu({ visible, at, items, onClose, className }: Readonly<MenuProps>): ReactNode {
-  useModalPresence(visible && at !== null, (active) => {
-    if (!at)
+  const lastRef = useRef<{ at: { x: number, y: number }, items: readonly MenuItem[] } | null>(null)
+
+  useEffect(() => {
+    if (at && items.length > 0)
+      lastRef.current = { at, items }
+  }, [at, items])
+
+  /** 退场时调用方已清空参数, 用最后一次的内容把动画跑完 */
+  const anchor = at ?? lastRef.current?.at
+  const actions = items.length > 0
+    ? items
+    : lastRef.current?.items ?? []
+
+  useModalPresence(visible && Boolean(anchor), (active) => {
+    if (!anchor)
       return null
 
-    const height = items.length * HEIGHT + PADDING * 2
-    const { left, top, origin } = placeOf(at, height)
+    const height = actions.length * HEIGHT + PADDING * 2
+    const { left, top, origin } = placeOf(anchor, height)
 
     function select(item: MenuItem): void {
       item.onClick?.()
@@ -94,7 +108,7 @@ export default function Menu({ visible, at, items, onClose, className }: Readonl
             transition: `opacity ${DURATION.transition}ms ease-out, transform ${DURATION.transition}ms ease-out`,
           }}
         >
-          {items.map((item, index) => (
+          {actions.map((item, index) => (
             <Cell
               key={item.text}
               title={item.text}

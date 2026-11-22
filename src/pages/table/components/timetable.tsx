@@ -1,21 +1,29 @@
+import type { ITouchEvent } from "@tarojs/components"
 import type { ReactNode } from "react"
+import type { MenuItem } from "@/components/modal/menu"
 import type { TimetableState } from "@/pages/table/hooks/timetable"
 import type { CourseCluster } from "@/pages/table/model/course"
 import { Text, View } from "@tarojs/components"
 import { od } from "@xtwis/ohday"
-import { useState } from "react"
+import { Info, Plus } from "lucide-react-taro"
+import { useRef, useState } from "react"
 import { api } from "@/apis"
 import Button from "@/components/common/button"
 import Cell from "@/components/common/cell"
+import Icon from "@/components/common/icon"
 import Scroll from "@/components/common/scroll"
 import Alert from "@/components/modal/alert"
+import Menu from "@/components/modal/menu"
 import Popup from "@/components/modal/popup"
 import { PERIODS } from "@/config/course"
+import { PAGE } from "@/config/page"
 import { QUERY_KEY } from "@/config/query"
 import { queryClient } from "@/hooks/query"
 import { useSwipe } from "@/pages/table/hooks/swipe"
 import { DAY_NAMES, periodTextOf, timeTextOf, TINT, weeksTextOf } from "@/pages/table/model/course"
+import { termKeyOf } from "@/pages/table/model/term"
 import { cn } from "@/utils/cn"
+import { navigateTo } from "@/utils/navigate"
 import { toast } from "@/utils/toast"
 
 /** 行高, 与格子的 h-4r 一致 */
@@ -23,6 +31,18 @@ const ROW = 64
 
 /** 单元格间距 */
 const GAP = 4
+
+/** 长按结果 */
+interface TablePress {
+  /** 触点, 视口坐标 */
+  at: { x: number, y: number }
+  /** 周几 */
+  day: number
+  /** 节次 */
+  start: number
+  /** 命中的课程堆, 空格子为 null */
+  cluster: CourseCluster | null
+}
 
 /** 节次 */
 const PERIOD_LIST = Object.entries(PERIODS).map(([index, time]) => ({
@@ -62,7 +82,12 @@ function WeekHeader({ state }: Readonly<{ state: TimetableState }>): ReactNode {
 function CourseCard({
   cluster,
   onSelect,
-}: Readonly<{ cluster: CourseCluster, onSelect: (cluster: CourseCluster) => void }>): ReactNode {
+  onLongPress,
+}: Readonly<{
+  cluster: CourseCluster
+  onSelect: (cluster: CourseCluster) => void
+  onLongPress: (cluster: CourseCluster) => void
+}>): ReactNode {
   const block = cluster.blocks[0]
   const tint = block.current
     ? TINT[block.tint]
@@ -76,6 +101,7 @@ function CourseCard({
         height: `${(cluster.end - cluster.start + 1) * ROW - GAP}px`,
       }}
       onClick={() => onSelect(cluster)}
+      onLongPress={() => onLongPress(cluster)}
     >
       <View className="flex flex-col gap-1">
         <Text className={`line-clamp-3 text-xs leading-tight ${tint ? tint.fg : "text-soft"}`}>
@@ -104,9 +130,23 @@ function CourseCard({
 function Grid({
   clusters,
   onSelect,
-}: Readonly<{ clusters: CourseCluster[], onSelect: (cluster: CourseCluster) => void }>): ReactNode {
+  onLongPress,
+}: Readonly<{
+  clusters: CourseCluster[]
+  onSelect: (cluster: CourseCluster) => void
+  onLongPress: (pick: TablePress) => void
+}>): ReactNode {
+  const pointRef = useRef({ x: 0, y: 0 })
+
+  function remember(event: ITouchEvent): void {
+    const touch = event.touches[0]
+
+    if (touch)
+      pointRef.current = { x: touch.clientX, y: touch.clientY }
+  }
+
   return (
-    <View className="flex gap-1">
+    <View className="flex gap-1" onTouchStart={remember}>
       <View className="w-4h shrink-0">
         {PERIOD_LIST.map(period => (
           <View key={period.index} className="flex h-4r flex-col items-center justify-center gap-1x text-center leading-none">
@@ -120,10 +160,29 @@ function Grid({
       {DAY_NAMES.map((name, index) => (
         <View key={name} className="relative flex-1">
           {PERIOD_LIST.map(period => (
-            <View key={period.index} className="h-4r" />
+            <View
+              key={period.index}
+              className="h-4r"
+              onLongPress={() => onLongPress({
+                at: pointRef.current,
+                day: index,
+                start: period.index,
+                cluster: null,
+              })}
+            />
           ))}
           {clusters.filter(cluster => cluster.day === index).map(cluster => (
-            <CourseCard key={cluster.key} cluster={cluster} onSelect={onSelect} />
+            <CourseCard
+              key={cluster.key}
+              cluster={cluster}
+              onSelect={onSelect}
+              onLongPress={() => onLongPress({
+                at: pointRef.current,
+                day: cluster.day,
+                start: cluster.start,
+                cluster,
+              })}
+            />
           ))}
         </View>
       ))}
@@ -137,9 +196,13 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
   const [selected, setSelected] = useState<CourseCluster | null>(null)
   const [selectedKey, setSelectedKey] = useState("")
   const [confirm, setConfirm] = useState(false)
+  const [press, setPress] = useState<TablePress | null>(null)
+  const stampRef = useRef(0)
 
   if (!state.term)
     return <View className="flex flex-1 items-center justify-center"><Text className="text-soft">加载中</Text></View>
+
+  const termKey = termKeyOf(state.term)
 
   const block = selected?.blocks.find(item => item.key === selectedKey) ?? selected?.blocks[0]
 
@@ -152,6 +215,45 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
   function close(): void {
     setSelected(null)
     setConfirm(false)
+  }
+
+  function pressOn(next: TablePress): void {
+    stampRef.current = Date.now()
+    setPress(next)
+  }
+
+  /** 长按后松手会再触发一次点击, 借此屏蔽 */
+  function select(cluster: CourseCluster): void {
+    if (Date.now() - stampRef.current < 500)
+      return
+
+    open(cluster)
+  }
+
+  function addCourse({ day, start }: TablePress): void {
+    navigateTo(`${PAGE.form}?term=${termKey}&day=${day}&start=${start}`)
+  }
+
+  function menuOf(pick: TablePress): MenuItem[] {
+    const actions: MenuItem[] = []
+
+    if (pick.cluster) {
+      const cluster = pick.cluster
+
+      actions.push({
+        icon: <Icon icon={Info} className="h-1r w-1r" />,
+        text: "查看详情",
+        onClick: () => open(cluster),
+      })
+    }
+
+    actions.push({
+      icon: <Icon icon={Plus} className="h-1r w-1r" />,
+      text: "添加课程",
+      onClick: () => addCourse(pick),
+    })
+
+    return actions
   }
 
   async function remove(customizeId: number): Promise<void> {
@@ -175,7 +277,7 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
       <Scroll refresh refreshing={state.refreshing} onRefresh={state.refresh}>
         {state.loading && state.clusters.length === 0
           ? <View className="py-8r text-center"><Text className="text-soft">加载中</Text></View>
-          : <Grid clusters={state.clusters} onSelect={open} />}
+          : <Grid clusters={state.clusters} onSelect={select} onLongPress={pressOn} />}
       </Scroll>
 
       <Popup visible={selected !== null} title={block?.course.courseName ?? "课程详情"} onClose={close} className="p-1r">
@@ -259,6 +361,15 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
       >
         <Text className="text-sm text-soft">删除后无法恢复, 确认删除?</Text>
       </Alert>
+
+      <Menu
+        visible={press !== null}
+        at={press?.at ?? null}
+        items={press
+          ? menuOf(press)
+          : []}
+        onClose={() => setPress(null)}
+      />
     </View>
   )
 }

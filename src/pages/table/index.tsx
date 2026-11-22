@@ -2,18 +2,21 @@ import type { ReactNode } from "react"
 import type { ColumnValue, PickerColumn } from "@/components/form/picker"
 import type { TimetableState } from "@/pages/table/hooks/timetable"
 import { Text, View } from "@tarojs/components"
-import { BookOpen, CalendarClock, CalendarDays } from "lucide-react-taro"
+import { BookOpen, CalendarClock, CalendarDays, Plus } from "lucide-react-taro"
 import { useState } from "react"
 import Button from "@/components/common/button"
+import Icon from "@/components/common/icon"
 import { Picker } from "@/components/form/picker"
 import Main from "@/components/layout/main"
 import Navbar, { NavbarAction } from "@/components/layout/navbar"
 import Page from "@/components/layout/page"
+import { PAGE } from "@/config/page"
 import Extra from "@/pages/table/components/extra"
 import Schedule from "@/pages/table/components/schedule"
 import Timetable from "@/pages/table/components/timetable"
 import { useTimetable } from "@/pages/table/hooks/timetable"
 import { termKeyOf, termLabelOf } from "@/pages/table/model/term"
+import { navigateTo } from "@/utils/navigate"
 
 /** 视图 */
 type TabKey = "timetable" | "extra" | "schedule"
@@ -59,6 +62,9 @@ function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState 
     : null
   const display = state.term
     ? `${termLabelOf(state.term)} - 第 ${state.week} 周`
+    : ""
+  const termKey = state.term
+    ? termKeyOf(state.term)
     : ""
 
   function selectTermWeek(next: ColumnValue | null): void {
@@ -114,6 +120,13 @@ function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState 
           })}
         </View>
       )}
+
+      <Button
+        className="shrink-0 rounded-full p-6x"
+        icon={<Icon icon={Plus} className="h-2h w-2h" />}
+        disabled={!termKey}
+        onClick={() => navigateTo(`${PAGE.form}?term=${termKey}`)}
+      />
     </View>
   )
 }

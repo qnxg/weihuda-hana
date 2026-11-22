@@ -12,7 +12,7 @@ const tabs = [
 ]
 
 /** 其余主包页面 */
-const pages = [PAGE.auth]
+const pages = [PAGE.auth, PAGE.form]
 
 /** 调试子包页面 */
 const debugPages = [
