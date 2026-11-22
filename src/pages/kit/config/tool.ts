@@ -36,6 +36,13 @@ export const TOOLS: Record<ToolGroup, readonly ToolItem[]> = {
       path: PAGE.tools.grade,
     },
     {
+      title: "成绩排名",
+      description: "学分与加权排名",
+      keywords: ["排名", "名次", "绩点", "gpa", "加权", "算术"],
+      tint: "rank",
+      path: PAGE.tools.rank,
+    },
+    {
       title: "实验成绩",
       description: "大物实验成绩",
       keywords: ["大物", "实验", "成绩"],
@@ -48,13 +55,6 @@ export const TOOLS: Record<ToolGroup, readonly ToolItem[]> = {
       keywords: ["体测", "体育", "成绩", "测试"],
       tint: "physicalGrade",
       path: PAGE.tools.physicalGrade,
-    },
-    {
-      title: "成绩排名",
-      description: "学分与加权排名",
-      keywords: ["排名", "名次", "绩点", "gpa", "加权", "算术"],
-      tint: "rank",
-      path: PAGE.tools.rank,
     },
   ],
   teaching: [

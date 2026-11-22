@@ -92,6 +92,12 @@ export const QUERY_KEY = {
       term?.year,
       term?.semester,
     ],
+    /** 单科成绩详情 */
+    get: (detailId: string) => [
+      "grade",
+      "get",
+      detailId,
+    ],
   },
   /** 排名 */
   rank: {
@@ -99,10 +105,14 @@ export const QUERY_KEY = {
     get: (queries: RankGetQueries) => [
       "rank",
       "get",
+      queries.year,
+      queries.semester,
       queries.range,
       queries.dataSource,
       queries.display,
     ],
+    /** 可信电子凭证排名 */
+    ca: ["rank", "ca"],
   },
   /** 课程 */
   course: {

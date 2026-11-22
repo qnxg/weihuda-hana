@@ -14,8 +14,10 @@ interface GradeItem {
   gpa: number | null
   /** 成绩 */
   score: number
-  /** 课程类别, 必修 / 选修等 */
-  courseType: string | null
+  /** 课程类别一, 必修 / 选修等 */
+  courseType1: string | null
+  /** 课程类别二, 专业基础 / 专业核心等 */
+  courseType2: string
   /** 成绩标识, 正常为 null, 缓考 / 重修等 */
   gradeTag: string | null
   /** 成绩类型, 主修 / 辅修等 */
