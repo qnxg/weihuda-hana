@@ -1,9 +1,11 @@
 import type { ReactNode } from "react"
 import type { ColumnValue, PickerColumn } from "@/components/form/picker"
 import type { TimetableState } from "@/pages/table/hooks/timetable"
+import type { ScheduleKind } from "@/pages/table/model/schedule"
 import type { TableView } from "@/stores/table"
 import { Text, View } from "@tarojs/components"
 import { BookOpen, CalendarClock, CalendarDays, Plus } from "lucide-react-taro"
+import { useState } from "react"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
 import { Picker } from "@/components/form/picker"
@@ -14,10 +16,25 @@ import { PAGE } from "@/config/page"
 import Extra from "@/pages/table/components/extra"
 import Schedule from "@/pages/table/components/schedule"
 import Timetable from "@/pages/table/components/timetable"
+import { useExtra } from "@/pages/table/hooks/extra"
+import { useSchedule } from "@/pages/table/hooks/schedule"
 import { useTimetable } from "@/pages/table/hooks/timetable"
+import { SCHEDULE_KINDS, SCHEDULE_NAME } from "@/pages/table/model/schedule"
 import { termKeyOf, termLabelOf } from "@/pages/table/model/term"
 import { useTableStore } from "@/stores/table"
 import { navigateTo } from "@/utils/navigate"
+
+/** 视图标签 */
+interface ViewTab {
+  /** 视图 */
+  key: TableView
+  /** 标题 */
+  title: string
+  /** 数量 */
+  count?: number
+  /** 数量单位 */
+  unit: string
+}
 
 /** 视图图标 */
 const ICONS = {
@@ -27,7 +44,13 @@ const ICONS = {
 } as const
 
 /** 当前视图的过滤与操作 */
-function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableState }>): ReactNode {
+function Filter({ view, state, kinds, onToggle }: Readonly<{
+  view: TableView
+  state: TimetableState
+  kinds: readonly ScheduleKind[]
+  onToggle: (kind: ScheduleKind) => void
+}>): ReactNode {
+  const weekly = view === "timetable"
   const columns: PickerColumn[] = [
     {
       key: "term",
@@ -37,7 +60,10 @@ function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableSta
         value: termKeyOf(term),
       })),
     },
-    {
+  ]
+
+  if (weekly) {
+    columns.push({
       key: "week",
       label: "周",
       options: (value) => {
@@ -50,19 +76,24 @@ function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableSta
             }))
           : []
       },
-    },
-  ]
-  const value = state.term
-    ? {
-        term: termKeyOf(state.term),
-        week: state.week,
-      }
-    : null
-  const display = state.term
-    ? `${termLabelOf(state.term)} - 第 ${state.week} 周`
-    : ""
+    })
+  }
+
   const termKey = state.term
     ? termKeyOf(state.term)
+    : ""
+  const value: ColumnValue | null = state.term && weekly
+    ? {
+        term: termKey,
+        week: state.week,
+      }
+    : state.term
+      ? { term: termKey }
+      : null
+  const display = state.term
+    ? weekly
+      ? `${termLabelOf(state.term)} - 第 ${state.week} 周`
+      : termLabelOf(state.term)
     : ""
 
   function selectTermWeek(next: ColumnValue | null): void {
@@ -92,8 +123,12 @@ function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableSta
         value={value}
         onChange={selectTermWeek}
         formatValue={() => display}
-        title="选择学期与周"
-        placeholder="学期与周"
+        title={weekly
+          ? "选择学期与周"
+          : "选择学期"}
+        placeholder={weekly
+          ? "学期与周"
+          : "学期"}
         disabled={!state.term}
       />
 
@@ -119,12 +154,36 @@ function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableSta
         </View>
       )}
 
-      <Button
-        className="shrink-0 rounded-full p-6x"
-        icon={<Icon icon={Plus} className="h-2h w-2h" />}
-        disabled={!termKey}
-        onClick={() => navigateTo(PAGE.form.course, { term: termKey })}
-      />
+      {view === "schedule" && (
+        <View className="flex shrink-0 items-center gap-1">
+          {SCHEDULE_KINDS.map((kind) => {
+            const active = kinds.includes(kind)
+
+            return (
+              <Button
+                key={kind}
+                variant={active ? "solid" : "outline"}
+                color={active ? "primary" : "ink"}
+                className="rounded-full px-2 py-2x text-xs"
+                onClick={() => onToggle(kind)}
+              >
+                {SCHEDULE_NAME[kind]}
+              </Button>
+            )
+          })}
+        </View>
+      )}
+
+      {view !== "extra" && (
+        <Button
+          className="shrink-0 rounded-full p-6x"
+          icon={<Icon icon={Plus} className="h-2h w-2h" />}
+          disabled={!termKey}
+          onClick={() => navigateTo(view === "schedule"
+            ? PAGE.form.todo
+            : PAGE.form.course, { term: termKey })}
+        />
+      )}
     </View>
   )
 }
@@ -134,11 +193,40 @@ export default function Table(): ReactNode {
   const state = useTimetable()
   const view = useTableStore(state => state.view)
   const setView = useTableStore(state => state.setView)
-  const tabs = [
-    { key: "timetable", title: "课表", count: state.count },
-    { key: "extra", title: "无课表", count: 0 },
-    { key: "schedule", title: "日程", count: 0 },
-  ] as const satisfies readonly { key: TableView, title: string, count: number }[]
+  const [kinds, setKinds] = useState<readonly ScheduleKind[]>([
+    ...SCHEDULE_KINDS,
+  ])
+
+  function toggleKind(kind: ScheduleKind): void {
+    setKinds(current => current.includes(kind)
+      ? current.filter(item => item !== kind)
+      : [
+          ...current,
+          kind,
+        ])
+  }
+  const extra = useExtra(state.term, view === "extra")
+  const schedule = useSchedule(state.term, kinds, view === "schedule")
+  const tabs: readonly ViewTab[] = [
+    {
+      key: "timetable",
+      title: "课表",
+      count: state.count,
+      unit: "节",
+    },
+    {
+      key: "extra",
+      title: "无课表课程",
+      count: extra.count,
+      unit: "节",
+    },
+    {
+      key: "schedule",
+      title: "待办",
+      count: schedule.count,
+      unit: "项",
+    },
+  ]
   const current = tabs.find(tab => tab.key === view) ?? tabs[0]
 
   return (
@@ -147,7 +235,7 @@ export default function Table(): ReactNode {
         back={(
           <View className="flex items-baseline gap-1">
             <Text className="text-base text-strong">{current.title}</Text>
-            <Text className="text-xs text-soft">{current.count}</Text>
+            {current.count !== undefined && <Text className="text-xs text-soft">{`${current.count}${current.unit}`}</Text>}
           </View>
         )}
       >
@@ -162,12 +250,12 @@ export default function Table(): ReactNode {
       </Navbar>
       <Main className="px-0">
         <View className="flex flex-col gap-2 px-1r pt-1r pb-2">
-          <Filter view={view} state={state} />
+          <Filter view={view} state={state} kinds={kinds} onToggle={toggleKind} />
         </View>
         <View className="flex flex-1 flex-col overflow-hidden">
           {view === "timetable" && <Timetable state={state} />}
-          {view === "extra" && <Extra />}
-          {view === "schedule" && <Schedule />}
+          {view === "extra" && <Extra state={extra} />}
+          {view === "schedule" && <Schedule state={schedule} />}
         </View>
       </Main>
     </Page>
