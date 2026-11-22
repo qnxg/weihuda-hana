@@ -4,9 +4,6 @@ import { PAGE } from "@/config/page"
 import { useAuthStore } from "@/stores/auth"
 import { navigateTo } from "@/utils/navigate"
 
-/** 验证页路径 */
-const VERIFY_PAGE = `${PAGE.auth}?mode=verify`
-
 interface UseAuthPromptResult {
   /** 正在展示的提示 */
   showing: AuthPromptKind | null
@@ -28,8 +25,8 @@ export function useAuthPrompt(): UseAuthPromptResult {
 
     dismiss()
     navigateTo(kind === "loginLost"
-      ? PAGE.auth
-      : VERIFY_PAGE)
+      ? PAGE.auth.login
+      : PAGE.auth.verify)
   }, [])
 
   const cancel = useCallback(() => useAuthStore.getState().dismiss(), [])

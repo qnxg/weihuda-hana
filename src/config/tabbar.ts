@@ -17,6 +17,6 @@ export interface TabbarItem {
 export const TABBAR: TabbarItem[] = [
   { path: PAGE.home, text: "首页", icon: House },
   { path: PAGE.kit, text: "工具箱", icon: LayoutGrid },
-  { path: PAGE.table, text: "课表", icon: Table2 },
+  { path: PAGE.table.index, text: "课表", icon: Table2 },
   { path: PAGE.profile, text: "我的", icon: User },
 ]

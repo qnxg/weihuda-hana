@@ -7,12 +7,12 @@ const DEBUG_ROOT = "packages/debug"
 const tabs = [
   { path: PAGE.home, text: "首页" },
   { path: PAGE.kit, text: "工具箱" },
-  { path: PAGE.table, text: "课表" },
+  { path: PAGE.table.index, text: "课表" },
   { path: PAGE.profile, text: "我的" },
 ]
 
 /** 其余主包页面 */
-const pages = [PAGE.auth, PAGE.form]
+const pages = [PAGE.auth.index, PAGE.form.index]
 
 /** 调试子包页面 */
 const debugPages = [

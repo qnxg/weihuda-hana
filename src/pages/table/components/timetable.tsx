@@ -231,7 +231,7 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
   }
 
   function addCourse({ day, start }: TablePress): void {
-    navigateTo(`${PAGE.form}?term=${termKey}&day=${day}&start=${start}`)
+    navigateTo(PAGE.form.course, { term: termKey, day, start })
   }
 
   function menuOf(pick: TablePress): MenuItem[] {

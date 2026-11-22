@@ -93,7 +93,7 @@ export default function Course(): ReactNode {
         count={list.length}
         loading={pending}
         onSwitch={() => setTomorrow(value => !value)}
-        onOpen={() => navigateTo(PAGE.table)}
+        onOpen={() => navigateTo(PAGE.table.timetable)}
       />
       <View className="flex flex-col p-1r">
         {pending

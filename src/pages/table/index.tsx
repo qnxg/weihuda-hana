@@ -1,9 +1,9 @@
 import type { ReactNode } from "react"
 import type { ColumnValue, PickerColumn } from "@/components/form/picker"
 import type { TimetableState } from "@/pages/table/hooks/timetable"
+import type { TableView } from "@/stores/table"
 import { Text, View } from "@tarojs/components"
 import { BookOpen, CalendarClock, CalendarDays, Plus } from "lucide-react-taro"
-import { useState } from "react"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
 import { Picker } from "@/components/form/picker"
@@ -16,10 +16,8 @@ import Schedule from "@/pages/table/components/schedule"
 import Timetable from "@/pages/table/components/timetable"
 import { useTimetable } from "@/pages/table/hooks/timetable"
 import { termKeyOf, termLabelOf } from "@/pages/table/model/term"
+import { useTableStore } from "@/stores/table"
 import { navigateTo } from "@/utils/navigate"
-
-/** 视图 */
-type TabKey = "timetable" | "extra" | "schedule"
 
 /** 视图图标 */
 const ICONS = {
@@ -29,7 +27,7 @@ const ICONS = {
 } as const
 
 /** 当前视图的过滤与操作 */
-function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState }>): ReactNode {
+function Filter({ view, state }: Readonly<{ view: TableView, state: TimetableState }>): ReactNode {
   const columns: PickerColumn[] = [
     {
       key: "term",
@@ -125,7 +123,7 @@ function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState 
         className="shrink-0 rounded-full p-6x"
         icon={<Icon icon={Plus} className="h-2h w-2h" />}
         disabled={!termKey}
-        onClick={() => navigateTo(`${PAGE.form}?term=${termKey}`)}
+        onClick={() => navigateTo(PAGE.form.course, { term: termKey })}
       />
     </View>
   )
@@ -134,12 +132,13 @@ function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState 
 /** 课程表 */
 export default function Table(): ReactNode {
   const state = useTimetable()
-  const [view, setView] = useState<TabKey>("timetable")
+  const view = useTableStore(state => state.view)
+  const setView = useTableStore(state => state.setView)
   const tabs = [
     { key: "timetable", title: "课表", count: state.count },
     { key: "extra", title: "无课表", count: 0 },
     { key: "schedule", title: "日程", count: 0 },
-  ] as const
+  ] as const satisfies readonly { key: TableView, title: string, count: number }[]
   const current = tabs.find(tab => tab.key === view) ?? tabs[0]
 
   return (

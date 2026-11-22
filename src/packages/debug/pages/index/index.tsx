@@ -1,5 +1,6 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
+import Button from "@/components/common/button"
 import Card from "@/components/common/card"
 import Cell from "@/components/common/cell"
 import Main from "@/components/layout/main"
@@ -7,18 +8,58 @@ import Page from "@/components/layout/page"
 import { PAGE } from "@/config/page"
 import { navigateTo } from "@/utils/navigate"
 
+/** 附加按钮 */
+interface Action {
+  /** 文案 */
+  text: string
+  /** 路径 */
+  path: string
+}
+
 /** 页面入口 */
-const pages = [
+interface Item {
+  /** 文案 */
+  text: string
+  /** 路径 */
+  path: string
+  /** 附加按钮 */
+  actions?: readonly Action[]
+}
+
+/** 页面入口 */
+const pages: Item[] = [
   { text: "首页", path: PAGE.home },
   { text: "工具箱", path: PAGE.kit },
-  { text: "课表", path: PAGE.table },
+  {
+    text: "课表",
+    path: PAGE.table.index,
+    actions: [
+      { text: "课表", path: PAGE.table.timetable },
+      { text: "无课表", path: PAGE.table.extra },
+      { text: "日程", path: PAGE.table.schedule },
+    ],
+  },
+  {
+    text: "表单",
+    path: PAGE.form.index,
+    actions: [
+      { text: "课程", path: PAGE.form.course },
+      { text: "待办", path: PAGE.form.todo },
+    ],
+  },
   { text: "我的", path: PAGE.profile },
-  { text: "鉴权(登录)", path: PAGE.auth },
-  { text: "鉴权(账号验证)", path: `${PAGE.auth}?mode=verify` },
+  {
+    text: "鉴权",
+    path: PAGE.auth.index,
+    actions: [
+      { text: "登录", path: PAGE.auth.login },
+      { text: "账号验证", path: PAGE.auth.verify },
+    ],
+  },
 ]
 
 /** 调试页入口 */
-const entries = [
+const entries: Item[] = [
   { text: "主题", path: PAGE.debug.theme },
   { text: "组件", path: PAGE.debug.comp },
   { text: "表单", path: PAGE.debug.form },
@@ -26,20 +67,39 @@ const entries = [
 ]
 
 /** 列表 */
-function Group({ title, items }: Readonly<{ title: string, items: { text: string, path: string }[] }>): ReactNode {
+function Group({ title, items }: Readonly<{ title: string, items: readonly Item[] }>): ReactNode {
   return (
     <View className="flex flex-col gap-2">
       <Text className="text-strong">{title}</Text>
 
       <Card className="overflow-hidden">
-        {items.map(({ text, path }, index) => (
+        {items.map(({ text, path, actions }, index) => (
           <Cell
             key={path}
             title={text}
             link
             border={index < items.length - 1}
             onClick={() => navigateTo(path)}
-          />
+          >
+            {actions && (
+              <View className="flex gap-2">
+                {actions.map(action => (
+                  <Button
+                    key={action.text}
+                    variant="outline"
+                    color="ink"
+                    className="flex-1 py-1 text-xs"
+                    onClick={(event) => {
+                      event.stopPropagation()
+                      navigateTo(action.path)
+                    }}
+                  >
+                    <Text>{action.text}</Text>
+                  </Button>
+                ))}
+              </View>
+            )}
+          </Cell>
         ))}
       </Card>
     </View>

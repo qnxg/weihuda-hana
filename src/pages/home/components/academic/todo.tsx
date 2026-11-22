@@ -52,7 +52,7 @@ export default function Todo(): ReactNode {
           <Icon icon={icon} color={color} className="h-2h w-2h" />
         </View>
         <Text className="flex-1 text-sm text-strong">待办</Text>
-        <View className="flex h-3h w-3h items-center justify-center" onClick={() => navigateTo(PAGE.table)}>
+        <View className="flex h-3h w-3h items-center justify-center" onClick={() => navigateTo(PAGE.table.schedule)}>
           <Icon icon={ChevronRight} color="primary" className="h-2h w-2h" />
         </View>
       </View>
