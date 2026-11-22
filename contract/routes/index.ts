@@ -5,6 +5,7 @@ import { course } from "@contract/routes/course"
 import { dorm } from "@contract/routes/dorm"
 import { email } from "@contract/routes/email"
 import { exam } from "@contract/routes/exam"
+import { experiment } from "@contract/routes/experiment"
 import { grade } from "@contract/routes/grade"
 import { netflow } from "@contract/routes/netflow"
 import { point } from "@contract/routes/point"
@@ -19,6 +20,7 @@ export const contract = {
   announcement,
   semester,
   exam,
+  experiment,
   todo,
   grade,
   rank,
@@ -37,6 +39,7 @@ export * from "@contract/routes/course"
 export * from "@contract/routes/dorm"
 export * from "@contract/routes/email"
 export * from "@contract/routes/exam"
+export * from "@contract/routes/experiment"
 export * from "@contract/routes/grade"
 export * from "@contract/routes/model"
 export * from "@contract/routes/netflow"

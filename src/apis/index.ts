@@ -5,6 +5,7 @@ import { course } from "@/apis/course"
 import { dorm } from "@/apis/dorm"
 import { email } from "@/apis/email"
 import { exam } from "@/apis/exam"
+import { experiment } from "@/apis/experiment"
 import { grade } from "@/apis/grade"
 import { netflow } from "@/apis/netflow"
 import { point } from "@/apis/point"
@@ -19,6 +20,7 @@ export const api = {
   announcement,
   semester,
   exam,
+  experiment,
   todo,
   grade,
   rank,
