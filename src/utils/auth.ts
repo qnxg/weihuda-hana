@@ -34,6 +34,12 @@ export function hasToken(): boolean {
   return access !== "" || refresh !== ""
 }
 
+/** 存储中是否存在令牌, 用于内存尚未载入的初始化阶段 */
+export function hasStoredToken(): boolean {
+  return storage.getItem(STORAGE.auth.access) !== null
+    || storage.getItem(STORAGE.auth.refresh) !== null
+}
+
 /** 写入令牌 */
 export function setToken(token: AuthRefreshData): void {
   access = token.access

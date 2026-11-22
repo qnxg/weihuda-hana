@@ -2,6 +2,8 @@
 export const STORAGE = {
   /** 主题 */
   theme: "theme",
+  /** 查询缓存快照 */
+  cache: "cache.query",
   /** 鉴权 */
   auth: {
     /** 访问令牌 */

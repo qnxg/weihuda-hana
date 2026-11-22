@@ -16,6 +16,7 @@ import { queryClient } from "@/hooks/query"
 import { useUser } from "@/hooks/user"
 import { useSummary } from "@/pages/profile/hooks/summary"
 import { clearToken, hasToken } from "@/utils/auth"
+import { clearQueryCache } from "@/utils/cache"
 import { cn } from "@/utils/cn"
 import { navigateTo } from "@/utils/navigate"
 import { toast } from "@/utils/toast"
@@ -101,7 +102,7 @@ export default function Profile(): ReactNode {
     }
     finally {
       clearToken()
-      queryClient.clear()
+      clearQueryCache(queryClient)
       setSigned(false)
     }
   }
@@ -142,7 +143,14 @@ export default function Profile(): ReactNode {
             </Card>
 
             <Card className="overflow-hidden border border-default p-0">
-              <Cell title="清除缓存" border={signed} />
+              <Cell
+                title="清除缓存"
+                border={signed}
+                onClick={() => {
+                  clearQueryCache(queryClient)
+                  toast.success("已清除缓存")
+                }}
+              />
               {signed && (
                 <Cell
                   title="退出登录"
