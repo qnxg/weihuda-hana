@@ -4,6 +4,7 @@ import type { TimetableState } from "@/pages/table/hooks/timetable"
 import { Text, View } from "@tarojs/components"
 import { BookOpen, CalendarClock, CalendarDays } from "lucide-react-taro"
 import { useState } from "react"
+import Button from "@/components/common/button"
 import { Picker } from "@/components/form/picker"
 import Main from "@/components/layout/main"
 import Navbar, { NavbarAction } from "@/components/layout/navbar"
@@ -13,7 +14,6 @@ import Schedule from "@/pages/table/components/schedule"
 import Timetable from "@/pages/table/components/timetable"
 import { useTimetable } from "@/pages/table/hooks/timetable"
 import { termKeyOf, termLabelOf } from "@/pages/table/model/term"
-import { cn } from "@/utils/cn"
 
 /** 视图 */
 type TabKey = "timetable" | "extra" | "schedule"
@@ -95,22 +95,23 @@ function Filter({ view, state }: Readonly<{ view: TabKey, state: TimetableState 
 
       {view === "timetable" && (
         <View className="flex shrink-0 rounded-full bg-strong p-1">
-          {(["current", "all"] as const).map(mode => (
-            <View
-              key={mode}
-              className={cn("rounded-full px-3 py-2x", state.mode === mode && "bg-primary")}
-              onClick={() => state.setMode(mode)}
-            >
-              <Text className={cn("text-xs", state.mode === mode
-                ? "text-primary-strong"
-                : "text-soft")}
+          {(["current", "all"] as const).map((mode) => {
+            const active = state.mode === mode
+
+            return (
+              <Button
+                key={mode}
+                variant={active ? "solid" : "ghost"}
+                color={active ? "primary" : "ink"}
+                className="rounded-full px-3 py-2x text-xs"
+                onClick={() => state.setMode(mode)}
               >
                 {mode === "current"
                   ? "本周"
                   : "全部"}
-              </Text>
-            </View>
-          ))}
+              </Button>
+            )
+          })}
         </View>
       )}
     </View>

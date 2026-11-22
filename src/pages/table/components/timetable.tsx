@@ -18,8 +18,8 @@ import { DAY_NAMES, periodTextOf, timeTextOf, TINT, weeksTextOf } from "@/pages/
 import { cn } from "@/utils/cn"
 import { toast } from "@/utils/toast"
 
-/** 行高 */
-const ROW = 56
+/** 行高, 与格子的 h-4r 一致 */
+const ROW = 64
 
 /** 单元格间距 */
 const GAP = 4
@@ -109,7 +109,7 @@ function Grid({
     <View className="flex gap-1">
       <View className="w-4h shrink-0">
         {PERIOD_LIST.map(period => (
-          <View key={period.index} className="flex h-7h flex-col items-center justify-center gap-1x text-center leading-none">
+          <View key={period.index} className="flex h-4r flex-col items-center justify-center gap-1x text-center leading-none">
             <Text className="text-sm text-strong">{period.index}</Text>
             <Text className="text-xs text-soft">{period.start}</Text>
             <Text className="text-xs text-soft">{period.end}</Text>
@@ -120,7 +120,7 @@ function Grid({
       {DAY_NAMES.map((name, index) => (
         <View key={name} className="relative flex-1">
           {PERIOD_LIST.map(period => (
-            <View key={period.index} className="h-7h" />
+            <View key={period.index} className="h-4r" />
           ))}
           {clusters.filter(cluster => cluster.day === index).map(cluster => (
             <CourseCard key={cluster.key} cluster={cluster} onSelect={onSelect} />

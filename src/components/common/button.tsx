@@ -15,8 +15,8 @@ export type ButtonColor = "primary" | "error" | "ink"
 /** 变体与颜色的组合样式 */
 const variants: Record<ButtonVariant, Record<ButtonColor, string>> = {
   solid: {
-    primary: "bg-primary text-primary-strong",
-    error: "bg-error text-error-strong",
+    primary: "bg-primary-invert text-invert",
+    error: "bg-error-invert text-invert",
     ink: "bg-default text-strong",
   },
   outline: {
@@ -62,7 +62,9 @@ export default function Button({
 }: Readonly<ButtonProps>): ReactNode {
   const inert = disabled || loading
   const iconClassName = icon?.props.className ?? "h-1r w-1r"
-  const iconColor = icon?.props.color ?? color
+  const iconColor = icon?.props.color ?? (variant === "solid" && color !== "ink"
+    ? "invert"
+    : color)
 
   return (
     <View
