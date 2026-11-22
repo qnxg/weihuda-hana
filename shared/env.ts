@@ -4,6 +4,8 @@ import { z } from "zod"
 z.config({ jitless: true })
 
 export interface Env {
+  /** 小程序 appid */
+  appId: string
   /** 请求 base url */
   baseUrl: string
   /** 是否启用 mock */
@@ -21,6 +23,7 @@ export interface Env {
 }
 
 const schema = z.object({
+  appId: z.string().default(""),
   baseUrl: z.url(),
   mock: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
   mockPort: z.coerce.number().int().min(1).default(9300),
@@ -32,6 +35,7 @@ const schema = z.object({
 
 /* eslint-disable node/prefer-global/process */
 const raw = {
+  appId: process.env.TARO_APP_ID,
   baseUrl: process.env.TARO_APP_BASE_URL,
   mock: process.env.TARO_APP_MOCK,
   mockPort: process.env.TARO_APP_MOCK_PORT,
