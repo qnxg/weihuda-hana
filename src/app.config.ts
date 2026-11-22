@@ -12,6 +12,7 @@ const tabs = [
 const pages = [
   PAGE.auth.index,
   PAGE.form.index,
+  ...Object.values(PAGE.tools),
   PAGE.debug.index,
   PAGE.debug.theme,
   PAGE.debug.comp,

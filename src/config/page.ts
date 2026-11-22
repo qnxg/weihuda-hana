@@ -15,6 +15,33 @@ export const PAGE = {
     /** 日程视图 */
     schedule: "/pages/table/index?view=schedule",
   },
+  /** 工具箱入口, 按域拆分 */
+  tools: {
+    /** 学业成绩 */
+    grade: "/pages/tools/grade/index",
+    /** 实验成绩 */
+    experimentGrade: "/pages/tools/experiment-grade/index",
+    /** 体测成绩 */
+    physicalGrade: "/pages/tools/physical-grade/index",
+    /** 成绩排名 */
+    rank: "/pages/tools/rank/index",
+    /** 实验安排 */
+    experiment: "/pages/tools/experiment/index",
+    /** 考试安排 */
+    exam: "/pages/tools/exam/index",
+    /** 校历 */
+    calendar: "/pages/tools/calendar/index",
+    /** 空教室查询 */
+    classroom: "/pages/tools/classroom/index",
+    /** 体测标准 */
+    physicalStandard: "/pages/tools/physical-standard/index",
+    /** 校园卡 */
+    card: "/pages/tools/card/index",
+    /** 校园网 */
+    netflow: "/pages/tools/netflow/index",
+    /** 宿舍用电 */
+    electricity: "/pages/tools/electricity/index",
+  },
   /** 课程与待办表单, 类型用 type 参数区分 */
   form: {
     /** 页面路由 */

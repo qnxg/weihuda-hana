@@ -15,7 +15,7 @@ export default function Balance(): ReactNode {
     <Panel
       tint="card"
       title="校园卡"
-      onOpen={() => navigateTo(PAGE.debug.index)}
+      onOpen={() => navigateTo(PAGE.tools.card)}
     >
       {loading || !card || spent === undefined
         ? (

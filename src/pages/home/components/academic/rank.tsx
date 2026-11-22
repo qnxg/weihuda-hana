@@ -17,7 +17,7 @@ export default function Rank(): ReactNode {
   return (
     <Card
       className="flex flex-1 items-center gap-2 border border-default p-3"
-      onClick={() => navigateTo(PAGE.debug.index)}
+      onClick={() => navigateTo(PAGE.tools.rank)}
     >
       <View className={`flex h-4h w-4h shrink-0 items-center justify-center rounded-lg ${BADGE_BG[color]}`}>
         <Icon icon={icon} color={color} className="h-2h w-2h" />

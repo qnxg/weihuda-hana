@@ -15,7 +15,7 @@ export default function Power(): ReactNode {
     <Panel
       tint="electricity"
       title="宿舍电量"
-      onOpen={() => navigateTo(PAGE.debug.index)}
+      onOpen={() => navigateTo(PAGE.tools.electricity)}
     >
       {loading || electricity === undefined
         ? (
