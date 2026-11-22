@@ -1,8 +1,5 @@
 import { PAGE } from "./config/page"
 
-/** 调试子包根 */
-const DEBUG_ROOT = "packages/debug"
-
 /** tab 页 */
 const tabs = [
   { path: PAGE.home, text: "首页" },
@@ -11,11 +8,10 @@ const tabs = [
   { path: PAGE.profile, text: "我的" },
 ]
 
-/** 其余主包页面 */
-const pages = [PAGE.auth.index, PAGE.form.index]
-
-/** 调试子包页面 */
-const debugPages = [
+/** 其余页面 */
+const pages = [
+  PAGE.auth.index,
+  PAGE.form.index,
   PAGE.debug.index,
   PAGE.debug.theme,
   PAGE.debug.comp,
@@ -33,23 +29,12 @@ function route(paths: readonly string[]): string[] {
   return paths.map(strip)
 }
 
-/** 子包内页面路径, 去掉子包根 */
-function inner(root: string, paths: readonly string[]): string[] {
-  return paths.map(path => path.slice(root.length))
-}
-
 export default defineAppConfig({
   darkmode: true,
   pages: route([
     ...tabs.map(tab => tab.path),
     ...pages,
   ]),
-  subPackages: [
-    {
-      root: DEBUG_ROOT,
-      pages: inner(`/${DEBUG_ROOT}/`, debugPages),
-    },
-  ],
   tabBar: {
     custom: true,
     list: tabs.map(tab => ({

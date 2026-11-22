@@ -35,17 +35,17 @@ export const PAGE = {
     /** 二次验证 */
     verify: "/pages/auth/index?mode=verify",
   },
-  /** 调试分包 */
+  /** 调试包 */
   debug: {
     /** 入口 */
-    index: "/packages/debug/pages/index/index",
+    index: "/pages/debug/index/index",
     /** 主题 */
-    theme: "/packages/debug/pages/theme/index",
+    theme: "/pages/debug/theme/index",
     /** 组件 */
-    comp: "/packages/debug/pages/comp/index",
+    comp: "/pages/debug/comp/index",
     /** 表单 */
-    form: "/packages/debug/pages/form/index",
+    form: "/pages/debug/form/index",
     /** 鉴权 */
-    auth: "/packages/debug/pages/auth/index",
+    auth: "/pages/debug/auth/index",
   },
 } as const
