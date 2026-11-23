@@ -58,12 +58,10 @@ export interface CourseCluster {
   blocks: CourseBlock[]
 }
 
-/** 契约补 times 前按两节兜底 */
+/** 节次列表, 空列表按两节兜底 */
 function timesOf(course: CourseItem): number[] {
-  const times = (course as CourseItem & { times?: number[] }).times
-
-  return times && times.length > 0
-    ? times
+  return course.times?.length
+    ? course.times
     : [course.time, course.time + 1]
 }
 

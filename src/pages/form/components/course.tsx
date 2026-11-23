@@ -1,4 +1,4 @@
-import type { TermInfo } from "@contract/routes"
+import type { CourseItem, TermInfo } from "@contract/routes"
 import type { ReactNode } from "react"
 import type { ColumnValue, PickerColumn } from "@/components/form/picker"
 import { useState } from "react"
@@ -24,6 +24,8 @@ export interface CourseFormProps {
   day: number
   /** 预填起始节次 */
   start: number
+  /** 待编辑课程, 添加时为 null */
+  course?: CourseItem | null
 }
 
 /** 课程结构 */
@@ -59,36 +61,70 @@ function timeLabelOf(value: ColumnValue): string {
   return `${dayLabelOf(Number(value.day))} ${period}`
 }
 
-/** 添加课程 */
-export default function CourseForm({ term, day, start }: Readonly<CourseFormProps>): ReactNode {
-  const [weeks, setWeeks] = useState<number[]>(() =>
-    Array.from({ length: term.weeks }, (_, index) => index + 1))
+/** 课程表单, 添加与编辑共用 */
+export default function CourseForm({ term, day, start, course = null }: Readonly<CourseFormProps>): ReactNode {
+  const [weeks, setWeeks] = useState<number[]>(() => course?.weeks ?? Array.from(
+    { length: term.weeks },
+    (_, index) => index + 1,
+  ))
 
-  const create = useMutation({
-    mutationFn: (values: CourseValues) => api.course.create({
-      courseName: values.courseName,
-      weeks: values.weeks,
-      day: values.time.day,
-      times: timesOf(values.time.start, values.time.end),
-      place: values.place.trim() || null,
-      teacher: values.teacher.trim() || null,
-      year: term.year,
-      semester: term.semester,
-    }),
+  const times = course
+    ? course.times?.length
+      ? course.times
+      : [course.time, course.time + 1]
+    : []
+  const time = {
+    day: course?.day ?? day,
+    start: times.length > 0
+      ? Math.min(...times)
+      : start,
+    end: times.length > 0
+      ? Math.min(Math.max(...times), 12)
+      : Math.min(start + 1, 12),
+  }
+
+  const save = useMutation({
+    mutationFn: (values: CourseValues) => {
+      const body = {
+        courseName: values.courseName,
+        weeks: values.weeks,
+        day: values.time.day,
+        times: timesOf(values.time.start, values.time.end),
+        place: values.place.trim() || null,
+        teacher: values.teacher.trim() || null,
+      }
+
+      if (course && course.customizeId !== null) {
+        return api.course.update(
+          {
+            customizeId: String(course.customizeId),
+          },
+          body,
+        )
+      }
+
+      return api.course.create({
+        ...body,
+        year: term.year,
+        semester: term.semester,
+      })
+    },
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: QUERY_KEY.course.list(term),
       })
-      toast.success("课程已添加")
+      toast.success(course
+        ? "课程已更新"
+        : "课程已添加")
       navigateBack()
     },
     onError: handleError(),
   })
 
   return (
-    <Form schema={courseSchema} onSubmit={values => create.mutate(values)}>
+    <Form schema={courseSchema} onSubmit={values => save.mutate(values)}>
       <Card className="flex flex-col gap-2">
-        <Input name="courseName" label="课程名" placeholder="请输入课程名" />
+        <Input name="courseName" label="课程名" placeholder="请输入课程名" defaultValue={course?.courseName ?? ""} />
 
         <Weeks name="weeks" label="周次" total={term.weeks} value={weeks} onChange={setWeeks} />
 
@@ -99,20 +135,16 @@ export default function CourseForm({ term, day, start }: Readonly<CourseFormProp
           links={[
             { from: "start", to: "end" },
           ]}
-          defaultValue={{
-            day,
-            start,
-            end: Math.min(start + 1, 12),
-          }}
+          defaultValue={time}
           formatValue={timeLabelOf}
           title="选择上课时间"
         />
 
-        <Input name="place" label="地点" placeholder="选填" />
-        <Input name="teacher" label="教师" placeholder="选填" />
+        <Input name="place" label="地点" placeholder="选填" defaultValue={course?.place ?? ""} />
+        <Input name="teacher" label="教师" placeholder="选填" defaultValue={course?.teacher ?? ""} />
       </Card>
 
-      <Submit className="w-full py-1" loading={create.isPending}>保存</Submit>
+      <Submit className="w-full py-1" loading={save.isPending}>保存</Submit>
     </Form>
   )
 }

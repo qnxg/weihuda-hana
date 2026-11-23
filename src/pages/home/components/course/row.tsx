@@ -40,14 +40,14 @@ export default function Row({ course, date, now }: Readonly<RowProps>): ReactNod
           ? <Status status={status} />
           : (
               <View className="flex shrink-0 items-center">
-                <Text className="text-xs text-soft">{periodOf(course.time)}</Text>
+                <Text className="text-xs text-soft">{periodOf(course)}</Text>
                 <Status status={status} />
               </View>
             )}
       </View>
       {expanded && (
         <Text className="pl-3h text-xs text-soft">
-          {`${periodOf(course.time)} | ${timeOf(course.time)} | ${course.place ?? "暂无地点"} | ${course.teacher ?? "暂无教师"}`}
+          {`${periodOf(course)} | ${timeOf(course)} | ${course.place ?? "暂无地点"} | ${course.teacher ?? "暂无教师"}`}
         </Text>
       )}
     </View>

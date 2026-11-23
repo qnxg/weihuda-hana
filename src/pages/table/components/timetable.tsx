@@ -256,6 +256,16 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
     return actions
   }
 
+  function edit(): void {
+    const customizeId = block?.course.customizeId
+
+    if (typeof customizeId !== "number")
+      return
+
+    close()
+    navigateTo(PAGE.form.course, { term: termKey, customizeId })
+  }
+
   async function remove(customizeId: number): Promise<void> {
     try {
       await api.course.remove({
@@ -334,7 +344,7 @@ export default function Timetable({ state }: Readonly<{ state: TimetableState }>
 
             {block.course.customizeId !== null && (
               <View className="flex gap-2">
-                <Button variant="outline" color="ink" className="flex-1 py-1" onClick={() => toast.info("编辑待接入")}>
+                <Button variant="outline" color="ink" className="flex-1 py-1" onClick={edit}>
                   <Text>编辑</Text>
                 </Button>
                 <Button variant="outline" color="error" className="flex-1 py-1" onClick={() => setConfirm(true)}>

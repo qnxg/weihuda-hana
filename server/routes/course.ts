@@ -174,6 +174,7 @@ function createCourses(): CourseItem[] {
         weeks: template.weeks,
         day: Number(day),
         time,
+        times: [time, time + 1],
         extra: null,
         area: template.area,
         place: template.place,
@@ -198,6 +199,7 @@ courses.push({
   weeks: weeks(9, 18),
   day: 1,
   time: 1,
+  times: [1, 2],
   extra: null,
   area: "南校区",
   place: "综合楼 301",
@@ -230,6 +232,7 @@ const customs: CourseItem[] = [
     weeks: weeks(1, 16),
     day: 2,
     time: 7,
+    times: [7, 8],
     extra: null,
     area: null,
     place: "线上",
@@ -259,6 +262,7 @@ export const course: Handlers<typeof contract.course> = {
       weeks: body.weeks,
       day: body.day,
       time: body.times[0] ?? 1,
+      times: body.times,
       extra: null,
       area: null,
       place: body.place,
@@ -281,6 +285,7 @@ export const course: Handlers<typeof contract.course> = {
     target.weeks = body.weeks
     target.day = body.day
     target.time = body.times[0] ?? target.time
+    target.times = body.times
     target.place = body.place
     target.teacher = body.teacher
 

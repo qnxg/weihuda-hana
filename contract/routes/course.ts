@@ -19,8 +19,10 @@ interface CourseItem {
   weeks: number[]
   /** 周几, 周日为 0 */
   day: number
-  /** 节次, 1 - 12 */
+  /** 起始节次, 1 - 12 */
   time: number
+  /** 全部节次, 首项即起始节次 */
+  times: number[]
   /** 备注, 自定义课程为 null */
   extra: string | null
   /** 校区, 自定义课程为 null */
