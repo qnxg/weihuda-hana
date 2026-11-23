@@ -1,6 +1,7 @@
-import type { ExperimentListData, ExperimentListQueries } from "@contract/routes"
+import type { ExperimentGradeData, ExperimentGradeQueries, ExperimentListData, ExperimentListQueries } from "@contract/routes"
 import { request } from "@/utils/request"
 
 export const experiment = {
   list: (queries: ExperimentListQueries, signal?: AbortSignal) => request.add({ signal }).get<ExperimentListData>("/experiment", queries),
+  grade: (queries: ExperimentGradeQueries, signal?: AbortSignal) => request.add({ signal }).get<ExperimentGradeData>("/experiment/grade", queries),
 }

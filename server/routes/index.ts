@@ -8,6 +8,7 @@ import { exam } from "@server/routes/exam"
 import { experiment } from "@server/routes/experiment"
 import { grade } from "@server/routes/grade"
 import { netflow } from "@server/routes/netflow"
+import { physical } from "@server/routes/physical"
 import { point } from "@server/routes/point"
 import { rank } from "@server/routes/rank"
 import { root } from "@server/routes/root"
@@ -24,6 +25,7 @@ export const route = {
   todo,
   grade,
   rank,
+  physical,
   point,
   email,
   card,
@@ -42,6 +44,7 @@ export * from "@server/routes/exam"
 export * from "@server/routes/experiment"
 export * from "@server/routes/grade"
 export * from "@server/routes/netflow"
+export * from "@server/routes/physical"
 export * from "@server/routes/point"
 export * from "@server/routes/rank"
 export * from "@server/routes/root"

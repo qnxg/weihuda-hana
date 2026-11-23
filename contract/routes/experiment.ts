@@ -27,12 +27,47 @@ interface ExperimentItem {
   email: string | null
 }
 
+/** 实验成绩明细 */
+interface ExperimentGradeDetail {
+  /** 明细名称 */
+  name: string
+  /** 分数, 未评为 null */
+  score: number | null
+}
+
+/** 单次实验成绩 */
+interface ExperimentGradeItem {
+  /** 实验名称 */
+  name: string
+  /** 实验成绩 */
+  score: string
+  /** 出勤, 无记录为 null */
+  attendance: string | null
+  /** 成绩明细 */
+  details: ExperimentGradeDetail[]
+}
+
+/** 实验课程成绩 */
+interface ExperimentGrade {
+  /** 课程名 */
+  courseName: string
+  /** 课程总评 */
+  courseScore: string | null
+  /** 各次实验 */
+  labs: ExperimentGradeItem[]
+}
+
 export const experiment = {
   list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExperimentItem[]>("/experiment", "实验安排"),
+  grade: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExperimentGrade | null>("/experiment/grade", "实验成绩"),
 }
 
 export type ExperimentList = ApiSpec<typeof experiment.list>
 export type ExperimentListQueries = Queries<ExperimentList>
 export type ExperimentListData = Data<ExperimentList>
 
-export type { ExperimentItem }
+export type ExperimentGradeGet = ApiSpec<typeof experiment.grade>
+export type ExperimentGradeQueries = Queries<ExperimentGradeGet>
+export type ExperimentGradeData = Data<ExperimentGradeGet>
+
+export type { ExperimentGrade, ExperimentGradeDetail, ExperimentGradeItem, ExperimentItem }

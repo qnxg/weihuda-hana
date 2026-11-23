@@ -72,6 +72,13 @@ export const QUERY_KEY = {
       term?.year,
       term?.semester,
     ],
+    /** 实验成绩, 按学期区分 */
+    grade: (term?: Term) => [
+      "experiment",
+      "grade",
+      term?.year,
+      term?.semester,
+    ],
   },
   /** 待办 */
   todo: {
@@ -113,6 +120,14 @@ export const QUERY_KEY = {
     ],
     /** 可信电子凭证排名 */
     ca: ["rank", "ca"],
+  },
+  /** 体测 */
+  physical: {
+    /** 体测成绩, 按学年区分 */
+    get: (year?: number) => [
+      "physical",
+      year,
+    ],
   },
   /** 课程 */
   course: {

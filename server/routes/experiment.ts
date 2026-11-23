@@ -1,5 +1,5 @@
 import type { contract } from "@contract/routes"
-import type { ExperimentItem } from "@contract/routes/experiment"
+import type { ExperimentGrade, ExperimentItem } from "@contract/routes/experiment"
 import type { Handlers } from "@server/endpoint"
 import { ok } from "@server/endpoint"
 
@@ -30,6 +30,40 @@ const experiments: ExperimentItem[] = [
   },
 ]
 
+const grade: ExperimentGrade = {
+  courseName: "大学物理实验",
+  courseScore: "92",
+  labs: [
+    {
+      name: "示波器的使用",
+      score: "94",
+      attendance: "正常",
+      details: [
+        { name: "实验报告", score: 94 },
+        { name: "操作考核", score: 95 },
+      ],
+    },
+    {
+      name: "单摆测重力加速度",
+      score: "90",
+      attendance: "正常",
+      details: [
+        { name: "实验报告", score: 90 },
+        { name: "操作考核", score: 89 },
+      ],
+    },
+    {
+      name: "杨氏模量的测量",
+      score: "未出分",
+      attendance: "缺勤",
+      details: [],
+    },
+  ],
+}
+
 export const experiment: Handlers<typeof contract.experiment> = {
   list: () => ok(experiments),
+  grade: ({ query }) => ok(query.semester === "winter"
+    ? null
+    : grade),
 }

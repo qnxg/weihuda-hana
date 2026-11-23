@@ -8,6 +8,7 @@ import { exam } from "@/apis/exam"
 import { experiment } from "@/apis/experiment"
 import { grade } from "@/apis/grade"
 import { netflow } from "@/apis/netflow"
+import { physical } from "@/apis/physical"
 import { point } from "@/apis/point"
 import { rank } from "@/apis/rank"
 import { root } from "@/apis/root"
@@ -24,6 +25,7 @@ export const api = {
   todo,
   grade,
   rank,
+  physical,
   point,
   email,
   card,
