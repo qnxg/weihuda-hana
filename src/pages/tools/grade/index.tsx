@@ -14,7 +14,7 @@ import { PAGE } from "@/config/page"
 import { QUERY_KEY } from "@/config/query"
 import { useQuery } from "@/hooks/query"
 import { useRank } from "@/hooks/rank"
-import { termKeyOf, termLabelOf } from "@/pages/table/model/term"
+import { SEMESTER_LABEL, termLabelOf } from "@/pages/table/model/term"
 import Detail from "@/pages/tools/grade/components/detail"
 import Row from "@/pages/tools/grade/components/row"
 import Summary from "@/pages/tools/grade/components/summary"
@@ -34,6 +34,14 @@ export default function Grade(): ReactNode {
       ...(semester.data?.list ?? []),
     ].sort((a, b) => a.start.localeCompare(b.start))
   }, [semester.data])
+
+  const years = useMemo(() => {
+    const unique = new Set(terms.map(item => item.year))
+
+    return [
+      ...unique,
+    ].sort((a, b) => b - a)
+  }, [terms])
 
   const [termState, setTermState] = useState<Term | null>(null)
   const term = termState ?? semester.data?.current ?? null
@@ -70,17 +78,32 @@ export default function Grade(): ReactNode {
 
   const value: ColumnValue | null = term
     ? {
-        term: termKeyOf(term),
+        year: term.year,
+        semester: term.semester,
       }
     : null
   const columns: PickerColumn[] = [
     {
-      key: "term",
-      label: "学期",
-      options: terms.map(item => ({
-        label: termLabelOf(item),
-        value: termKeyOf(item),
+      key: "year",
+      label: "学年",
+      options: years.map(item => ({
+        label: `${item}`,
+        value: item,
       })),
+    },
+    {
+      key: "semester",
+      label: "学期",
+      options: (current) => {
+        const year = Number(current.year)
+
+        return terms
+          .filter(item => item.year === year)
+          .map(item => ({
+            label: SEMESTER_LABEL[item.semester],
+            value: item.semester,
+          }))
+      },
     },
   ]
 
@@ -88,7 +111,8 @@ export default function Grade(): ReactNode {
     if (!next)
       return
 
-    const target = terms.find(item => termKeyOf(item) === String(next.term))
+    const year = Number(next.year)
+    const target = terms.find(item => item.year === year && item.semester === next.semester)
 
     if (target)
       setTermState(target)
