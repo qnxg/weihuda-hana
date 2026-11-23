@@ -15,7 +15,7 @@ export interface PageProps {
   tabbar?: boolean
   /** 顶栏, 默认 true */
   navbar?: boolean
-  /** 标题 */
+  /** 标题, 同时作为底栏当前标签 */
   title?: string
   /** 返回按钮 */
   back?: boolean
@@ -44,7 +44,7 @@ export default function Page({
           {children}
           <NoticeLayer />
         </View>
-        {tabbar && <Tabbar />}
+        {tabbar && <Tabbar title={title ?? ""} />}
         {bottom && <SafeArea edge="bottom" />}
         <ModalLayer />
       </View>

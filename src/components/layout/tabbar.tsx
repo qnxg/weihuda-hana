@@ -1,25 +1,21 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
-import { getCurrentPages } from "@tarojs/taro"
 import Button from "@/components/common/button"
 import Icon from "@/components/common/icon"
 import { TABBAR } from "@/config/tabbar"
 import { navigateTo } from "@/utils/navigate"
 
-/** 当前页面路径, 与 app.config 的 pages 一致 */
-function currentPath(): string {
-  const pages = getCurrentPages()
-  return pages[pages.length - 1]?.route ?? ""
+export interface TabbarProps {
+  /** 当前标签文字 */
+  title: string
 }
 
-export default function Tabbar(): ReactNode {
-  const active = currentPath()
-
+export default function Tabbar({ title }: Readonly<TabbarProps>): ReactNode {
   return (
     <View className="shrink-0 border-t border-default bg-default">
       <View className="h-4r flex">
         {TABBAR.map(({ path, text, icon }) => {
-          const selected = path === `/${active}`
+          const selected = text === title
 
           return (
             <Button

@@ -230,7 +230,7 @@ export default function Table(): ReactNode {
   const current = tabs.find(tab => tab.key === view) ?? tabs[0]
 
   return (
-    <Page tabbar navbar={false} safeArea="bottom">
+    <Page tabbar title="课表" navbar={false} safeArea="bottom">
       <Navbar
         back={(
           <View className="flex items-baseline gap-1">
