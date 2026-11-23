@@ -100,14 +100,16 @@ export default function Course(): ReactNode {
           ? <SkeletonBlock />
           : (
               <View className="flex flex-col">
-                {list.map(course => (
-                  <Row
-                    key={`${course.courseId ?? "custom"}-${course.time}`}
-                    course={course}
-                    date={date}
-                    now={now}
-                  />
-                ))}
+                <View className="flex flex-col gap-1">
+                  {list.map(course => (
+                    <Row
+                      key={`${course.courseId ?? "custom"}-${course.time}`}
+                      course={course}
+                      date={date}
+                      now={now}
+                    />
+                  ))}
+                </View>
                 {notice && list.length > 0 && <View className="my-3 border-t border-default" />}
                 {notice && (
                   <Notice
