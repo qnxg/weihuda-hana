@@ -4,20 +4,20 @@ import type { ColumnValue } from "@/components/form/picker"
 import { Text, View } from "@tarojs/components"
 import { od } from "@xtwis/ohday"
 import { useMemo, useState } from "react"
+import { api } from "@/apis"
 import Scroll from "@/components/common/scroll"
 import { createDateColumns, Picker } from "@/components/form/picker"
 import Main from "@/components/layout/main"
 import Page from "@/components/layout/page"
 import Popup from "@/components/modal/popup"
+import { QUERY_KEY } from "@/config/query"
+import { useQuery } from "@/hooks/query"
 import Balance from "@/pages/tools/card/components/balance"
 import Detail from "@/pages/tools/card/components/detail"
 import Row from "@/pages/tools/card/components/row"
 import Toggle from "@/pages/tools/card/components/toggle"
 import { useCardBill } from "@/pages/tools/card/hooks/bill"
 import { groupsOf, moneyOf, TYPES } from "@/pages/tools/card/model/card"
-
-/** 月份列 */
-const MONTH_COLUMNS = createDateColumns({ precision: "month" })
 
 /** 校园卡 */
 export default function Card(): ReactNode {
@@ -27,6 +27,37 @@ export default function Card(): ReactNode {
   const { card, data, loading, refreshing, refresh } = useCardBill({ ...time, type })
   const groups = useMemo(() => groupsOf(data?.records ?? []), [data])
   const [selected, setSelected] = useState<CardRecordItem | null>(null)
+
+  const semester = useQuery({
+    queryKey: QUERY_KEY.semester.get,
+    queryFn: ({ signal }) => api.semester.get(signal),
+  })
+
+  const min = useMemo(() => {
+    const start = (semester.data?.list ?? [])
+      .map(item => item.start)
+      .sort()[0]
+
+    if (!start)
+      return undefined
+
+    const [year, month] = start.split("-").map(Number)
+
+    return { year, month }
+  }, [semester.data])
+
+  const columns = useMemo(() => createDateColumns({
+    precision: "month",
+    min,
+    max: {
+      year: now.year,
+      month: now.month,
+    },
+  }), [
+    min,
+    now.month,
+    now.year,
+  ])
 
   const value: ColumnValue = {
     year: time.year,
@@ -54,7 +85,7 @@ export default function Card(): ReactNode {
             <Picker
               className="flex-1"
               triggerClassName="rounded-full py-1"
-              columns={MONTH_COLUMNS}
+              columns={columns}
               value={value}
               onChange={selectMonth}
               formatValue={() => `${time.year} 年 ${time.month} 月`}

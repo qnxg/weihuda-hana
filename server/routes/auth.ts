@@ -53,6 +53,10 @@ export const auth: Handlers<typeof contract.auth> = {
   },
   me: ({ header }) => {
     const session = sessionFrom(header)
-    return ok({ id: session?.account ?? "", name: "Hana" })
+    return ok({
+      id: session?.account ?? "",
+      name: "Hana",
+      enter: 2024,
+    })
   },
 }

@@ -8,6 +8,8 @@ interface User {
   id: string
   /** 姓名 */
   name: string
+  /** 入学年份 */
+  enter: number
 }
 
 /** 令牌对 */
