@@ -1,4 +1,4 @@
-import type { CardRecordListQueries, RankGetQueries, Term } from "@contract/routes"
+import type { CardRecordListQueries, NetflowDetailGetQueries, RankGetQueries, Term } from "@contract/routes"
 
 /** 查询键, 按接口域分层 */
 export const QUERY_KEY = {
@@ -60,6 +60,16 @@ export const QUERY_KEY = {
   netflow: {
     /** 本月流量 */
     get: ["netflow"],
+    /** 历史账单 */
+    orderList: ["netflow", "order"],
+    /** 流量明细, 按年月与日区分 */
+    detail: (queries: NetflowDetailGetQueries) => [
+      "netflow",
+      "detail",
+      queries.year,
+      queries.month,
+      queries.day,
+    ],
   },
   /** 考试 */
   exam: {
