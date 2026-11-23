@@ -4,8 +4,10 @@ import type { ColumnLink, ColumnValue, PickerColumn } from "@/components/form/pi
 import { PickerView, PickerViewColumn, Text, View } from "@tarojs/components"
 import { useEffect, useRef, useState } from "react"
 import Button from "@/components/common/button"
+import { LINE, MASK } from "@/components/form/picker/style"
 import { applyLinks, clampDependent, clampValue, indicesOf, initialValueOf, optionsOf } from "@/components/form/picker/utils"
 import Popup from "@/components/modal/popup"
+import { useTheme } from "@/hooks/theme"
 
 export interface PickerPopupProps {
   /** 显隐 */
@@ -37,6 +39,7 @@ export default function PickerPopup({
   onConfirm,
   onClose,
 }: Readonly<PickerPopupProps>): ReactNode {
+  const { mode } = useTheme()
   const [draft, setDraft] = useState<ColumnValue>(() => initialValueOf(columns, value))
   const wasVisibleRef = useRef(false)
 
@@ -82,7 +85,8 @@ export default function PickerPopup({
         <PickerView
           value={indicesOf(columns, draft)}
           onChange={handleChange}
-          indicatorStyle="height: 40px;"
+          indicatorStyle={`height: 40px; border-color: ${LINE[mode]};`}
+          maskStyle={`background-image: ${MASK[mode]};`}
           style={{ height: "200px" }}
           className="w-full"
         >
