@@ -9,8 +9,8 @@ const tabPaths = TABBAR.map(item => item.path)
 /** 跳转参数 */
 export type NavigateParams = Record<string, string | number | null | undefined>
 
-/** 可跳转的目标, 带切换的页面传对象时取 index, 视图用 PAGE 里的具体键 */
-export type NavigateTarget = string | { index: string }
+/** 可跳转的页面路径 */
+export type NavigateTarget = string
 
 /**
  * tab 页不能用 query 带参, 参数在各页面的入口里消化
@@ -56,11 +56,9 @@ export function currentRoute(): string {
   return pages[pages.length - 1]?.route ?? ""
 }
 
-/** 跳转页面, tab 页的 query 交给 TAB_ENTRY, 普通页面照常拼接 */
+/** 跳转页面, 第二个参数按 k=v 拼到路径后, tab 页的 query 交给 TAB_ENTRY */
 export function navigateTo(to: NavigateTarget, params: NavigateParams = {}): void {
-  const { path, params: query } = splitUrl(typeof to === "string"
-    ? to
-    : to.index)
+  const { path, params: query } = splitUrl(to)
   const merged = {
     ...query,
     ...params,

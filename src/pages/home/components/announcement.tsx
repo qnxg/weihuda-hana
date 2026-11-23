@@ -67,7 +67,7 @@ export default function Announcement(): ReactNode {
   return (
     <View
       className="flex items-center gap-1 rounded-md border border-default bg-strong px-1h py-1h"
-      onClick={() => navigateTo(PAGE.debug.index)}
+      onClick={() => navigateTo(PAGE.announcement.detail, { id: item.id })}
     >
       <View className="relative shrink-0">
         <Icon icon={Bell} color="primary" className="h-2h w-2h" />

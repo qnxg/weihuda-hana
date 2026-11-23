@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import type { NavigateParams } from "@/utils/navigate"
 import { Text, View } from "@tarojs/components"
 import Button from "@/components/common/button"
 import Card from "@/components/common/card"
@@ -14,6 +15,8 @@ interface Action {
   text: string
   /** 路径 */
   path: string
+  /** 参数 */
+  params?: NavigateParams
 }
 
 /** 页面入口 */
@@ -45,6 +48,19 @@ const pages: Item[] = [
     actions: [
       { text: "课程", path: PAGE.form.course },
       { text: "待办", path: PAGE.form.todo },
+    ],
+  },
+  {
+    text: "公告",
+    path: PAGE.announcement.list,
+    actions: [
+      {
+        text: "详情 1",
+        path: PAGE.announcement.detail,
+        params: {
+          id: 1,
+        },
+      },
     ],
   },
   { text: "我的", path: PAGE.profile },
@@ -91,7 +107,7 @@ function Group({ title, items }: Readonly<{ title: string, items: readonly Item[
                     className="flex-1 py-1 text-xs"
                     onClick={(event) => {
                       event.stopPropagation()
-                      navigateTo(action.path)
+                      navigateTo(action.path, action.params)
                     }}
                   >
                     <Text>{action.text}</Text>

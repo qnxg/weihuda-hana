@@ -42,6 +42,13 @@ export const PAGE = {
     /** 宿舍用电 */
     electricity: "/pages/tools/electricity/index",
   },
+  /** 公告 */
+  announcement: {
+    /** 列表 */
+    list: "/pages/announcement/list/index",
+    /** 详情, 用 id 参数指定 */
+    detail: "/pages/announcement/detail/index",
+  },
   /** 课程与待办表单, 类型用 type 参数区分 */
   form: {
     /** 页面路由 */

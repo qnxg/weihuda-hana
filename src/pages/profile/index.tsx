@@ -137,7 +137,9 @@ export default function Profile(): ReactNode {
                   icon={<Icon icon={icon} className="h-1r w-1r" />}
                   border={index < NAV.length - 1}
                   link
-                  onClick={() => navigateTo(PAGE.debug.index)}
+                  onClick={() => navigateTo(key === "notice"
+                    ? PAGE.announcement.list
+                    : PAGE.debug.index)}
                 />
               ))}
             </Card>

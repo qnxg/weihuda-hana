@@ -13,11 +13,8 @@ const pages = [
   PAGE.auth.index,
   PAGE.form.index,
   ...Object.values(PAGE.tools),
-  PAGE.debug.index,
-  PAGE.debug.theme,
-  PAGE.debug.comp,
-  PAGE.debug.form,
-  PAGE.debug.auth,
+  ...Object.values(PAGE.announcement),
+  ...Object.values(PAGE.debug),
 ]
 
 /** 去掉前导斜杠, app.json 的页面路径不带斜杠 */

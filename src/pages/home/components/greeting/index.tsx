@@ -76,7 +76,7 @@ export default function Greeting(): ReactNode {
             variant="outline"
             color="ink"
             className="relative h-4h w-4h rounded-full p-0"
-            onClick={() => navigateTo(PAGE.debug.index)}
+            onClick={() => navigateTo(PAGE.announcement.list)}
           >
             <Icon icon={Bell} color="ink" className="h-2h w-2h" />
             {announcement.unread && <View className="absolute top-0 right-0 h-2 w-2 rounded-full bg-error-invert" />}
