@@ -15,7 +15,7 @@ export default function Point(): ReactNode {
     <Panel
       tint="point"
       title="积分"
-      onOpen={() => navigateTo(PAGE.debug.index)}
+      onOpen={() => navigateTo(PAGE.point)}
     >
       {loading || value === undefined || combo === undefined
         ? (

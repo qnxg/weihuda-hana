@@ -14,6 +14,7 @@ const pages = [
   PAGE.form.index,
   ...Object.values(PAGE.tools),
   ...Object.values(PAGE.announcement),
+  PAGE.point,
   ...Object.values(PAGE.debug),
 ]
 

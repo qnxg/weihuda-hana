@@ -57,4 +57,4 @@ export const QueryClientProvider = PreactQueryClientProvider as unknown as Compo
   children?: ReactNode
 }>
 
-export { useMutation, useQuery, useQueryClient } from "@tanstack/preact-query"
+export { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/preact-query"

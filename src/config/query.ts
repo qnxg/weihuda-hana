@@ -17,6 +17,14 @@ export const QUERY_KEY = {
   point: {
     /** 积分与签到状态 */
     get: ["point"],
+    /** 积分记录 */
+    record: ["point", "record"],
+    /** 积分商品 */
+    goods: ["point", "goods"],
+    /** 待领取 */
+    exchange: ["point", "exchange"],
+    /** 积分规则 */
+    desc: ["point", "desc"],
   },
   /** 公告 */
   announcement: {

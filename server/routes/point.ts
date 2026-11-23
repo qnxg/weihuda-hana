@@ -31,38 +31,43 @@ const goods: PointGoodsItem[] = [
   },
 ]
 
-const records: PointRecordItem[] = [
-  {
-    id: 5,
-    delta: -120,
-    description: "兑换校园文创帆布包",
-    createdAt: "2025-11-08 20:11:00",
-  },
-  {
-    id: 4,
-    delta: 5,
-    description: "每日签到",
-    createdAt: "2025-11-08 08:02:00",
-  },
-  {
-    id: 3,
-    delta: 5,
-    description: "每日签到",
-    createdAt: "2025-11-07 08:30:00",
-  },
-  {
-    id: 2,
-    delta: 20,
-    description: "完成新手指引",
-    createdAt: "2025-11-01 10:00:00",
-  },
-  {
-    id: 1,
-    delta: 100,
-    description: "首次登录",
-    createdAt: "2025-10-30 09:00:00",
-  },
-]
+/** 补零 */
+function pad(value: number): string {
+  return String(value).padStart(2, "0")
+}
+
+/** 记录模板 */
+const RECORD_TEMPLATES = [
+  { description: "每日签到", delta: 5 },
+  { description: "连续签到奖励", delta: 20 },
+  { description: "参与校园活动", delta: 10 },
+  { description: "校园问答奖励", delta: 15 },
+  { description: "兑换奶茶券", delta: -50 },
+  { description: "兑换校园文创帆布包", delta: -120 },
+] as const
+
+/** 生成历史记录, 最新在前 */
+function createRecords(count: number): PointRecordItem[] {
+  const base = Date.now()
+  const list: PointRecordItem[] = []
+
+  for (let index = 0; index < count; index += 1) {
+    const template = RECORD_TEMPLATES[index % RECORD_TEMPLATES.length]
+    const date = new Date(base - index * 6 * 60 * 60 * 1000)
+    const createdAt = `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:00`
+
+    list.push({
+      id: count - index,
+      delta: template.delta,
+      description: template.description,
+      createdAt,
+    })
+  }
+
+  return list
+}
+
+const records: PointRecordItem[] = createRecords(240)
 
 const exchanges: PointExchangeItem[] = [
   {

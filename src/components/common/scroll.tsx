@@ -14,6 +14,10 @@ export interface ScrollProps {
   refreshing?: boolean
   /** 触发刷新 */
   onRefresh?: () => void
+  /** 触底回调 */
+  onScrollToLower?: () => void
+  /** 触底阈值, 默认 50 */
+  lowerThreshold?: number
   /** 下拉区的样式, 覆盖背景 */
   refresherClassName?: string
   /** 三个点的样式, 覆盖颜色 */
@@ -29,6 +33,8 @@ export default function Scroll({
   refresh = false,
   refreshing = false,
   onRefresh,
+  onScrollToLower,
+  lowerThreshold = threshold,
   refresherClassName,
   dotClassName,
   className,
@@ -49,6 +55,8 @@ export default function Scroll({
       refresherDefaultStyle="none"
       refresherBackground="transparent"
       onRefresherRefresh={onRefresh}
+      lowerThreshold={lowerThreshold}
+      onScrollToLower={onScrollToLower}
       className={cn("flex-1 overflow-hidden", className)}
     >
       {refresh && vertical && (

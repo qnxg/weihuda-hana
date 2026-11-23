@@ -52,7 +52,7 @@ export default function Sign(): ReactNode {
       loading={check.isPending}
       onClick={() => {
         if (done)
-          navigateTo(PAGE.debug.index)
+          navigateTo(PAGE.point)
         else
           check.mutate()
       }}

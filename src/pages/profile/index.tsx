@@ -23,11 +23,36 @@ import { toast } from "@/utils/toast"
 
 /** 跳转入口 */
 const NAV = [
-  { key: "notice", title: "消息通知", icon: Bell },
-  { key: "point", title: "积分中心", icon: Trophy },
-  { key: "feedback", title: "问题反馈", icon: MessageSquare },
-  { key: "settings", title: "小程序设置", icon: Settings },
-  { key: "about", title: "关于", icon: Info },
+  {
+    key: "notice",
+    title: "消息通知",
+    icon: Bell,
+    path: PAGE.announcement.list,
+  },
+  {
+    key: "point",
+    title: "积分中心",
+    icon: Trophy,
+    path: PAGE.point,
+  },
+  {
+    key: "feedback",
+    title: "问题反馈",
+    icon: MessageSquare,
+    path: PAGE.debug.index,
+  },
+  {
+    key: "settings",
+    title: "小程序设置",
+    icon: Settings,
+    path: PAGE.debug.index,
+  },
+  {
+    key: "about",
+    title: "关于",
+    icon: Info,
+    path: PAGE.debug.index,
+  },
 ] as const
 
 /** 概览 */
@@ -130,16 +155,14 @@ export default function Profile(): ReactNode {
             <Stats />
 
             <Card className="overflow-hidden border border-default p-0">
-              {NAV.map(({ key, title, icon }, index) => (
+              {NAV.map(({ key, title, icon, path }, index) => (
                 <Cell
                   key={key}
                   title={title}
                   icon={<Icon icon={icon} className="h-1r w-1r" />}
                   border={index < NAV.length - 1}
                   link
-                  onClick={() => navigateTo(key === "notice"
-                    ? PAGE.announcement.list
-                    : PAGE.debug.index)}
+                  onClick={() => navigateTo(path)}
                 />
               ))}
             </Card>

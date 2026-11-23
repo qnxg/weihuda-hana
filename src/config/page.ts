@@ -60,6 +60,8 @@ export const PAGE = {
   },
   /** 我的 */
   profile: "/pages/profile/index",
+  /** 积分中心 */
+  point: "/pages/point/index",
   /** 鉴权, 模式用 mode 参数区分 */
   auth: {
     /** 页面路由 */
