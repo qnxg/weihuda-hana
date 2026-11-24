@@ -11,4 +11,9 @@ export const STORAGE = {
     /** 刷新令牌 */
     refresh: "auth.refresh",
   },
+  /** 实验 */
+  lab: {
+    /** 大物实验平台已绑定 */
+    bound: "lab.bound",
+  },
 } as const

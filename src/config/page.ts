@@ -70,6 +70,8 @@ export const PAGE = {
     login: "/pages/auth/index?mode=login",
     /** 二次验证 */
     verify: "/pages/auth/index?mode=verify",
+    /** 大物实验平台绑定 */
+    lab: "/pages/auth/index?mode=lab",
   },
   /** 调试包 */
   debug: {

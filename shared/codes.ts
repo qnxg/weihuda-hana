@@ -39,6 +39,10 @@ export const CODE = {
     timeout: 3002,
     /** 上游鉴权失效 */
     unauthorized: 3003,
+    /** 上游账号需要重新绑定 */
+    rebind: 3004,
+    /** 上游登录失败 */
+    loginFailed: 3005,
   },
 } as const
 

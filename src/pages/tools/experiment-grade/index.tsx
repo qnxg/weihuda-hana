@@ -12,6 +12,7 @@ import Popup from "@/components/modal/popup"
 import { QUERY_KEY } from "@/config/query"
 import { useQuery } from "@/hooks/query"
 import { SEMESTER_LABEL, termLabelOf } from "@/pages/table/model/term"
+import Rebind from "@/pages/tools/components/rebind"
 import Detail from "@/pages/tools/experiment-grade/components/detail"
 import Row from "@/pages/tools/experiment-grade/components/row"
 import Summary from "@/pages/tools/experiment-grade/components/summary"
@@ -40,7 +41,8 @@ export default function ExperimentGrade(): ReactNode {
 
   const [termState, setTermState] = useState<Term | null>(null)
   const term = termState ?? semester.data?.current ?? null
-  const { grade, loading, refreshing, refresh } = useExperimentGrade(term)
+  const { grade, loading, refreshing, rebind, refresh } = useExperimentGrade(term)
+  const [dismissed, setDismissed] = useState(false)
   const [selected, setSelected] = useState<ExperimentGradeItem | null>(null)
 
   const value: ColumnValue | null = term
@@ -108,7 +110,10 @@ export default function ExperimentGrade(): ReactNode {
             {grade && <Summary grade={grade} />}
 
             {loading && !grade && <Text className="py-8r text-center text-sm text-soft">加载中</Text>}
-            {!loading && (!grade || grade.labs.length === 0) && (
+            {!loading && rebind && (
+              <Text className="py-8r text-center text-sm text-soft">大物实验平台需要重新绑定</Text>
+            )}
+            {!loading && !rebind && (!grade || grade.labs.length === 0) && (
               <Text className="py-8r text-center text-sm text-soft">本学期暂无实验成绩</Text>
             )}
             {grade?.labs.map(item => <Row key={item.name} item={item} onSelect={setSelected} />)}
@@ -118,6 +123,8 @@ export default function ExperimentGrade(): ReactNode {
         <Popup visible={selected !== null} title={selected?.name} onClose={() => setSelected(null)} className="p-1r">
           {selected && <Detail item={selected} />}
         </Popup>
+
+        <Rebind visible={rebind && !dismissed} onClose={() => setDismissed(true)} />
       </Main>
     </Page>
   )

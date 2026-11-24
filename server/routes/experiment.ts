@@ -1,7 +1,9 @@
 import type { contract } from "@contract/routes"
 import type { ExperimentGrade, ExperimentItem } from "@contract/routes/experiment"
 import type { Handlers } from "@server/endpoint"
-import { ok } from "@server/endpoint"
+import { fail, ok } from "@server/endpoint"
+import { bindLab, isLabBound, sessionFrom, unbindLab } from "@server/session"
+import { CODE } from "@shared/codes"
 
 const experiments: ExperimentItem[] = [
   {
@@ -62,8 +64,40 @@ const grade: ExperimentGrade = {
 }
 
 export const experiment: Handlers<typeof contract.experiment> = {
-  list: () => ok(experiments),
-  grade: ({ query }) => ok(query.semester === "winter"
-    ? null
-    : grade),
+  list: ({ header }) => {
+    const session = sessionFrom(header)
+
+    return session && isLabBound(session)
+      ? ok(experiments)
+      : fail(CODE.upstream.rebind, "大物实验平台需要重新绑定")
+  },
+  grade: ({ header, query }) => {
+    const session = sessionFrom(header)
+
+    if (!session || !isLabBound(session))
+      return fail(CODE.upstream.rebind, "大物实验平台需要重新绑定")
+
+    return ok(query.semester === "winter"
+      ? null
+      : grade)
+  },
+  bind: ({ header, body }) => {
+    const session = sessionFrom(header)
+
+    if (body.password !== "123456")
+      return fail(CODE.upstream.loginFailed, "密码错误。")
+
+    if (session)
+      bindLab(session)
+
+    return ok(null)
+  },
+  unbind: ({ header }) => {
+    const session = sessionFrom(header)
+
+    if (session)
+      unbindLab(session)
+
+    return ok(null)
+  },
 }

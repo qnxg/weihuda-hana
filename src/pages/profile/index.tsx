@@ -1,7 +1,7 @@
 import type { ReactNode } from "react"
 import { Text, View } from "@tarojs/components"
 import { useDidShow } from "@tarojs/taro"
-import { Bell, Info, MessageSquare, Settings, Trophy, UserRound } from "lucide-react-taro"
+import { Bell, FlaskConical, Info, MessageSquare, Trophy, UserRound } from "lucide-react-taro"
 import { useState } from "react"
 import { api } from "@/apis"
 import Button from "@/components/common/button"
@@ -18,6 +18,7 @@ import { useSummary } from "@/pages/profile/hooks/summary"
 import { clearToken, hasToken } from "@/utils/auth"
 import { clearQueryCache } from "@/utils/cache"
 import { cn } from "@/utils/cn"
+import { setLabBound } from "@/utils/lab"
 import { navigateTo } from "@/utils/navigate"
 import { toast } from "@/utils/toast"
 
@@ -25,7 +26,7 @@ import { toast } from "@/utils/toast"
 const NAV = [
   {
     key: "notice",
-    title: "消息通知",
+    title: "公告",
     icon: Bell,
     path: PAGE.announcement.list,
   },
@@ -42,10 +43,10 @@ const NAV = [
     path: PAGE.debug.index,
   },
   {
-    key: "settings",
-    title: "小程序设置",
-    icon: Settings,
-    path: PAGE.debug.index,
+    key: "lab",
+    title: "大物实验平台",
+    icon: FlaskConical,
+    path: PAGE.auth.lab,
   },
   {
     key: "about",
@@ -127,6 +128,7 @@ export default function Profile(): ReactNode {
     }
     finally {
       clearToken()
+      setLabBound(false)
       clearQueryCache(queryClient)
       setSigned(false)
     }

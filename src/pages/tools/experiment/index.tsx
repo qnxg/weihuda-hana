@@ -9,6 +9,7 @@ import Page from "@/components/layout/page"
 import Popup from "@/components/modal/popup"
 import { QUERY_KEY } from "@/config/query"
 import { useQuery } from "@/hooks/query"
+import Rebind from "@/pages/tools/components/rebind"
 import TermPicker from "@/pages/tools/components/term"
 import Detail from "@/pages/tools/experiment/components/detail"
 import Row from "@/pages/tools/experiment/components/row"
@@ -30,7 +31,8 @@ export default function Experiment(): ReactNode {
 
   const [termState, setTermState] = useState<TermInfo | null>(null)
   const term = termState ?? semester.data?.current ?? null
-  const { list, loading, refreshing, refresh } = useExperiments(term)
+  const { list, loading, refreshing, rebind, refresh } = useExperiments(term)
+  const [dismissed, setDismissed] = useState(false)
   const pending = semester.isPending || loading
   const groups = useMemo(() => groupsOf(list), [list])
   const [selected, setSelected] = useState<ExperimentItem | null>(null)
@@ -50,7 +52,10 @@ export default function Experiment(): ReactNode {
         <Scroll refresh refreshing={refreshing} onRefresh={refresh}>
           <View className="flex flex-col gap-3 py-1r">
             {pending && groups.length === 0 && <Text className="py-8r text-center text-sm text-soft">加载中</Text>}
-            {!pending && groups.length === 0 && (
+            {!pending && rebind && (
+              <Text className="py-8r text-center text-sm text-soft">大物实验平台需要重新绑定</Text>
+            )}
+            {!pending && !rebind && groups.length === 0 && (
               <Text className="py-8r text-center text-sm text-soft">本学期暂无实验安排</Text>
             )}
             {groups.map(group => (
@@ -67,6 +72,8 @@ export default function Experiment(): ReactNode {
         <Popup visible={selected !== null} title={selected?.name} onClose={() => setSelected(null)} className="p-1r">
           {selected && <Detail item={selected} />}
         </Popup>
+
+        <Rebind visible={rebind && !dismissed} onClose={() => setDismissed(true)} />
       </Main>
     </Page>
   )

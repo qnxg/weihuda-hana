@@ -1,5 +1,5 @@
 import type { Term } from "@contract/routes/model"
-import type { ApiSpec, Data, Queries } from "@contract/types"
+import type { ApiSpec, Data, Payload, Queries } from "@contract/types"
 import { endpoint } from "@contract/endpoint"
 import { CODE } from "@shared/codes"
 
@@ -57,9 +57,17 @@ interface ExperimentGrade {
   labs: ExperimentGradeItem[]
 }
 
+/** 绑定入参 */
+interface BindPayload {
+  /** 大物实验平台密码, 账号为学号 */
+  password: string
+}
+
 export const experiment = {
-  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExperimentItem[]>("/experiment", "实验安排"),
-  grade: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout]).get<never, Term, ExperimentGrade | null>("/experiment/grade", "实验成绩"),
+  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.rebind]).get<never, Term, ExperimentItem[]>("/experiment", "实验安排"),
+  grade: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.rebind]).get<never, Term, ExperimentGrade | null>("/experiment/grade", "实验成绩"),
+  bind: endpoint.internal().codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.loginFailed]).post<never, BindPayload, null>("/experiment/bind", "绑定实验平台"),
+  unbind: endpoint.internal().post<never, never, null>("/experiment/unbind", "解除实验平台绑定"),
 }
 
 export type ExperimentList = ApiSpec<typeof experiment.list>
@@ -69,5 +77,8 @@ export type ExperimentListData = Data<ExperimentList>
 export type ExperimentGradeGet = ApiSpec<typeof experiment.grade>
 export type ExperimentGradeQueries = Queries<ExperimentGradeGet>
 export type ExperimentGradeData = Data<ExperimentGradeGet>
+
+export type ExperimentBind = ApiSpec<typeof experiment.bind>
+export type ExperimentBindPayload = Payload<ExperimentBind>
 
 export type { ExperimentGrade, ExperimentGradeDetail, ExperimentGradeItem, ExperimentItem }

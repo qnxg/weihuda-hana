@@ -1,8 +1,11 @@
 import type { ExperimentItem, TermInfo } from "@contract/routes"
-import { useMemo, useState } from "react"
+import { CODE } from "@shared/codes"
+import { useEffect, useMemo, useState } from "react"
 import { api } from "@/apis"
 import { QUERY_KEY } from "@/config/query"
 import { queryClient, useQuery } from "@/hooks/query"
+import { ApiError } from "@/types/request"
+import { setLabBound } from "@/utils/lab"
 
 export interface ExperimentListState {
   /** 实验安排 */
@@ -11,6 +14,8 @@ export interface ExperimentListState {
   loading: boolean
   /** 是否刷新中 */
   refreshing: boolean
+  /** 大物实验平台需要重新绑定 */
+  rebind: boolean
   /** 刷新 */
   refresh: () => void
 }
@@ -31,6 +36,14 @@ export function useExperiments(term: TermInfo | null): ExperimentListState {
     enabled: term !== null,
   })
 
+  const rebind = query.error instanceof ApiError
+    && Number(query.error.code) === CODE.upstream.rebind
+
+  useEffect(() => {
+    if (rebind)
+      setLabBound(false)
+  }, [rebind])
+
   function refresh(): void {
     if (refreshing)
       return
@@ -43,6 +56,7 @@ export function useExperiments(term: TermInfo | null): ExperimentListState {
     list: query.data ?? [],
     loading: query.isLoading,
     refreshing,
+    rebind,
     refresh,
   }
 }

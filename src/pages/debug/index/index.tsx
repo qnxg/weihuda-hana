@@ -72,6 +72,7 @@ const pages: Item[] = [
     actions: [
       { text: "登录", path: PAGE.auth.login },
       { text: "账号验证", path: PAGE.auth.verify },
+      { text: "大物绑定", path: PAGE.auth.lab },
     ],
   },
 ]

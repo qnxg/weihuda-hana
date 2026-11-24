@@ -36,25 +36,44 @@ export interface Session extends Behavior {
 }
 
 /** 普通账号 */
-const normal: Behavior = { expired: false, refreshable: true, verify: false }
+const normal: Behavior = {
+  expired: false,
+  refreshable: true,
+  verify: false,
+}
 
 /** 演示账号行为 */
 const behaviors = new Map<string, Behavior>([
   [
     "refresh",
-    { expired: true, refreshable: true, verify: false },
+    {
+      expired: true,
+      refreshable: true,
+      verify: false,
+    },
   ],
   [
     "expire",
-    { expired: true, refreshable: false, verify: false },
+    {
+      expired: true,
+      refreshable: false,
+      verify: false,
+    },
   ],
   [
     "verify",
-    { expired: false, refreshable: true, verify: true },
+    {
+      expired: false,
+      refreshable: true,
+      verify: true,
+    },
   ],
 ])
 
 const sessions = new Map<number, Session>()
+
+/** 已绑定大物实验平台的账号, 按账号保存, 重新登录后仍有效 */
+const labBound = new Set<string>()
 
 let sessionSeed = 0
 
@@ -136,6 +155,21 @@ export function refresh(token: string): Token | null {
 /** 标记会话已通过二次验证 */
 export function verify(session: Session): void {
   session.verified = true
+}
+
+/** 是否已绑定大物实验平台, 初始未绑定 */
+export function isLabBound(session: Session): boolean {
+  return labBound.has(session.account)
+}
+
+/** 标记账号已绑定大物实验平台 */
+export function bindLab(session: Session): void {
+  labBound.add(session.account)
+}
+
+/** 解除账号的大物实验平台绑定 */
+export function unbindLab(session: Session): void {
+  labBound.delete(session.account)
 }
 
 /** 销毁会话 */

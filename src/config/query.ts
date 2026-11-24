@@ -96,6 +96,8 @@ export const QUERY_KEY = {
   },
   /** 实验 */
   experiment: {
+    /** 实验域整体, 用于绑定后统一失效 */
+    all: ["experiment"],
     /** 实验安排, 按学期区分 */
     list: (term?: Term) => [
       "experiment",
