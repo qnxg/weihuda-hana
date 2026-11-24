@@ -5,6 +5,7 @@ const HOUR = 60 * 60 * 1000
 export const CACHE_TTL: Record<string, number> = {
   "auth.me": 12 * HOUR,
   "semester": 12 * HOUR,
+  "room.buildings": 24 * HOUR,
   "course.list": 24 * HOUR,
   "course.extra": 24 * HOUR,
   "exam.list": 12 * HOUR,

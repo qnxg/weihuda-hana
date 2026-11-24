@@ -1,4 +1,4 @@
-import type { CardRecordListQueries, NetflowDetailGetQueries, RankGetQueries, Term } from "@contract/routes"
+import type { CardRecordListQueries, NetflowDetailGetQueries, RankGetQueries, RoomListQueries, Term } from "@contract/routes"
 
 /** 查询键, 按接口域分层 */
 export const QUERY_KEY = {
@@ -55,6 +55,19 @@ export const QUERY_KEY = {
   email: {
     /** 未读邮件数 */
     get: ["email"],
+  },
+  /** 空教室 */
+  room: {
+    /** 教学楼 */
+    buildings: ["room", "buildings"],
+    /** 空教室, 按楼栋, 日期与节次区分 */
+    list: (queries?: RoomListQueries) => [
+      "room",
+      "list",
+      queries?.building,
+      queries?.date,
+      queries?.times,
+    ],
   },
   /** 校园网流量 */
   netflow: {

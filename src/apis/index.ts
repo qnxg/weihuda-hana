@@ -11,6 +11,7 @@ import { netflow } from "@/apis/netflow"
 import { physical } from "@/apis/physical"
 import { point } from "@/apis/point"
 import { rank } from "@/apis/rank"
+import { room } from "@/apis/room"
 import { root } from "@/apis/root"
 import { semester } from "@/apis/semester"
 import { todo } from "@/apis/todo"
@@ -32,4 +33,5 @@ export const api = {
   course,
   dorm,
   netflow,
+  room,
 }

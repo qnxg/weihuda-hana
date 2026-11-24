@@ -11,6 +11,7 @@ import { netflow } from "@contract/routes/netflow"
 import { physical } from "@contract/routes/physical"
 import { point } from "@contract/routes/point"
 import { rank } from "@contract/routes/rank"
+import { room } from "@contract/routes/room"
 import { root } from "@contract/routes/root"
 import { semester } from "@contract/routes/semester"
 import { todo } from "@contract/routes/todo"
@@ -32,6 +33,7 @@ export const contract = {
   course,
   dorm,
   netflow,
+  room,
 }
 
 export * from "@contract/routes/announcement"
@@ -48,6 +50,7 @@ export * from "@contract/routes/netflow"
 export * from "@contract/routes/physical"
 export * from "@contract/routes/point"
 export * from "@contract/routes/rank"
+export * from "@contract/routes/room"
 export * from "@contract/routes/root"
 export * from "@contract/routes/semester"
 export * from "@contract/routes/todo"

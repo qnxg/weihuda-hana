@@ -11,6 +11,7 @@ import { netflow } from "@server/routes/netflow"
 import { physical } from "@server/routes/physical"
 import { point } from "@server/routes/point"
 import { rank } from "@server/routes/rank"
+import { room } from "@server/routes/room"
 import { root } from "@server/routes/root"
 import { semester } from "@server/routes/semester"
 import { todo } from "@server/routes/todo"
@@ -32,6 +33,7 @@ export const route = {
   dorm,
   netflow,
   course,
+  room,
 }
 
 export * from "@server/routes/announcement"
@@ -47,6 +49,7 @@ export * from "@server/routes/netflow"
 export * from "@server/routes/physical"
 export * from "@server/routes/point"
 export * from "@server/routes/rank"
+export * from "@server/routes/room"
 export * from "@server/routes/root"
 export * from "@server/routes/semester"
 export * from "@server/routes/todo"
