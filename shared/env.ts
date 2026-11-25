@@ -30,7 +30,7 @@ const schema = z.object({
   mock: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
   mockPort: z.coerce.number().int().min(1).default(9300),
   mockDelay: z.coerce.number().int().min(0).max(10_000).default(0),
-  attempts: z.coerce.number().int().min(1).default(3),
+  attempts: z.coerce.number().int().min(1).default(1),
   logLevel: z.coerce.number().int().min(-1).max(2).default(1),
   debug: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
   debugTaps: z.coerce.number().int().min(0).default(7),
