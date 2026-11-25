@@ -21,6 +21,8 @@ export interface ScheduleItem {
   key: string
   /** 来源 */
   kind: ScheduleKind
+  /** 待办 id, 非待办为 null */
+  id: number | null
   /** 标题 */
   title: string
   /** 关联课程 */
@@ -84,6 +86,7 @@ export function scheduleOf(
     items.push({
       key: `todo-${todo.id}`,
       kind: "todo",
+      id: todo.id,
       title: todo.title,
       courseName: todo.courseName,
       date: todo.date,
@@ -108,6 +111,7 @@ export function scheduleOf(
     items.push({
       key: `exam-${exam.courseId ?? exam.customizeId ?? exam.courseName}`,
       kind: "exam",
+      id: null,
       title: exam.courseName,
       courseName: exam.courseName,
       date: exam.date,
@@ -134,6 +138,7 @@ export function scheduleOf(
     items.push({
       key: `experiment-${experiment.name}-${experiment.dateTime}`,
       kind: "experiment",
+      id: null,
       title: experiment.name,
       courseName: experiment.course,
       date,

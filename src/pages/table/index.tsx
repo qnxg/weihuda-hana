@@ -255,7 +255,7 @@ export default function Table(): ReactNode {
         <View className="flex flex-1 flex-col overflow-hidden">
           {view === "timetable" && <Timetable state={state} />}
           {view === "extra" && <Extra state={extra} />}
-          {view === "schedule" && <Schedule state={schedule} />}
+          {view === "schedule" && <Schedule state={schedule} term={state.term} />}
         </View>
       </Main>
     </Page>

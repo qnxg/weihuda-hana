@@ -59,7 +59,12 @@ export default function FormPage(): ReactNode {
   const customizeId = type === "course"
     ? params.customizeId ?? null
     : null
-  const editing = customizeId !== null
+  const todoId = type === "todo"
+    ? params.id ?? null
+    : null
+  const editingCourse = customizeId !== null
+  const editingTodo = todoId !== null
+  const editing = editingCourse || editingTodo
 
   const courses = useQuery({
     queryKey: QUERY_KEY.course.list(term ?? undefined),
@@ -69,19 +74,40 @@ export default function FormPage(): ReactNode {
 
       return api.course.list(term, signal)
     },
-    enabled: editing && term !== null,
+    enabled: editingCourse && term !== null,
+  })
+
+  const todos = useQuery({
+    queryKey: QUERY_KEY.todo.list(term ?? undefined),
+    queryFn: ({ signal }) => {
+      if (!term)
+        throw new Error("term required")
+
+      return api.todo.list(term, signal)
+    },
+    enabled: editingTodo && term !== null,
   })
 
   const course = customizeId === null
     ? null
     : courses.data?.find(item => item.customizeId !== null && String(item.customizeId) === customizeId) ?? null
-  const ready = course !== null && Array.isArray(course.times)
+  const todo = todoId === null
+    ? null
+    : todos.data?.find(item => String(item.id) === todoId) ?? null
+
+  const ready = editingCourse
+    ? course !== null && Array.isArray(course.times)
+    : editingTodo
+      ? todo !== null
+      : true
 
   const day = intOf(params.day, 0, 6, od(nowOf()).day)
   const start = intOf(params.start, 1, 12, 1)
-  const title = editing
+  const title = editingCourse
     ? "编辑课程"
-    : TITLE[type]
+    : editingTodo
+      ? "编辑待办"
+      : TITLE[type]
 
   function content(): ReactNode {
     if (!term) {
@@ -95,20 +121,24 @@ export default function FormPage(): ReactNode {
     }
 
     if (editing && !ready) {
-      const loading = courses.isPending || courses.isFetching
+      const loading = editingCourse
+        ? courses.isPending || courses.isFetching
+        : todos.isPending || todos.isFetching
 
       return (
         <Text className="py-8r text-center text-sm text-soft">
           {loading
             ? "加载中"
-            : "课程不存在"}
+            : editingCourse
+              ? "课程不存在"
+              : "待办不存在"}
         </Text>
       )
     }
 
     return type === "course"
       ? <CourseForm term={term} day={day} start={start} course={course} />
-      : <TodoForm term={term} />
+      : <TodoForm term={term} todo={todo} />
   }
 
   return (

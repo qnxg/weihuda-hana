@@ -49,3 +49,21 @@ export function minutesOf(value: { hour: number, minute: number }): number {
 export function dateKeyOf(value: { year: number, month: number, day: number }): string {
   return `${value.year}-${pad(value.month)}-${pad(value.day)}`
 }
+
+/** 日期键拆成日期列的值, 格式不合法返回 null */
+export function dateValueOf(key: string): { year: number, month: number, day: number } | null {
+  const [year, month, day] = key.split("-").map(Number)
+
+  return Number.isInteger(year) && Number.isInteger(month) && Number.isInteger(day)
+    ? { year, month, day }
+    : null
+}
+
+/** 时间键拆成时间列的值, 格式不合法返回 null */
+export function timeValueOf(clock: string): { hour: number, minute: number } | null {
+  const [hour, minute] = clock.split(":").map(Number)
+
+  return Number.isInteger(hour) && Number.isInteger(minute)
+    ? { hour, minute }
+    : null
+}

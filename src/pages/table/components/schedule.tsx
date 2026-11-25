@@ -1,17 +1,28 @@
+import type { TermInfo } from "@contract/routes"
 import type { ReactNode } from "react"
 import type { ScheduleState } from "@/pages/table/hooks/schedule"
 import type { ScheduleGroup, ScheduleItem, ScheduleKind } from "@/pages/table/model/schedule"
 import { Text, View } from "@tarojs/components"
 import { od } from "@xtwis/ohday"
 import { useState } from "react"
+import { api } from "@/apis"
+import Button from "@/components/common/button"
 import Card from "@/components/common/card"
 import Cell from "@/components/common/cell"
 import Scroll from "@/components/common/scroll"
+import Alert from "@/components/modal/alert"
 import Popup from "@/components/modal/popup"
+import { PAGE } from "@/config/page"
+import { QUERY_KEY } from "@/config/query"
+import { queryClient, useMutation } from "@/hooks/query"
 import { DAY_NAMES } from "@/pages/table/model/course"
 import { SCHEDULE_NAME } from "@/pages/table/model/schedule"
+import { termKeyOf } from "@/pages/table/model/term"
 import { cn } from "@/utils/cn"
 import { dateOf } from "@/utils/date"
+import { handleError } from "@/utils/error"
+import { navigateTo } from "@/utils/navigate"
+import { toast } from "@/utils/toast"
 
 /** 来源标记 */
 const BADGE: Record<ScheduleKind, string> = {
@@ -94,10 +105,45 @@ function Day({ group, onSelect }: Readonly<{ group: ScheduleGroup, onSelect: (it
   )
 }
 
+export interface ScheduleProps {
+  /** 日程状态 */
+  state: ScheduleState
+  /** 当前学期 */
+  term: TermInfo | null
+}
+
 /** 待办日程视图 */
-export default function Schedule({ state }: Readonly<{ state: ScheduleState }>): ReactNode {
+export default function Schedule({ state, term }: Readonly<ScheduleProps>): ReactNode {
   const { groups, loading, refreshing, refresh } = state
   const [selected, setSelected] = useState<ScheduleItem | null>(null)
+  const [confirm, setConfirm] = useState(false)
+
+  const remove = useMutation({
+    mutationFn: (id: number) => api.todo.remove({
+      id: String(id),
+    }),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({
+        queryKey: QUERY_KEY.todo.list(term ?? undefined),
+      })
+      toast.success("待办已删除")
+      setSelected(null)
+    },
+    onError: handleError(),
+  })
+
+  function edit(item: ScheduleItem): void {
+    if (item.id === null || !term)
+      return
+
+    setSelected(null)
+    navigateTo(PAGE.form.todo, {
+      term: termKeyOf(term),
+      id: item.id,
+    })
+  }
+
+  const editable = selected?.kind === "todo" && selected.id !== null
 
   return (
     <>
@@ -113,13 +159,43 @@ export default function Schedule({ state }: Readonly<{ state: ScheduleState }>):
 
       <Popup visible={selected !== null} title={selected?.title} onClose={() => setSelected(null)} className="p-1r">
         {selected && (
-          <View className="mt-2 overflow-hidden rounded-md border border-default">
-            {detailsOf(selected).map((row, index, rows) => (
-              <Cell key={row.label} title={row.label} description={row.value} border={index < rows.length - 1} />
-            ))}
+          <View className="mt-2 flex flex-col gap-2">
+            <View className="overflow-hidden rounded-md border border-default">
+              {detailsOf(selected).map((row, index, rows) => (
+                <Cell key={row.label} title={row.label} description={row.value} border={index < rows.length - 1} />
+              ))}
+            </View>
+
+            {editable && (
+              <View className="flex gap-2">
+                <Button variant="outline" color="ink" className="flex-1 py-1" onClick={() => edit(selected)}>
+                  <Text>修改</Text>
+                </Button>
+                <Button variant="outline" color="error" className="flex-1 py-1" onClick={() => setConfirm(true)}>
+                  <Text>删除</Text>
+                </Button>
+              </View>
+            )}
           </View>
         )}
       </Popup>
+
+      <Alert
+        visible={confirm}
+        title="删除待办"
+        confirmText="删除"
+        cancelText="取消"
+        color="error"
+        onCancel={() => setConfirm(false)}
+        onConfirm={() => {
+          setConfirm(false)
+
+          if (selected?.id !== null && selected?.id !== undefined)
+            remove.mutate(selected.id)
+        }}
+      >
+        <Text className="text-sm text-default">删除后无法恢复.</Text>
+      </Alert>
     </>
   )
 }
