@@ -1,7 +1,8 @@
 import type { ReactNode } from "react"
+import { ENV } from "@shared/env"
 import { Image, Text, View } from "@tarojs/components"
 import { setClipboardData, useDidHide, useDidShow } from "@tarojs/taro"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { api } from "@/apis"
 import Logo from "@/assets/about/logo.jpg"
 import Card from "@/components/common/card"
@@ -47,6 +48,8 @@ export default function About(): ReactNode {
   const [visible, setVisible] = useState(false)
   const [spin, setSpin] = useState(0)
   const [flipping, setFlipping] = useState(false)
+  const tapsRef = useRef(0)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const slogan = slogans[index % slogans.length]
   const { displayed } = useTyping(slogan, {
@@ -55,6 +58,34 @@ export default function About(): ReactNode {
     deletingSpeed: 50,
     enabled: visible,
   })
+
+  function flip(): void {
+    if (flipping)
+      return
+
+    setFlipping(true)
+    setSpin(current => current + 1)
+  }
+
+  function tapVersion(): void {
+    if (ENV.debugTaps <= 0)
+      return
+
+    tapsRef.current += 1
+
+    if (timerRef.current)
+      clearTimeout(timerRef.current)
+
+    if (tapsRef.current >= ENV.debugTaps) {
+      tapsRef.current = 0
+      navigateTo(PAGE.debug.index)
+      return
+    }
+
+    timerRef.current = setTimeout(() => {
+      tapsRef.current = 0
+    }, DURATION.tap)
+  }
 
   useDidShow(() => {
     setVisible(true)
@@ -75,13 +106,10 @@ export default function About(): ReactNode {
     return () => clearTimeout(timer)
   }, [flipping, spin])
 
-  function flip(): void {
-    if (flipping)
-      return
-
-    setFlipping(true)
-    setSpin(current => current + 1)
-  }
+  useEffect(() => () => {
+    if (timerRef.current)
+      clearTimeout(timerRef.current)
+  }, [])
 
   return (
     <Page title="关于">
@@ -113,7 +141,7 @@ export default function About(): ReactNode {
             </View>
 
             <Card className="overflow-hidden border border-default p-0">
-              <Cell title="版本" description={version} />
+              <Cell title="版本" description={version} onClick={tapVersion} />
               <Cell
                 title="官网"
                 description={hostOf(home)}

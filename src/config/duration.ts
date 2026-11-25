@@ -8,6 +8,8 @@ export const DURATION = {
   notification: 3000,
   /** 关于页图标翻转 */
   flip: 800,
+  /** 连击判定间隔 */
+  tap: 1200,
   /** 公告滚字 */
   marquee: {
     /** 每像素毫秒 */

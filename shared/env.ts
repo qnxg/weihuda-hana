@@ -20,6 +20,8 @@ export interface Env {
   logLevel: number
   /** 是否显示调试入口 */
   debug: boolean
+  /** 触发调试页的连击次数, 0 关闭 */
+  debugTaps: number
 }
 
 const schema = z.object({
@@ -31,6 +33,7 @@ const schema = z.object({
   attempts: z.coerce.number().int().min(1).default(3),
   logLevel: z.coerce.number().int().min(-1).max(2).default(1),
   debug: z.enum(["true", "false"]).default("false").transform(value => value === "true"),
+  debugTaps: z.coerce.number().int().min(0).default(7),
 })
 
 /* eslint-disable node/prefer-global/process */
@@ -43,6 +46,7 @@ const raw = {
   attempts: process.env.TARO_APP_ATTEMPTS,
   logLevel: process.env.TARO_APP_LOG_LEVEL,
   debug: process.env.TARO_APP_DEBUG,
+  debugTaps: process.env.TARO_APP_DEBUG_TAPS,
 }
 /* eslint-enable node/prefer-global/process */
 
