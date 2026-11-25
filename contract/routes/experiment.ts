@@ -64,9 +64,9 @@ interface BindPayload {
 }
 
 export const experiment = {
-  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.rebind]).get<never, Term, ExperimentItem[]>("/experiment", "实验安排"),
-  grade: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.rebind]).get<never, Term, ExperimentGrade | null>("/experiment/grade", "实验成绩"),
-  bind: endpoint.internal().codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.upstream.loginFailed]).post<never, BindPayload, null>("/experiment/bind", "绑定实验平台"),
+  list: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.auth.labRebind]).get<never, Term, ExperimentItem[]>("/experiment", "实验安排"),
+  grade: endpoint.codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.auth.labRebind]).get<never, Term, ExperimentGrade | null>("/experiment/grade", "实验成绩"),
+  bind: endpoint.internal().codes([CODE.upstream.failed, CODE.upstream.timeout, CODE.auth.labLoginFailed]).post<never, BindPayload, null>("/experiment/bind", "绑定实验平台"),
   unbind: endpoint.internal().post<never, never, null>("/experiment/unbind", "解除实验平台绑定"),
 }
 

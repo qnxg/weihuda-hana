@@ -37,7 +37,7 @@ export function useExperimentGrade(term: Term | null): ExperimentGradeState {
   })
 
   const rebind = query.error instanceof ApiError
-    && Number(query.error.code) === CODE.upstream.rebind
+    && Number(query.error.code) === CODE.auth.labRebind
 
   useEffect(() => {
     if (rebind)

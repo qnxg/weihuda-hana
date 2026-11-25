@@ -37,7 +37,7 @@ export function useExperiments(term: TermInfo | null): ExperimentListState {
   })
 
   const rebind = query.error instanceof ApiError
-    && Number(query.error.code) === CODE.upstream.rebind
+    && Number(query.error.code) === CODE.auth.labRebind
 
   useEffect(() => {
     if (rebind)

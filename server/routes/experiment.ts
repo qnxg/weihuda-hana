@@ -69,13 +69,13 @@ export const experiment: Handlers<typeof contract.experiment> = {
 
     return session && isLabBound(session)
       ? ok(experiments)
-      : fail(CODE.upstream.rebind, "大物实验平台需要重新绑定")
+      : fail(CODE.auth.labRebind, "大物实验平台需要重新绑定")
   },
   grade: ({ header, query }) => {
     const session = sessionFrom(header)
 
     if (!session || !isLabBound(session))
-      return fail(CODE.upstream.rebind, "大物实验平台需要重新绑定")
+      return fail(CODE.auth.labRebind, "大物实验平台需要重新绑定")
 
     return ok(query.semester === "winter"
       ? null
@@ -85,7 +85,7 @@ export const experiment: Handlers<typeof contract.experiment> = {
     const session = sessionFrom(header)
 
     if (body.password !== "123456")
-      return fail(CODE.upstream.loginFailed, "密码错误。")
+      return fail(CODE.auth.labLoginFailed, "密码错误。")
 
     if (session)
       bindLab(session)
