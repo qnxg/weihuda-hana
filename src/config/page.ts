@@ -73,6 +73,15 @@ export const PAGE = {
     /** 大物实验平台绑定 */
     lab: "/pages/auth/index?mode=lab",
   },
+  /** 关于, 导航页与各子页 */
+  about: {
+    /** 关于 */
+    index: "/pages/about/index/index",
+    /** 开源许可 */
+    credit: "/pages/about/credit/index",
+    /** 隐私政策 */
+    privacy: "/pages/about/privacy/index",
+  },
   /** 调试包 */
   debug: {
     /** 入口 */

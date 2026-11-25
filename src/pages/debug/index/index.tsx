@@ -67,6 +67,14 @@ const pages: Item[] = [
   { text: "我的", path: PAGE.profile },
   { text: "积分中心", path: PAGE.point },
   {
+    text: "关于",
+    path: PAGE.about.index,
+    actions: [
+      { text: "开源许可", path: PAGE.about.credit },
+      { text: "隐私政策", path: PAGE.about.privacy },
+    ],
+  },
+  {
     text: "鉴权",
     path: PAGE.auth.index,
     actions: [

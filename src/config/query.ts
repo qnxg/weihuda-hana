@@ -8,6 +8,11 @@ export const QUERY_KEY = {
     /** 当前账号 */
     me: ["auth", "me"],
   },
+  /** 关于 */
+  root: {
+    /** 关于信息 */
+    about: ["root", "about"],
+  },
   /** 学期 */
   semester: {
     /** 当前学期与全部学期 */

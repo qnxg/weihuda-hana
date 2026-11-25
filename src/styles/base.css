@@ -55,3 +55,18 @@ page {
 @utility marquee {
   animation: tune-marquee 10s linear infinite;
 }
+
+/** 沿 y 轴旋转一圈 */
+@keyframes tune-flip {
+  from {
+    transform: perspective(30rem) rotateY(0deg);
+  }
+  to {
+    transform: perspective(30rem) rotateY(360deg);
+  }
+}
+
+/** 入场沿 y 轴翻转一圈, 用于关于页图标 */
+@utility flip-in {
+  animation: tune-flip 0.8s ease-in-out;
+}

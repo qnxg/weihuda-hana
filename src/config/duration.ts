@@ -6,6 +6,8 @@ export const DURATION = {
   hint: 1500,
   /** 通知 */
   notification: 3000,
+  /** 关于页图标翻转 */
+  flip: 800,
   /** 公告滚字 */
   marquee: {
     /** 每像素毫秒 */

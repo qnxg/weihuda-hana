@@ -15,6 +15,7 @@ const pages = [
   ...Object.values(PAGE.tools),
   ...Object.values(PAGE.announcement),
   PAGE.point,
+  ...Object.values(PAGE.about),
   ...Object.values(PAGE.debug),
 ]
 

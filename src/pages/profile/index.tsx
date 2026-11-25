@@ -52,7 +52,7 @@ const NAV = [
     key: "about",
     title: "关于",
     icon: Info,
-    path: PAGE.debug.index,
+    path: PAGE.about.index,
   },
 ] as const
 
