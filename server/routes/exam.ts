@@ -27,60 +27,6 @@ const exams: ExamItem[] = [
   },
 ]
 
-const customs: ExamItem[] = []
-
-let seed = 0
-
-/** 生成自定义考试 id */
-function nextId(): number {
-  seed += 1
-  return seed
-}
-
 export const exam: Handlers<typeof contract.exam> = {
-  list: () => ok([
-    ...exams,
-    ...customs,
-  ]),
-  create: ({ body }) => {
-    const item: ExamItem = {
-      courseId: null,
-      courseName: body.courseName,
-      area: body.area,
-      classroom: body.classroom,
-      date: body.date,
-      startTime: body.startTime,
-      endTime: body.endTime,
-      seat: body.seat,
-      customizeId: nextId(),
-    }
-
-    customs.push(item)
-    return ok(null)
-  },
-  update: ({ params, body }) => {
-    const id = Number(params.customizeId)
-    const target = customs.find(item => item.customizeId === id)
-
-    if (target) {
-      target.courseName = body.courseName
-      target.area = body.area
-      target.classroom = body.classroom
-      target.date = body.date
-      target.startTime = body.startTime
-      target.endTime = body.endTime
-      target.seat = body.seat
-    }
-
-    return ok(null)
-  },
-  remove: ({ params }) => {
-    const id = Number(params.customizeId)
-    const index = customs.findIndex(item => item.customizeId === id)
-
-    if (index !== -1)
-      customs.splice(index, 1)
-
-    return ok(null)
-  },
+  list: () => ok(exams),
 }
